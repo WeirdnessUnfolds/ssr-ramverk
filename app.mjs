@@ -27,24 +27,11 @@ if (process.env.NODE_ENV !== 'test') {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.post("/", async (req, res) => {
-    const result = await documents.addOne(req.body);
 
-    return res.redirect(`/${result.lastID}`);
+app.get("/createdoc", async (req, res) => {
+    return res.render("createdoc");
+
 });
-
-app.get('/:id', async (req, res) => {
-    return res.render(
-        "doc",
-        { doc: await documents.getOne(req.params.id) }
-    );
-});
-
-app.get('/', async (req, res) => {
-    return res.render("index", { docs: await documents.getAll() });
-});
-
-
 
 
 app.post("/createdoc", async (req, res) => {
@@ -54,11 +41,26 @@ app.post("/createdoc", async (req, res) => {
 });
 
 
-
-
-app.get("/createdoc", async (req, res) => {
-    return res.render(`createdoc`);
+app.get('/:id', async (req, res) => {
+    return res.render(
+        "doc",
+        { doc: await documents.getOne(req.params.id) }
+    );
 });
+
+app.post("/", async (req, res) => {
+    const result = await documents.addOne(req.body);
+
+    return res.redirect(`/${result.lastID}`);
+});
+
+
+app.get('/', async (req, res) => {
+    return res.render("index", { docs: await documents.getAll() });
+});
+
+
+
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
