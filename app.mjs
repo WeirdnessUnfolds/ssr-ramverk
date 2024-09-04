@@ -7,6 +7,7 @@ import bodyParser from 'body-parser';
 import path from 'path';
 import morgan from 'morgan';
 import cors from 'cors';
+import methodOverride from 'method-override';
 
 import documents from "./docs.mjs";
 
@@ -15,6 +16,7 @@ const app = express();
 app.disable('x-powered-by');
 
 app.set("view engine", "ejs");
+app.use(methodOverride('_method'));
 
 app.use(express.static(path.join(process.cwd(), "public")));
 
@@ -42,25 +44,41 @@ app.post("/createdoc", async (req, res) => {
 
 
 app.get('/:id', async (req, res) => {
+
     return res.render(
         "doc",
-        { doc: await documents.getOne(req.params.id) }
+        { doc: await documents.getOne(req.params.id)}
     );
 });
 
-app.post("/", async (req, res) => {
-    const result = await documents.addOne(req.body);
+app.put("/:id", async (req, res) => {
 
-    return res.redirect(`/${result.lastID}`);
+    const result = await documents.updateOne(req.params.id, req.body);
+    return res.redirect(`/${req.params.id}`);
 });
+
+// app.post("/", async (req, res) => {
+//     const result = await documents.addOne(req.body);
+
+//     return res.redirect(`/${result.lastID}`);
+// });
+
+// app.get("/updatedoc", async (req, res) => {
+//     return res.render("createdoc");
+
+// });
+
+// app.put("/updatedoc", async (req, res) => {
+//     const result = await documents.updateOne(req.body);
+
+//     return res.redirect(`/${result.lastID}`);
+// });
+
 
 
 app.get('/', async (req, res) => {
     return res.render("index", { docs: await documents.getAll() });
 });
-
-
-
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
