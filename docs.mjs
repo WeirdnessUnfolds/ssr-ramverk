@@ -49,7 +49,8 @@ const docs = {
         let db = await openDb();
 
         try {
-            return await db.run('UPDATE documents SET content=? WHERE rowid=?',
+            return await db.run('UPDATE documents SET title=?, content=? WHERE rowid=?',
+                body.title,
                 body.content,
                 id);
         } catch (e) {
