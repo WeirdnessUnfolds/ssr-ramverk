@@ -6,4 +6,4 @@ Vi började med att specifiera porten som appen lyssnar på genom att sätta den
 Docs.sqlite kopierades och döptes om till test.sqlite för att tillhandhålla en testdatabas med dokument för testning. 
 För att få en PUT-route att fungera behövdes modulen method-override.
 
-Som frontend-ramverk har vi valtfsfsf React, främst för att det är en av de vanligare alternativen på arbetsmarknaden efter en snabb titt, samt att det är det vi känner oss mest bekväma med.
+Som frontend-ramverk har vi valt React, främst för att det är en av de vanligare alternativen på arbetsmarknaden efter en snabb titt, samt att det är det vi känner oss mest bekväma med.
