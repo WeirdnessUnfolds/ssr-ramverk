@@ -9,13 +9,9 @@ import morgan from 'morgan';
 import cors from 'cors';
 import methodOverride from 'method-override';
 
-import documents from "./docs.mjs";
-
 const app = express();
 
 app.disable('x-powered-by');
-
-app.set("view engine", "ejs");
 app.use(methodOverride('_method'));
 
 app.use(express.static(path.join(process.cwd(), "public")));
@@ -31,53 +27,67 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 app.get("/createdoc", async (req, res) => {
-    return res.render("createdoc");
+     const data = {
+        data: {
+            info: "Here, a document will be created."
+        }
 
+
+    }
+    res.json(data);
 });
 
 
 app.post("/createdoc", async (req, res) => {
-    const result = await documents.addOne(req.body);
+    res.status(201).json({
+        data: {
+            info: "A POST request was detected and the API returns a status of 201."
+        }
 
-    return res.redirect(`/`);
+
+    });
+    res.json(data);
 });
 
 
 app.get('/:id', async (req, res) => {
+    const data = {
+        data: {
+            info: "A document with the id " + req.params.id + " will be shown here."
+        }
 
-    return res.render(
-        "doc",
-        { doc: await documents.getOne(req.params.id)}
-    );
+
+    }
+    res.json(data);
 });
 
 app.put("/:id", async (req, res) => {
 
-    const result = await documents.updateOne(req.params.id, req.body);
-    return res.redirect(`/${req.params.id}`);
+    res.status(204).json({
+        data: {
+            info: "A PUT request was detected and the API returns a status of 204."
+        }
+
+
+    });
 });
-
-// app.post("/", async (req, res) => {
-//     const result = await documents.addOne(req.body);
-
-//     return res.redirect(`/${result.lastID}`);
-// });
-
-// app.get("/updatedoc", async (req, res) => {
-//     return res.render("createdoc");
-
-// });
-
-// app.put("/updatedoc", async (req, res) => {
-//     const result = await documents.updateOne(req.body);
-
-//     return res.redirect(`/${result.lastID}`);
-// });
-
 
 
 app.get('/', async (req, res) => {
-    return res.render("index", { docs: await documents.getAll() });
+    const data = {
+        data: {
+            info: "Here, all documents will be shown."
+        }
+
+
+    }
+    res.json(data);
+});
+
+app.use((req, res, next) => {
+    var error = new Error("API endpoint not found");
+    error.status = 404;
+    next(error);
 });
 
 app.listen(port, () => {
