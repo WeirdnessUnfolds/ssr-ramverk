@@ -25,25 +25,17 @@ if (process.env.NODE_ENV !== 'test') {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+import base from './routes/baseroutes.js';
+import docroutes from './routes/docroutes.js';
 
-
-app.get('/', async (req, res) => {
-    const data = {
-        data: {
-            info: "Here, all documents will be shown."
-        }
-
-
-    }
-    res.json(data);
-});
+app.use('/', base);
+app.use('/test', docroutes);
 
 app.use((req, res, next) => {
-    var error = new Error("API endpoint not found");
-    error.status = 404;
-    next(error);
+  var error = new Error("API endpoint not found");
+  error.status = 404;
+  next(error);
 });
-
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 });

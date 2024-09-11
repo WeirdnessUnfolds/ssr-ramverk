@@ -1,7 +1,7 @@
-var express = Require('express');
+var express = require('express');
 var router = express.Router();
 
-app.get("/createdoc", async (req, res) => {
+router.get("/createdoc", async (req, res) => {
     const data = {
        data: {
            info: "Here, a document will be created."
@@ -13,7 +13,7 @@ app.get("/createdoc", async (req, res) => {
 });
 
 
-app.post("/createdoc", async (req, res) => {
+router.post("/createdoc", async (req, res) => {
    res.status(201).json({
        data: {
            info: "A POST request was detected and the API returns a status of 201."
@@ -25,10 +25,11 @@ app.post("/createdoc", async (req, res) => {
 });
 
 
-app.get('/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
    const data = {
        data: {
-           info: "A document with the id " + req.params.id + " will be shown here."
+           info: "A document",
+           id: req.params.id
        }
 
 
@@ -36,15 +37,8 @@ app.get('/:id', async (req, res) => {
    res.json(data);
 });
 
-app.put("/:id", async (req, res) => {
-
-   res.status(204).json({
-       data: {
-           info: "A PUT request was detected and the API returns a status of 204."
-       }
-
-
-   });
+router.put("/:id", async (req, res) => {
+   res.status(204).send();
 });
 
 module.exports = router;
