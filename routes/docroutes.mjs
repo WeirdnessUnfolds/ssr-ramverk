@@ -1,4 +1,4 @@
-var express = require('express');
+import express from 'express';
 var router = express.Router();
 
 router.get("/createdoc", async (req, res) => {
@@ -41,4 +41,4 @@ router.put("/:id", async (req, res) => {
    res.status(204).send();
 });
 
-module.exports = router;
+export default router;

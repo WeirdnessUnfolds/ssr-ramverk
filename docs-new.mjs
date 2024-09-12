@@ -1,13 +1,14 @@
 "use strict";
 
-const mongo = require("mongodb").MongoClient;
-const dsn =  process.env.DBWEBB_DSN || "mongodb://localhost:27017/docs";
+import { MongoClient } from 'mongodb';
+const mongo = MongoClient;
+const dsn =  process.env.DBWEBB_DSN || "mongodb://localhost:27017/testdocs";
 
-const docs = {
+const dbhandler = {
     findAll: async function findAll() {
             const client  = await mongo.connect(dsn);
             const db = await client.db();
-            const col = await db.collection(crowd);
+            const col = await db.collection('testcollection');
             const res = await col.find({}).toArray();
         
             await client.close();
@@ -18,7 +19,7 @@ const docs = {
     findWithId: async function findWithId(id) {
         const client  = await mongo.connect(dsn);
         const db = await client.db();
-        const col = await db.collection(crowd);
+        const col = await db.collection('testcollection');
         const res = await col.find({_id:id}).toArray();
     
         await client.close();
@@ -29,7 +30,7 @@ const docs = {
     addDocument: async function addDocument(title, content) {
         const client  = await mongo.connect(dsn);
         const db = await client.db();
-        const col = await db.collection(crowd);
+        const col = await db.collection('testcollection');
         const doc = {title: title, content: content}
         const res = await col.insertOne(doc);
     
@@ -40,4 +41,4 @@ const docs = {
     
 }
 
-export default docs;
+export default dbhandler;

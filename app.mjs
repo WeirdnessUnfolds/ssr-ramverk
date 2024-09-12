@@ -8,6 +8,8 @@ import path from 'path';
 import morgan from 'morgan';
 import cors from 'cors';
 import methodOverride from 'method-override';
+import base from './routes/baseroutes.mjs';
+import docroutes from './routes/docroutes.mjs';
 
 const app = express();
 
@@ -25,8 +27,6 @@ if (process.env.NODE_ENV !== 'test') {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-import base from './routes/baseroutes.js';
-import docroutes from './routes/docroutes.js';
 
 app.use('/', base);
 app.use('/test', docroutes);
