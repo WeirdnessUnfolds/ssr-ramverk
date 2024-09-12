@@ -2,7 +2,12 @@
 
 import { MongoClient, ObjectId } from 'mongodb';
 const mongo = MongoClient;
-const dsn =  process.env.DBWEBB_DSN || "mongodb://localhost:27017/testdocs";
+var dsn;
+var collection
+if (process.env.NODE_ENV === 'test') {
+    dsn = "mongodb://localhost:27017/testdocs";
+    collection = "testcollection";
+}
 
 const dbhandler = {
     /**
@@ -12,7 +17,7 @@ const dbhandler = {
     findAll: async function findAll() {
             const client  = await mongo.connect(dsn);
             const db = await client.db();
-            const col = await db.collection('testcollection');
+            const col = await db.collection(collection);
             const res = await col.find({}).toArray();
         
             await client.close();
@@ -28,7 +33,7 @@ const dbhandler = {
     findWithId: async function findWithId(id) {
         const client  = await mongo.connect(dsn);
         const db = await client.db();
-        const col = await db.collection('testcollection');
+        const col = await db.collection(collection);
         const res = await col.find({_id: new ObjectId(id)}).toArray();
     
         await client.close();
