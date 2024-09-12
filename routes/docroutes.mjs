@@ -1,4 +1,5 @@
 import express from 'express';
+import dbhandler from '../docs-new.mjs';
 var router = express.Router();
 
 router.get("/createdoc", async (req, res) => {
@@ -26,15 +27,8 @@ router.post("/createdoc", async (req, res) => {
 
 
 router.get('/:id', async (req, res) => {
-   const data = {
-       data: {
-           info: "A document",
-           id: req.params.id
-       }
-
-
-   }
-   res.json(data);
+    dbhandler.findWithId(req.params.id).then(result => res.json(result))
+    .catch(err => console.log(err));
 });
 
 router.put("/:id", async (req, res) => {
