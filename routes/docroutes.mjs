@@ -15,14 +15,8 @@ router.get("/createdoc", async (req, res) => {
 
 
 router.post("/createdoc", async (req, res) => {
-   res.status(201).json({
-       data: {
-           info: "A POST request was detected and the API returns a status of 201."
-       }
-
-
-   });
-   res.json(data);
+    dbhandler.addDocument("Det här är en ny titel", "Det här är det nya innehållet").then(result => res.json(result))
+    .catch(err => console.log(err));
 });
 
 
@@ -33,6 +27,11 @@ router.get('/:id', async (req, res) => {
 
 router.put("/:id", async (req, res) => {
    res.status(204).send();
+});
+
+router.post('/delete/:id', async (req, res) => {
+    dbhandler.deleteWithId(req.params.id).then(result => res.json(result))
+    .catch(err => console.log(err));
 });
 
 export default router;

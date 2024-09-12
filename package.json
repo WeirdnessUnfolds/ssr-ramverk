@@ -4,7 +4,7 @@
   "description": "Starter project for DV1677 JSRamverk",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "nyc --reporter=html --reporter=text mocha"
   },
   "keywords": [],
   "author": "",
@@ -20,5 +20,8 @@
     "morgan": "^1.10.0",
     "sqlite": "^5.1.1",
     "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "nyc": "^17.0.0"
   }
 }
