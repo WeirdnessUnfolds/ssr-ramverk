@@ -1,6 +1,6 @@
 "use strict";
 
-import { MongoClient } from 'mongodb';
+import { MongoClient, ObjectId } from 'mongodb';
 const mongo = MongoClient;
 const dsn =  process.env.DBWEBB_DSN || "mongodb://localhost:27017/testdocs";
 
@@ -16,11 +16,12 @@ const dbhandler = {
             return res;
     },
 
+
     findWithId: async function findWithId(id) {
         const client  = await mongo.connect(dsn);
         const db = await client.db();
         const col = await db.collection('testcollection');
-        const res = await col.find({_id:id}).toArray();
+        const res = await col.find({_id: new ObjectId(id)}).toArray();
     
         await client.close();
     
