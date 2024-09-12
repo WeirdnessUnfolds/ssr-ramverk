@@ -1,4 +1,5 @@
 var assert = require('assert');
+
 var docsnew = require('../docs-new.mjs');
 describe('Basic GET operations for the test database', function () {
     describe('findall()', function () {
@@ -7,3 +8,4 @@ describe('Basic GET operations for the test database', function () {
       });
     });
   });
+

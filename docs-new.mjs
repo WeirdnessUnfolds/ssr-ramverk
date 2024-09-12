@@ -58,6 +58,22 @@ const dbhandler = {
     
         return res;
     },
+
+        /**
+     * Finds a document in the database by its ObjectId, or undefined
+     * @param {string} id 
+     * @returns {Promise<Object[]> | undefined>}
+     */
+        deleteWithId: async function deleteWithId(id) {
+            const client  = await mongo.connect(dsn);
+            const db = await client.db();
+            const col = await db.collection('testcollection');
+            const res = await col.deleteOne({_id: new ObjectId(id)});
+        
+            await client.close();
+        
+            return res;
+        },
     
 }
 
