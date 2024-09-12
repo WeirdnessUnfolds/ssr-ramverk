@@ -5,6 +5,10 @@ const mongo = MongoClient;
 const dsn =  process.env.DBWEBB_DSN || "mongodb://localhost:27017/testdocs";
 
 const dbhandler = {
+    /**
+     * Finds all documents in the collection
+     * @returns {Promise<Object[]>}
+     */
     findAll: async function findAll() {
             const client  = await mongo.connect(dsn);
             const db = await client.db();
@@ -16,7 +20,11 @@ const dbhandler = {
             return res;
     },
 
-
+    /**
+     * Finds a document in the database by its ObjectId, or undefined
+     * @param {string} id 
+     * @returns {Promise<Object[]> | undefined>}
+     */
     findWithId: async function findWithId(id) {
         const client  = await mongo.connect(dsn);
         const db = await client.db();
@@ -28,6 +36,12 @@ const dbhandler = {
         return res;
     },
 
+     /**
+     * Adds a new document to the collection
+     * @param {string} title - The title of the document
+     * @param {string} content - The content of the document
+     * @returns {Promise<Object>} - The result of the insert operation.
+     */
     addDocument: async function addDocument(title, content) {
         const client  = await mongo.connect(dsn);
         const db = await client.db();
