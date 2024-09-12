@@ -1,8 +1,9 @@
 var assert = require('assert');
-describe('Array', function () {
-    describe('#indexOf()', function () {
-      it('should return -1 when the value is not present', function () {
-        assert.equal([1, 2, 3].indexOf(4), -1);
+var docsnew = require('../docs-new.mjs');
+describe('Basic GET operations for the test database', function () {
+    describe('findall()', function () {
+      it('All entires in the collection should be returned.', function () {
+        assert.ok(docsnew.findAll().length > 0);
       });
     });
   });
