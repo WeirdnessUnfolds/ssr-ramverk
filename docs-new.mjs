@@ -10,6 +10,8 @@ if (process.env.NODE_ENV === 'test') {
     collection = "testcollection";
 }
 
+// Lägg till en datumomvandlare för cretaed_at och updated_at
+
 const dbhandler = {
     /**
      * Finds all documents in the collection
