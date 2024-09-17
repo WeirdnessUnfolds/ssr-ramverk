@@ -1,4 +1,4 @@
-import 'dotenv/config'
+import 'dotenv/config';
 
 const port = process.env.PORT;
 
@@ -32,10 +32,11 @@ app.use('/', base);
 app.use('/test', docroutes);
 
 app.use((req, res, next) => {
-  var error = new Error("API endpoint not found");
-  error.status = 404;
-  next(error);
+    var error = new Error("API endpoint not found");
+
+    error.status = 404;
+    next(error);
 });
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+    console.log(`Example app listening on port ${port}`);
 });
