@@ -1,1 +1,0 @@
-cat migrate.sql | sqlite3 test.sqlite
