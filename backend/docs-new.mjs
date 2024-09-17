@@ -82,8 +82,8 @@ const dbhandler = {
      * @returns {Promise<Object[]> | undefined>}
      */
         updateDocument: async function updateDocument(id, title, content) {
-            const client  = await mongo.connect(dsn);
-            const db = await client.db();
+    const client  = await mongo.connect(dsn);
+        const db = await client.db();
             const col = await db.collection('testcollection');
             const res = await col.updateOne({_id: new ObjectId(id)},{ $set: {title: title, content: content }});
     

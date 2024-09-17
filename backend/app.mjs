@@ -16,6 +16,10 @@ const app = express();
 app.disable('x-powered-by');
 app.use(methodOverride('_method'));
 
+
+app.use(cors({
+    origin: 'http://localhost:5173'
+}));
 app.use(express.static(path.join(process.cwd(), "public")));
 
 // don't show the log when it is test
