@@ -19,10 +19,12 @@ function App() {
     });
   }, []);
 
-  function onSelectItem(item: string) {
-    switch (item) {
-      case ("See all documents"):
+  function onSelectItem(index: Int) {
+    switch (index) {
+      case (index === 0):
         setShowAllDocuments(true);
+      case (index === 1):
+        setShowAllDocuments(false);
     }
 
   }
@@ -33,23 +35,20 @@ function App() {
       
       <ul className="nav-list">
                 {navItems.map((item, index) => (
-                    <li key={item}
+                    <li key={index}
                         className={selectedIndex === index ? 'nav-list-item-active' : 'nav-list-item'}
                         onClick={() => {
                             setSelectedIndex(index);
-                            onSelectItem(item);
+                            onSelectItem(index);
                         }}>
                         {item}</li>))}
       </ul>
                        
      {
-     loading ?  
-      <div>
-        <p>Loading...</p>
-      </div>
-      :
-      <ShowAll data={items}> </ShowAll>
-}
+      showAllDocuments ?
+      <ShowAll data={items} loading={loading}> </ShowAll> :
+      <p></p>
+     }
     </>
   )
 }
