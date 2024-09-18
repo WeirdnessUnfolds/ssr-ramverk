@@ -1,9 +1,16 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import axios from 'axios'
+import ShowAll from './views/ShowAll'
+
 function App() {
   
-  const [items, setItems] = useState([])
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+  const navItems = ["See all documents", "Create doc" ];
+
+  const [showAllDocuments, setShowAllDocuments] = useState(true)
+
+  const [items, setItems] = useState([{}])
   const [loading, setLoading] = useState(true)
   useEffect(() => {
     axios.get("http://localhost:3539").then((res) => {
@@ -12,21 +19,36 @@ function App() {
     });
   }, []);
 
+  function onSelectItem(item: string) {
+    switch (item) {
+      case ("See all documents"):
+        setShowAllDocuments(true);
+    }
+
+  }
+
 
   return (
     <>
-      <div className="navbar">
-        <p>Navbar items</p>
-      </div>
+      
+      <ul className="nav-list">
+                {navItems.map((item, index) => (
+                    <li key={item}
+                        className={selectedIndex === index ? 'nav-list-item-active' : 'nav-list-item'}
+                        onClick={() => {
+                            setSelectedIndex(index);
+                            onSelectItem(item);
+                        }}>
+                        {item}</li>))}
+      </ul>
+                       
      {
      loading ?  
       <div>
         <p>Loading...</p>
       </div>
       :
-      <div className = "doclist">
-        <p>{items.map((item) => <li>{item.title}</li>)}</p>
-      </div>
+      <ShowAll data={items}> </ShowAll>
 }
     </>
   )

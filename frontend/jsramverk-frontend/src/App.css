@@ -19,7 +19,7 @@
 }
 
 .navbar {
-  background-color: #29b53a;
+  
   width: 100%;
   height: 50px;
   display: flex;
@@ -28,6 +28,26 @@
   margin-right: 230%;
 }
 
+.nav-list {
+  display: flex;
+  height: 50px;
+  justify-content: center;
+  align-items:center;
+  list-style: none;
+  width: 100%;
+}
+
+.nav-list-item {
+  padding: 1em;
+  background-color: #29b53a;
+  border: 2px solid black;
+}
+
+.nav-list-item-active {
+  background-color: #88d691;
+  padding: 1em;
+  border: 2px solid black;
+}
 
 @keyframes logo-spin {
   from {
