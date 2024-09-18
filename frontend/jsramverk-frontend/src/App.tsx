@@ -23,6 +23,7 @@ function App() {
     switch (index) {
       case (index === 0):
         setShowAllDocuments(true);
+        break
       case (index === 1):
         setShowAllDocuments(false);
     }
