@@ -1,6 +1,11 @@
+interface Item {
+  _id: string
+  title: string
+  content: string
+}
 
 
-const ShowAll = ({data}, loading) => {
+const ShowAll = ({data}) => {
   return (
     loading ?  
     <div>

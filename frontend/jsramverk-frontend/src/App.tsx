@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import axios from 'axios'
-import ShowAll from './views/ShowAll'
+import ShowAll, { Item } from './views/ShowAll'
 
 function App() {
   
@@ -10,7 +10,7 @@ function App() {
 
   const [showAllDocuments, setShowAllDocuments] = useState(true)
 
-  const [items, setItems] = useState([{}])
+  const [items, setItems] = useState<Item[]>([{}])
   const [loading, setLoading] = useState(true)
   useEffect(() => {
     axios.get("http://localhost:3539").then((res) => {
@@ -45,10 +45,20 @@ function App() {
       </ul>
                        
      {
+<<<<<<< HEAD
       showAllDocuments ?
-      <ShowAll data={items} loading={loading}> </ShowAll> :
+      <ShowAll data={items} loading={loading}></ShowAll> :
       <p></p>
      }
+=======
+     loading ?  
+      <div>
+        <p>Loading...</p>
+      </div>
+      :
+      <ShowAll data={items}></ShowAll>
+}
+>>>>>>> 3c67e1bb08b21276b1607dcdfd1ee1e1d3dad766
     </>
   )
 }
