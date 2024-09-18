@@ -5,7 +5,7 @@ interface Item {
 }
 
 
-const ShowAll = ({data}: {data: Item[]}, loading) => {
+const ShowAll = ({data}: {data: Item[]}, loading: boolean) => {
   return (
     loading ?  
     <div>
