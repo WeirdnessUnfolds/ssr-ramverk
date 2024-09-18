@@ -4,8 +4,14 @@ interface Item {
   content: string
 }
 
-const ShowAll = ({data}: {data: Item[]}) => {
+
+const ShowAll = ({data}: {data: Item[]}, loading) => {
   return (
+    loading ?  
+    <div>
+      <p>Loading...</p>
+    </div>
+    :
     <div className = "doclist">
     <p>{data.map((item) => <li key={item._id}>{item.title}</li>)}</p>
   </div>
