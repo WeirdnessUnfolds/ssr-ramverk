@@ -45,20 +45,10 @@ function App() {
       </ul>
                        
      {
-<<<<<<< HEAD
       showAllDocuments ?
       <ShowAll data={items} loading={loading}></ShowAll> :
       <p></p>
      }
-=======
-     loading ?  
-      <div>
-        <p>Loading...</p>
-      </div>
-      :
-      <ShowAll data={items}></ShowAll>
-}
->>>>>>> 3c67e1bb08b21276b1607dcdfd1ee1e1d3dad766
     </>
   )
 }
