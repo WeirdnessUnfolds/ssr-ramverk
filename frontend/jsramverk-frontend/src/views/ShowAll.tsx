@@ -13,7 +13,7 @@ const ShowAll = ({data, loading}: {data: Item[]; loading: boolean}) => {
     </div>
     :
     <div className = "doclist">
-    <p>{data.map((item) => <li key={item._id}>{item.title}</li>)}</p>
+    <p>{data.map((item) => <li onClick={() => console.log("Clicked item " + item._id)} key={item._id}>{item.title}</li>)}</p>
   </div>
   )
 }
