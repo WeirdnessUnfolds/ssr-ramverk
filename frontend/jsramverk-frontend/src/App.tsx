@@ -19,7 +19,7 @@ function App() {
     });
   }, []);
 
-  function onSelectItem(index: Int) {
+  function onSelectItem(index: number) {
     switch (index) {
       case 0:
         setShowAllDocuments(true);
