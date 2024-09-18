@@ -21,10 +21,10 @@ function App() {
 
   function onSelectItem(index: Int) {
     switch (index) {
-      case (index === 0):
+      case 0:
         setShowAllDocuments(true);
         break
-      case (index === 1):
+      case 1:
         setShowAllDocuments(false);
     }
 
@@ -41,13 +41,14 @@ function App() {
                         onClick={() => {
                             setSelectedIndex(index);
                             onSelectItem(index);
+                            console.log("Selected index: " + index);
                         }}>
                         {item}</li>))}
       </ul>
                        
      {
       showAllDocuments ?
-      <ShowAll data={items} loading={loading}> </ShowAll> :
+      <ShowAll data={items} loading={loading}></ShowAll> :
       <p></p>
      }
     </>
