@@ -10,7 +10,6 @@ function App() {
   const navItems = ["See all documents", "Create doc"];
 
   const [showAllDocuments, setShowAllDocuments] = useState(true)
-  const [editDoc, setEditDoc] = useState(false)
   const [items, setItems] = useState<Item[]>([{}])
   const [selectedItem, setSelectedItem] = useState<Item | null>(null)
   const [loading, setLoading] = useState(true)
