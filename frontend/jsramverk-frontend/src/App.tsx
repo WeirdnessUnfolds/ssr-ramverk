@@ -2,15 +2,17 @@ import { useEffect, useState } from 'react'
 import './App.css'
 import axios from 'axios'
 import ShowAll, { Item } from './views/ShowAll'
+import EditDocview from "./views/Editdoc"
 
 function App() {
   
   const [selectedIndex, setSelectedIndex] = useState(-1);
-  const navItems = ["See all documents", "Create doc", "Edit doc" ];
+  const navItems = ["See all documents", "Create doc"];
 
   const [showAllDocuments, setShowAllDocuments] = useState(true)
   const [editDoc, setEditDoc] = useState(false)
   const [items, setItems] = useState<Item[]>([{}])
+  const [selectedItem, setSelectedItem] = useState<Item | null>(null)
   const [loading, setLoading] = useState(true)
   useEffect(() => {
     axios.get("http://localhost:3539").then((res) => {
@@ -26,9 +28,6 @@ function App() {
         break
       case 1:
         setShowAllDocuments(false);
-        break;
-      case 2:
-        setEditDoc(true);
         break;
     }
 
@@ -53,9 +52,14 @@ function App() {
                        
      {
       showAllDocuments ?
-      <ShowAll data={items} loading={loading}></ShowAll> :
+      <ShowAll data={items} loading={loading} onSelected={(item) => setSelectedItem(item)}></ShowAll> :
       <p></p>
      }
+     {
+      selectedItem &&
+      <EditDocview data={selectedItem} loading={loading}></EditDocview>
+     }
+     
     </>
   )
 }

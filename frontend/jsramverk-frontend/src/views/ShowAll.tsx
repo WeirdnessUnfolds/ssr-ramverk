@@ -1,3 +1,4 @@
+
 export interface Item {
   _id: string
   title: string
@@ -6,14 +7,17 @@ export interface Item {
 }
 
 
-const ShowAll = ({data, loading}: {data: Item[]; loading: boolean}) => {
+const ShowAll = ({data, loading, onSelected}: {data: Item[]; loading: boolean; onSelected: (item: Item) => void }) => {
   const handleClick = (id: string) => {
-    console.log(`Item with id ${id} was clicked`);
+    const item = data.find((item) => item._id === id);
+    if (item) {
+      onSelected(item);
+    }
   }
   return (
     loading ?  
     <div>
-      <p>Loading...</p>
+      <p>Loading...</p> 
     </div>
     :
     <div className = "doclist">

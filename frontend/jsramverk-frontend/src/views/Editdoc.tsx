@@ -1,7 +1,7 @@
 import { Item } from './ShowAll'
 
   
-const ShowAll = ({data, loading}: {data: Item; loading: boolean}) => {
+const EditDocview = ({data, loading}: {data: Item; loading: boolean}) => {
     return (
         loading ?  
         <div>
@@ -14,4 +14,4 @@ const ShowAll = ({data, loading}: {data: Item; loading: boolean}) => {
     )
   }
   
-  export default ShowAll
+export default EditDocview
