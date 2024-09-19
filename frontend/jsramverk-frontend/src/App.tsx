@@ -66,6 +66,7 @@ function App() {
           <Createdoc /> :
           <p></p>
       }
+      {/* få till att gömma showAll när redigeringen är öppen */}
       {
         selectedItem &&
         <EditDocview data={selectedItem} loading={loading}></EditDocview>
