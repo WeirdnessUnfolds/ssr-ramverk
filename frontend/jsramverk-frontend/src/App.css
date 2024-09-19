@@ -18,6 +18,25 @@
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
+
+
+.doclist img {
+  width: 33px;}
+
+.docheader {
+  border: grey 2px solid;
+}
+.doclist ul h3 {
+display: grid;
+grid-template-columns:  200px 1fr;
+align-items: center;
+gap: 10px;
+}
+
+.doclist {
+  display: grid;
+  border: grey 2px solid;
+}
 .navbar {
   
   width: 100%;

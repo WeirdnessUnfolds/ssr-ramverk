@@ -1,3 +1,4 @@
+import Editlogo from '../assets/edit-logo.png'
 
 export interface Item {
   _id: string
@@ -21,7 +22,12 @@ const ShowAll = ({data, loading, onSelected}: {data: Item[]; loading: boolean; o
     </div>
     :
     <div className = "doclist">
-    <p>{data.map((item) => <li key={item._id} onClick={() => handleClick(item._id)}>{item.title}</li>)}</p>
+      <div className ="docheader"><h2>Dokument</h2></div>
+    <ul>
+      {data.map((item) => <h3 key={item._id} >
+        <span>{item.title}</span>
+        <img src={Editlogo} alt="edit logo" onClick={() => handleClick(item._id)}/></h3>)} 
+    </ul>
   </div>
   )
 }
