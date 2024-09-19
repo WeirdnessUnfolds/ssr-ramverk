@@ -28,6 +28,11 @@
   margin-right: 230%;
 }
 
+.docContent {
+  border: black solid 2px;
+  padding: 1em;
+}
+
 .nav-list {
   display: flex;
   height: 50px;
