@@ -6,10 +6,10 @@ import ShowAll, { Item } from './views/ShowAll'
 function App() {
   
   const [selectedIndex, setSelectedIndex] = useState(-1);
-  const navItems = ["See all documents", "Create doc" ];
+  const navItems = ["See all documents", "Create doc", "Edit doc" ];
 
   const [showAllDocuments, setShowAllDocuments] = useState(true)
-
+  const [editDoc, setEditDoc] = useState(false)
   const [items, setItems] = useState<Item[]>([{}])
   const [loading, setLoading] = useState(true)
   useEffect(() => {
@@ -26,7 +26,12 @@ function App() {
         break
       case 1:
         setShowAllDocuments(false);
+        break;
+      case 2:
+        setEditDoc(true);
+        break;
     }
+
 
   }
 
