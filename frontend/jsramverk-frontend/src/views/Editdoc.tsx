@@ -11,10 +11,22 @@ import { useState } from 'react'
 
 const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
     const [alertVisible, setAlertVisibility] = useState(false)
-    const handleClick = () => {
-        axios.post(`http://localhost:3539/update/${data._id}`, data);
-
-        setAlertVisibility(true)
+    const handleClick = async () => {
+        const form = document.getElementById('docForm');
+        const formData = new FormData(form);
+        await fetch(`http://localhost:3539/update/${data._id}`,{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        }).then(function (res){
+            console.log(res);
+            // Do something with res so that the alert is shown
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
     }
     return (
         <>
@@ -26,7 +38,7 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
             :
             <div>
                 {alertVisible && <Alert />}
-                <form className="docForm">
+                <form id="docForm" className="docForm">
                     <label>Titel</label>
                     <input name="title" type="text" defaultValue={data.title}></input>
                     <label>Innehåll</label>
