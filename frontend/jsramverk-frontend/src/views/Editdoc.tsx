@@ -2,7 +2,9 @@ import { Item } from './ShowAll'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFloppyDisk } from '@fortawesome/free-solid-svg-icons'
 
-// Ordna två actions som uppdaterar
+// Ordna en action som uppdaterar
+
+// Updates the selected document
 
 const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
     return (

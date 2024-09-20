@@ -3,6 +3,8 @@ import { faFloppyDisk } from '@fortawesome/free-solid-svg-icons'
 
 // Ordna en function som skapar ett nytt dokument till backend.
 
+// Creates a new document from a form
+
 const Createdoc = () => {
     return (
         <>

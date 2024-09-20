@@ -11,15 +11,20 @@ import EditDocview from "./views/Editdoc"
 import Createdoc from './views/Createdoc'
 
 function App() {
-
+  // Creates and sets the navbar items, default is no choice
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const navItems = [<FontAwesomeIcon icon={faHouse} />, <FontAwesomeIcon icon={faFileCirclePlus} />];
-
+  // sets the ShowAllDocuments view
   const [showAllDocuments, setShowAllDocuments] = useState(true)
+  // sets the crateDoc view
   const [showCreateDoc, setShowCreateDoc] = useState(false)
+  // Sets all the documents as items from the result from the database
   const [items, setItems] = useState<Item[]>([{}])
+  // Sets The selected document
   const [selectedItem, setSelectedItem] = useState<Item | null>(null)
+  // Sets the loading screen when the data is fetched
   const [loading, setLoading] = useState(true)
+  // Fetches all teh documents from the database and sets them as items
   useEffect(() => {
     axios.get("http://localhost:3539").then((res) => {
       setItems(res.data);
@@ -27,17 +32,28 @@ function App() {
     });
   }, []);
 
-  function onSelectItem(index: number) {
+
+  // Creates the view depending on the selected item in the navbar
+  function onSelectNavbarItem(index: number) {
     switch (index) {
       case 0:
         setShowAllDocuments(true);
         setShowCreateDoc(false);
+        setSelectedItem(null);
         break
       case 1:
         setShowAllDocuments(false);
         setShowCreateDoc(true);
+        setSelectedItem(null);
         break;
     }
+  }
+
+  // Sets teh update view
+  function onUpdateDoc(item: Item) {
+    setSelectedItem(item);
+    setShowCreateDoc(false);
+    setShowAllDocuments(false);
   }
 
 
@@ -50,7 +66,7 @@ function App() {
             className={selectedIndex === index ? 'nav-list-item-active' : 'nav-list-item'}
             onClick={() => {
               setSelectedIndex(index);
-              onSelectItem(index);
+              onSelectNavbarItem(index);
               console.log("Selected index: " + index);
             }}>
             {item}</li>))}
@@ -58,7 +74,7 @@ function App() {
 
       {
         showAllDocuments ?
-          <ShowAll data={items} loading={loading} onSelected={(item) => setSelectedItem(item)}></ShowAll> :
+          <ShowAll data={items} loading={loading} onSelected={(item) => onUpdateDoc(item)}></ShowAll> :
           <p></p>
       }
       {
@@ -66,10 +82,10 @@ function App() {
           <Createdoc /> :
           <p></p>
       }
-      {/* få till att gömma showAll när redigeringen är öppen */}
       {
-        selectedItem &&
-        <EditDocview data={selectedItem} loading={loading}></EditDocview>
+        selectedItem ?
+          <EditDocview data={selectedItem} loading={loading}></EditDocview> :
+          <p></p>
       }
 
     </>
