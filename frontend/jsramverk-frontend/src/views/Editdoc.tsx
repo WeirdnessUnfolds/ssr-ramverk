@@ -12,18 +12,19 @@ import { useState } from 'react'
 const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
     const [alertVisible, setAlertVisibility] = useState(false)
     const handleClick = () => {
-        axios.put("http://localhost:3539", data)
+        axios.put(`http://localhost:3539/update/${data._id}`, data)
         setAlertVisibility(true)
     }
     return (
         <>
-            {alertVisible && <Alert />}
+
             loading ?
             <div>
                 <p>Loading document contents..</p>
             </div>
             :
             <div>
+                {alertVisible && <Alert />}
                 <form className="docForm">
                     <label>Titel</label>
                     <input name="title" type="text" defaultValue={data.title}></input>
