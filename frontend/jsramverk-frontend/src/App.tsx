@@ -24,7 +24,7 @@ function App() {
   const [selectedItem, setSelectedItem] = useState<Item | null>(null)
   // Sets the loading screen when the data is fetched
   const [loading, setLoading] = useState(true)
-  // Fetches all teh documents from the database and sets them as items
+  // Fetches all the documents from the database and sets them as items
   useEffect(() => {
     axios.get("http://localhost:3539/all").then((res) => {
       setItems(res.data);

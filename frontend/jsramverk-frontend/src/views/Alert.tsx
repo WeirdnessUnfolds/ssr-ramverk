@@ -1,9 +1,13 @@
-import React from 'react'
+interface Props {
+    onClose: () => void;
+}
 
-const Alert = () => {
+const Alert = ({ onClose }: Props) => {
     return (
         <>
-            <div className="alert">Nu är dokumentet sparat</div>
+            <div className="alert">Nu är dokumentet sparat
+                <button type="button" className="closeBtn" onClick={onClose} >X</button>
+            </div>
         </>
     )
 }

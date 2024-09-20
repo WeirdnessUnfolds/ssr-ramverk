@@ -29,15 +29,14 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
         });
     }
     return (
-        <>
 
-            loading ?
+        loading ?
             <div>
                 <p>Loading document contents..</p>
             </div>
             :
             <div>
-                {alertVisible && <Alert />}
+                {alertVisible && <Alert onClose={() => setAlertVisibility(false)} />}
                 <form id="docForm" className="docForm">
                     <label>Titel</label>
                     <input name="title" type="text" defaultValue={data.title}></input>
@@ -46,7 +45,7 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
                     <button type="submit"><FontAwesomeIcon icon={faFloppyDisk} onClick={handleClick} /></button>
                 </form>
             </div>
-        </>
+
     )
 }
 
