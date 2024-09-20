@@ -10,7 +10,7 @@ import { useState } from 'react'
 // Updates the selected document
 
 const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
-    const [alertVisible, setAlertVisibility] = useState(true)
+    const [alertVisible, setAlertVisibility] = useState(false)
     const handleClick = () => {
         axios.post(`http://localhost:3539/update/${data._id}`, data);
 
