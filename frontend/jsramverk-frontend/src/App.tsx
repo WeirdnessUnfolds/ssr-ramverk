@@ -49,7 +49,7 @@ function App() {
     }
   }
 
-  // Sets teh update view
+  // Sets the update view
   function onUpdateDoc(item: Item) {
     setSelectedItem(item);
     setShowCreateDoc(false);

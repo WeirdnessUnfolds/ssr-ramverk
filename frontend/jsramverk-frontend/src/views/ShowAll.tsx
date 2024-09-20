@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFilePen, faTrash } from '@fortawesome/free-solid-svg-icons'
 
-// Shows all the documnets currently in the database with options for updating and deleting
+// Shows all the documents currently in the database with options for updating and deleting
 
 export interface Item {
   _id: string
