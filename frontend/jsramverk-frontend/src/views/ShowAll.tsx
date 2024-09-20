@@ -14,9 +14,8 @@ export interface Item {
 const ShowAll = ({ data, loading, onSelected }: { data: Item[]; loading: boolean; onSelected: (item: Item) => void }) => {
   const handleUpdate = (id: string) => {
     const item = data.find((item) => item._id === id);
-    if (item) {
-      onSelected(item);
-    }
+    onSelected(item);
+  
   }
 
   const handleDelete = (id: string) => {
