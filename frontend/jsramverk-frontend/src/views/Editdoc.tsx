@@ -9,7 +9,8 @@ import axios from 'axios'
 
 const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
     const handleClick = () => {
-        axios.put("http://localhost:3539", data)
+        axios.post(`http://localhost:3539/update/${data._id}`, data);
+        document.get
       }
     return (
         loading ?
@@ -24,6 +25,7 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
                 <textarea name="content" defaultValue={data.content}></textarea>
                 <button type="submit"><FontAwesomeIcon icon={faFloppyDisk} onClick={handleClick}/></button>
             </form>
+            <div className="updatedpopup"></div>
     )
 }
 

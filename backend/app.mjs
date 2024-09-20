@@ -32,8 +32,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-app.use('/', base);
-app.use('/test', docroutes);
+app.use('/all', base);
+app.use('/', docroutes);
 
 app.use((req, res, next) => {
     var error = new Error("API endpoint not found");
