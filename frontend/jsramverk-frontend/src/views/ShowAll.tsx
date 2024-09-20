@@ -12,10 +12,17 @@ export interface Item {
 
 
 const ShowAll = ({ data, loading, onSelected }: { data: Item[]; loading: boolean; onSelected: (item: Item) => void }) => {
-  const handleClick = (id: string) => {
+  const handleUpdate = (id: string) => {
     const item = data.find((item) => item._id === id);
     if (item) {
       onSelected(item);
+    }
+  }
+
+  const handleDelete = (id: string) => {
+    const item = data.find((item) => item._id === id);
+    if (item) {
+      console.log("Delete item:", item)
     }
   }
   return (
@@ -29,8 +36,8 @@ const ShowAll = ({ data, loading, onSelected }: { data: Item[]; loading: boolean
         <ul>
           {data.map((item) => <h3 key={item._id} >
             <span>{item.title}</span>
-            <FontAwesomeIcon icon={faFilePen} onClick={() => handleClick(item._id)} />
-            <FontAwesomeIcon icon={faTrash} /></h3>)}
+            <FontAwesomeIcon icon={faFilePen} onClick={() => handleUpdate(item._id)} />
+            <FontAwesomeIcon icon={faTrash} onClick={() => handleDelete(item._id)} /></h3>)}
         </ul>
       </div>
   )

@@ -10,8 +10,13 @@
 }
 
 .docheader {
-  border: grey 2px solid;
+  border-bottom: grey 2px solid;
   padding: 0.5em;
+
+}
+
+.doclist ul {
+  padding: 1em;
 }
 
 .doclist ul h3 {
@@ -19,16 +24,16 @@
   grid-template-columns: 400px 1fr 1fr;
   align-items: center;
   gap: 10px;
-  padding: 0.5em;
+
 }
 
 .doclist {
   display: grid;
   border: grey 2px solid;
+  border-radius: 25px;
 }
 
 .navbar {
-
   width: 100%;
   height: 50px;
   display: flex;
@@ -48,19 +53,23 @@
   justify-content: center;
   align-items: center;
   list-style: none;
-  width: 100%;
+  margin-bottom: 20px;
 }
 
 .nav-list-item {
   padding: 1em;
-  background-color: #29b53a;
-  border: 2px solid black;
+  border-radius: 50%;
+  height: 20px;
+  margin: 10px;
+  font-size: 1.5em;
 }
 
 .nav-list-item-active {
-  background-color: #88d691;
   padding: 1em;
-  border: 2px solid black;
+  font-size: 2em;
+  border-radius: 50%;
+  height: 20px;
+  margin: 10px;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -88,19 +97,28 @@
 }
 
 .docForm input {
-  width: 400px;
-  padding: 0.5em;
+  width: 600px;
+  padding: 1em;
+  border-radius: 25px;
+  font-size: 1em;
+  border: grey 2px solid;
 }
 
 .docForm textarea {
-  padding: 0.5em;
-  width: 400px;
+  padding: 1em;
+  width: 600px;
   height: 400px;
+  border-radius: 25px;
+  border: grey 2px solid;
 }
 
 .docForm button {
   margin: 0.5em;
   padding: 0.5em;
   font-size: 2em;
-
+  background-color: #242424;
+  width: 80px;
+  border-radius: 50%;
+  margin-left: auto;
+  margin-right: auto;
 }

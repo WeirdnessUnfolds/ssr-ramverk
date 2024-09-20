@@ -54,6 +54,7 @@ function App() {
     setSelectedItem(item);
     setShowCreateDoc(false);
     setShowAllDocuments(false);
+    setSelectedIndex(-1);
   }
 
 
