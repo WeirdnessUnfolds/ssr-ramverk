@@ -26,7 +26,7 @@ function App() {
   const [loading, setLoading] = useState(true)
   // Fetches all the documents from the database and sets them as items
   useEffect(() => {
-    axios.get("http://localhost:3539").then((res) => {
+    axios.get("http://localhost:3539/all").then((res) => {
       setItems(res.data);
       setLoading(false);
     });
