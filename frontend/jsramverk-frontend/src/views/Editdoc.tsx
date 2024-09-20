@@ -1,10 +1,14 @@
 import { Item } from './ShowAll'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFloppyDisk } from '@fortawesome/free-solid-svg-icons'
+import axios from 'axios'
 
 // Ordna två actions som uppdaterar
 
 const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
+    const handleClick = () => {
+        axios.put("http://localhost:3539", data)
+      }
     return (
         loading ?
             <div>
@@ -16,7 +20,7 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
                 <input name="title" type="text" defaultValue={data.title}></input>
                 <label>Innehåll</label>
                 <textarea name="content" defaultValue={data.content}></textarea>
-                <button type="submit"><FontAwesomeIcon icon={faFloppyDisk} /></button>
+                <button type="submit"><FontAwesomeIcon icon={faFloppyDisk} onClick={handleClick}/></button>
             </form>
     )
 }
