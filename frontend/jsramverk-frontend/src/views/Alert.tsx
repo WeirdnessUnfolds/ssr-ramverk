@@ -1,11 +1,17 @@
+import { ReactNode } from "react";
+
+
 interface Props {
+    children: ReactNode;
     onClose: () => void;
 }
 
-const Alert = ({ onClose }: Props) => {
+// Creates the alert for updating and saving a document
+
+const Alert = ({ children, onClose }: Props) => {
     return (
         <>
-            <div className="alert">Nu är dokumentet sparat
+            <div className="alert">{children}
                 <button type="button" className="closeBtn" onClick={onClose} >X</button>
             </div>
         </>

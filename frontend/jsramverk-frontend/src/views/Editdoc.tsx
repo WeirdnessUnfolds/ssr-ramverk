@@ -24,7 +24,7 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
             </div>
             :
             <div>
-                {alertVisible && <Alert onClose={() => setAlertVisibility(false)} />}
+                {alertVisible && <Alert onClose={() => setAlertVisibility(false)}>Nu är dokumnetet uppdaterat</Alert>}
                 <form className="docForm">
                     <label>Titel</label>
                     <input name="title" type="text" defaultValue={data.title}></input>
