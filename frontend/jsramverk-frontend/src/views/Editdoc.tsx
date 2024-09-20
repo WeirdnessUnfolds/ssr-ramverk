@@ -10,23 +10,27 @@ import { useState } from 'react'
 // Updates the selected document
 
 const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
-    const [alertVisible, setAlertVisibility] = useState(false)
+    const [alertVisible, setAlertVisibility] = useState(false);
     const handleClick = async () => {
-        const form = document.getElementById('docForm');
+        const form = document.querySelector('#docForm');
         const formData = new FormData(form);
-        await fetch(`http://localhost:3539/update/${data._id}`,{
+        for (const value of formData.values()) {
+            console.log(value);
+        }
+
+        await fetch(`http://localhost:3539/update/${data._id}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(formData)
-        }).then(function (res){
+        }).then(function (res) {
             console.log(res);
             // Do something with res so that the alert is shown
         })
-        .catch(function (error) {
-            console.log(error);
-        });
+            .catch(function (error) {
+                console.log(error);
+            });
     }
     return (
 
@@ -42,7 +46,7 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
                     <input name="title" type="text" defaultValue={data.title}></input>
                     <label>Innehåll</label>
                     <textarea name="content" defaultValue={data.content}></textarea>
-                    <button type="submit"><FontAwesomeIcon icon={faFloppyDisk} onClick={handleClick} /></button>
+                    <button type="button"><FontAwesomeIcon icon={faFloppyDisk} onClick={handleClick} /></button>
                 </form>
             </div>
 

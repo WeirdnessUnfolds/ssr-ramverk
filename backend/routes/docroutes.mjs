@@ -37,8 +37,11 @@ router.post('/delete/:id', async (req, res) => {
 });
 
 router.post("/update/:id", async (req, res) => {
-    dbhandler.updateDocument(req.params.id, "Det här den uppdaterade titeln",
-        "Det här är det uppdaterade innehållet").then(result => res.json(result))
+    const data = req.body;
+    console.log(data.title);
+
+    dbhandler.updateDocument(req.params.id, data.title,
+        data.content).then(result => res.json(result))
         .catch(err => console.log(err));
 });
 
