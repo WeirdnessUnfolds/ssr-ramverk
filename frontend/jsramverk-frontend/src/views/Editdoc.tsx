@@ -12,6 +12,7 @@ import { useState } from 'react'
 const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
     const [alertVisible, setAlertVisibility] = useState(false);
     const handleClick = async () => {
+        event?.preventDefault();
         const form = document.querySelector('#docForm');
         const formData = new FormData(form);
         for (const value of formData.values()) {
@@ -24,7 +25,7 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
             },
         }).then(function (res) {
             console.log(res);
-            // Do something with res so that the alert is shown
+            setAlertVisibility(true);
         })
             .catch(function (error) {
                 console.log(error);
@@ -38,7 +39,7 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
             </div>
             :
             <div>
-                {alertVisible && <Alert onClose={() => setAlertVisibility(false)}>Nu är dokumnetet uppdaterat</Alert>}
+                {alertVisible && <Alert onClose={() => window.location.reload()}>Nu är dokumentet uppdaterat</Alert>}
                 <form id="docForm" className="docForm">
                     <label>Titel</label>
                     <input name="title" type="text" defaultValue={data.title}></input>
