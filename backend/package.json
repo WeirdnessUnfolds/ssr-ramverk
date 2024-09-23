@@ -6,9 +6,13 @@
   "scripts": {
     "test": "export NODE_ENV=test && nyc --reporter=html --reporter=text mocha",
     "eslint": "eslint .",
-    "eslint-fix": "eslint . --fix"
+    "eslint-fix": "eslint . --fix",
+    "pretest": "npm run buildtests",
+    "buildtests": "cd db && mongosh testdocs --eval 'db.dropDatabase()' &&  mongoimport --db testdocs -c testcollection --jsonArray testdb.json"
+                  
+                  
   },
-  "keywords": [],
+  "keywords": [],   
   "author": "",
   "license": "ISC",
   "dependencies": {
