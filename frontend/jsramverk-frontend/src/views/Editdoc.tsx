@@ -18,12 +18,10 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
             console.log(value);
         }
 
-        await fetch(`http://localhost:3539/update/${data._id}`, {
-            method: 'POST',
+        await axios.post(`http://localhost:3539/update/${data._id}`, document.querySelector('#docForm'), {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(formData)
         }).then(function (res) {
             console.log(res);
             // Do something with res so that the alert is shown
