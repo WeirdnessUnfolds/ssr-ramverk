@@ -76,7 +76,7 @@ const dbhandler = {
         return res;
     },
 
-        /**
+    /**
      * Finds a document in the database by its ObjectId, and updates it or undefined
      * @param {string} id
      * @returns {Promise<Object[]> | undefined>}
@@ -85,7 +85,7 @@ const dbhandler = {
         const client  = await mongo.connect(dsn);
         const db = await client.db();
         const col = await db.collection('testcollection');
-        const res = await col.updateOne({_id: new ObjectId(id)}, 
+        const res = await col.updateOne({_id: new ObjectId(id)},
             { $set: {title: title, content: content }});
 
         await client.close();

@@ -17,6 +17,7 @@ router.get("/createdoc", async (req, res) => {
 
 router.post("/createdoc", async (req, res) => {
     const data = req.body;
+
     console.log("Ny titel:", data.title);
     dbhandler.addDocument(data.title,
         data.content).then(result => res.json(result))
@@ -40,6 +41,7 @@ router.post('/delete/:id', async (req, res) => {
 
 router.post("/update/:id", async (req, res) => {
     const data = req.body;
+
     console.log("Uppdaterad titel:", data.title);
 
     dbhandler.updateDocument(req.params.id, data.title,

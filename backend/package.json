@@ -9,10 +9,8 @@
     "eslint-fix": "eslint . --fix",
     "pretest": "npm run buildtests",
     "buildtests": "cd db && mongosh testdocs --eval 'db.dropDatabase()' &&  mongoimport --db testdocs -c testcollection --jsonArray testdb.json"
-                  
-                  
   },
-  "keywords": [],   
+  "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -35,6 +33,6 @@
     "eslint-plugin-react": "^7.36.0",
     "globals": "^15.9.0",
     "javascript-style-guide": "^1.0.1",
-    "nyc": "^17.0.0"
+    "nyc": "^17.1.0"
   }
 }
