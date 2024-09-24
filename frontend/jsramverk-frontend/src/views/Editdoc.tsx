@@ -12,12 +12,6 @@ import { useState } from 'react'
 const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
     const [alertVisible, setAlertVisibility] = useState(false);
     const handleClick = async () => {
-        event?.preventDefault();
-        const form = document.querySelector('#docForm');
-        const formData = new FormData(form);
-        for (const value of formData.values()) {
-            console.log(value);
-        }
 
         await axios.post(`http://localhost:3539/update/${data._id}`, document.querySelector('#docForm'), {
             headers: {
