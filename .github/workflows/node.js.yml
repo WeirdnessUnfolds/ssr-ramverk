@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x, 20.x, 22.x]
+        node-version: [20.x, 22.x]
         mongodb-version: ['4.4', '5.0', '6.0']
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
@@ -38,6 +38,10 @@ jobs:
       working-directory: backend
     - name: Install other dependencies
       run: npm install
+      working-directory: backend
+
+    - name: Install MongoDB tools
+      run: npm install mongodb-database-tools
       working-directory: backend
         
     - run: npm ci
