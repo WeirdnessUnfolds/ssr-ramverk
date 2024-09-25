@@ -16,6 +16,10 @@ const app = express();
 app.disable('x-powered-by');
 app.use(methodOverride('_method'));
 
+
+app.use(cors({
+    origin: 'http://localhost:5173'
+}));
 app.use(express.static(path.join(process.cwd(), "public")));
 
 // don't show the log when it is test
@@ -28,8 +32,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-app.use('/', base);
-app.use('/test', docroutes);
+app.use('/all', base);
+app.use('/', docroutes);
 
 app.use((req, res, next) => {
     var error = new Error("API endpoint not found");

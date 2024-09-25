@@ -16,8 +16,11 @@ router.get("/createdoc", async (req, res) => {
 
 
 router.post("/createdoc", async (req, res) => {
-    dbhandler.addDocument("Det här är en ny titel",
-        "Det här är det nya innehållet").then(result => res.json(result))
+    const data = req.body;
+
+    console.log("Ny titel:", data.title);
+    dbhandler.addDocument(data.title,
+        data.content).then(result => res.json(result))
         .catch(err => console.log(err));
 });
 
@@ -37,8 +40,12 @@ router.post('/delete/:id', async (req, res) => {
 });
 
 router.post("/update/:id", async (req, res) => {
-    dbhandler.updateDocument(req.params.id, "Det här den uppdaterade titeln",
-        "Det här är det uppdaterade innehållet").then(result => res.json(result))
+    const data = req.body;
+
+    console.log("Uppdaterad titel:", data.title);
+
+    dbhandler.updateDocument(req.params.id, data.title,
+        data.content).then(result => res.json(result))
         .catch(err => console.log(err));
 });
 
