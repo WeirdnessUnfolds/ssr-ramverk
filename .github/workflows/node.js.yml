@@ -33,16 +33,12 @@ jobs:
       with:
         mongodb-version: ${{ matrix.mongodb-version }}
 
-    - name: Install mongosh
-      run: npm install -g mongosh
-      working-directory: backend
-    - name: Install other dependencies
-      run: npm install
-      working-directory: backend
-
-    - name: Install MongoDB tools
-      run: npm install mongodb-database-tools
-      working-directory: backend
+    - name: action-mongo-tools
+      uses: boly38/action-mongo-tools@v1.0.1
+      with:
+        mongo-shell: true
+        mongo-tools: true
+          
         
     - run: npm ci
       working-directory: backend
