@@ -4,7 +4,7 @@
   "description": "Starter project for DV1677 JSRamverk",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env NODE_OPTIONS='--experimental-loader @istanbuljs/esm-loader-hook' nyc --reporter=html --reporter=text --reporter=clover mocha --exit --timeout 10000",
+    "test": "export NODE_ENV=test && cross-env NODE_OPTIONS='--experimental-loader @istanbuljs/esm-loader-hook' nyc --reporter=html --reporter=text --reporter=clover mocha --exit --timeout 10000",
     "eslint": "eslint .",
     "eslint-fix": "eslint . --fix",
     "pretest": "npm run buildtests",
