@@ -12,7 +12,9 @@ test("Renders the main page", () => {
     expect(true).toBeTruthy()
 })
 
-test("should render loading message", () => {
+test("should render loading message", async () => {
+
+    axios.get = jest.fn().mockResolvedValue({ data: [] })
     render(<App />);
     const loadingText = screen.getByText("Loading...");
     expect(loadingText).toBeInTheDocument();
