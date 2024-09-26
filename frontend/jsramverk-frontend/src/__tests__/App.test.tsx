@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom'
-import { render, screen } from "@testing-library/react"
+import { render, screen, waitFor } from "@testing-library/react"
 import App from "../App"
 import axios from 'axios'
 
@@ -20,6 +20,8 @@ test("should render loading message", async () => {
     expect(loadingText).toBeInTheDocument();
 });
 
-// test("Renders doclist", async () => {
-
-// })
+test("Renders doclist", async () => {
+    render(<App />);
+        await waitFor(() => expect(screen.getByText("Testdokument")).toBeInTheDocument)
+    
+})
