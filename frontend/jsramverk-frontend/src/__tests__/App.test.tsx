@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom'
-import { render, screen, waitFor, act } from "@testing-library/react"
+import { render, screen, waitFor, act} from "@testing-library/react"
 import App from "../App"
 import axios from 'axios'
 
@@ -15,14 +15,16 @@ test("Renders the main page", () => {
 test("should render loading message", async () => {
     await act(async () => {
         render(<App />);
+        screen.debug();
         const loadingText = screen.getByText("Loading...");
         await waitFor(() => expect(loadingText).toBeInTheDocument);
     })
 });
 
-test("Renders one document", async () => {
+test("Renders doclist", async () => {
     await act(async () => {
         render(<App />);
+        screen.debug();
         await waitFor(() => expect(screen.getByText("Testdokument")).toBeInTheDocument)
     
     })
