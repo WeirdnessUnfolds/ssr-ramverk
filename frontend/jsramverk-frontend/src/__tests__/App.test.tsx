@@ -13,19 +13,13 @@ test("Renders the main page", () => {
 })
 
 test("should render loading message", async () => {
-    await act(async () => {
         render(<App />);
-        screen.debug();
-        const loadingText = screen.getByText("Loading...");
-        await waitFor(() => expect(loadingText).toBeInTheDocument);
-    })
+        expect((screen.getByText("Loading...")).toBeInTheDocument);
 });
 
 test("Renders doclist", async () => {
-    await act(async () => {
         render(<App />);
         screen.debug();
         await waitFor(() => expect(screen.getByText("Testdokument")).toBeInTheDocument)
-    
-    })
+
 })
