@@ -3,6 +3,6 @@ import { render } from "@testing-library/react"
 import ShowAll from '../views/ShowAll'
 
 test("Renders the component", () => {
-    render(<ShowAll />)
+    render(<ShowAll/>)
     expect(true).toBeTruthy()
 })
