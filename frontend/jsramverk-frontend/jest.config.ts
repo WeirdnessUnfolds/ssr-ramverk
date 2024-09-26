@@ -11,4 +11,7 @@ export default {
         "\\.(css|less)$": "<rootDir>/src/__mocks__/styleMock.js",
 
     },
+    testEnvironmentOptions: {
+        url: 'http://localhost:5173',
+    },
 }
