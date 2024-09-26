@@ -7,5 +7,6 @@ export default {
     },
     moduleNameMapper: {
         '\\.(gif|ttf|eot|svg|png)$': '<rootDir>/test/__ mocks __/fileMock.js',
+        "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js",
     },
 }

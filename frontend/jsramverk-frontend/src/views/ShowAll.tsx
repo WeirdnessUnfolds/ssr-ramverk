@@ -16,8 +16,9 @@ const ShowAll = ({ data, loading, onSelected }: { data: Item[]; loading: boolean
 
   const handleUpdate = (id: string) => {
     const item = data.find((item) => item._id === id);
-    onSelected(item);
-
+    if (item) {
+      onSelected(item);
+    }
   }
 
   const handleDelete = async (id: string) => {

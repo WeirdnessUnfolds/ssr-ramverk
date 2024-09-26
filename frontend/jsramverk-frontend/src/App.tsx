@@ -19,7 +19,7 @@ function App() {
   // sets the crateDoc view
   const [showCreateDoc, setShowCreateDoc] = useState(false)
   // Sets all the documents as items from the result from the database
-  const [items, setItems] = useState<Item[]>([{}])
+  const [items, setItems] = useState<Item[]>([])
   // Sets The selected document
   const [selectedItem, setSelectedItem] = useState<Item | null>(null)
   // Sets the loading screen when the data is fetched
