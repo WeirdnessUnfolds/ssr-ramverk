@@ -32,7 +32,7 @@ const Createdoc = () => {
                 <input name="title" type="text" ></input>
                 <label>Innehåll</label>
                 <textarea name="content" ></textarea>
-                <button type="button"><FontAwesomeIcon icon={faFloppyDisk} onClick={handleClick} /></button>
+                <button role="Send" type="button"><FontAwesomeIcon icon={faFloppyDisk} onClick={handleClick} /></button>
             </form>
         </div>
 

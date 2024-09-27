@@ -1,10 +1,9 @@
 import '@testing-library/jest-dom'
 import { fireEvent, getByText, render, screen, waitFor, within } from "@testing-library/react"
 import App from "../App"
-import Axios from "axios"
 
 
-jest.mock('axios')
+
 
 beforeEach(() => {
     render(<App />);
@@ -54,12 +53,16 @@ test("Renders create-view", async () => {
 
 });
 
-test("Renders create-view", async () => {
+test("Create-view sends post and alert is shown", async () => {
     const navLinks = screen.getAllByRole('listitem');
-
+    jest.mock('axios')
     fireEvent.click(navLinks[1]);
-
-    await waitFor(() => expect(screen.getByText("Titel")).toBeInTheDocument());
+    const send = screen.getByRole('Send')
+    fireEvent.click(send);
+    
+    await waitFor(() => expect(screen.getByText("Nu är dokumentet nu sparat")).toBeInTheDocument());
+    
+    
 
 });
 

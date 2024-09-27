@@ -9,6 +9,10 @@ if (process.env.NODE_ENV === 'test') {
     dsn = "mongodb://localhost:27017/testdocs";
     collection = "testcollection";
 }
+else if (process.env.NODE_ENV === 'integration-test') {
+    dsn = "mongodb://localhost:27017/int-testdocs";
+    collection = "int-testcollection";
+} 
 
 const dbhandler = {
     /**
@@ -51,7 +55,7 @@ const dbhandler = {
     addDocument: async function addDocument(title, content) {
         const client  = await mongo.connect(dsn);
         const db = await client.db();
-        const col = await db.collection('testcollection');
+        const col = await db.collection(collection);
         const doc = {title: title, content: content};
         const res = await col.insertOne(doc);
 
@@ -68,7 +72,7 @@ const dbhandler = {
     deleteWithId: async function deleteWithId(id) {
         const client  = await mongo.connect(dsn);
         const db = await client.db();
-        const col = await db.collection('testcollection');
+        const col = await db.collection(collection);
         const res = await col.deleteOne({_id: new ObjectId(id)});
 
         await client.close();
@@ -84,7 +88,7 @@ const dbhandler = {
     updateDocument: async function updateDocument(id, title, content) {
         const client  = await mongo.connect(dsn);
         const db = await client.db();
-        const col = await db.collection('testcollection');
+        const col = await db.collection('');
         const res = await col.updateOne({_id: new ObjectId(id)},
             { $set: {title: title, content: content }});
 
