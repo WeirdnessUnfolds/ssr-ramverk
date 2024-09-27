@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom'
-import { render, screen, waitFor, act} from "@testing-library/react"
+import { render, screen, waitFor } from "@testing-library/react"
 import App from "../App"
 import axios from 'axios'
 
@@ -24,8 +24,8 @@ test("When loading message displays no further elements should be displayed, eg 
     expect(doclist).toBeNull();
 })
 test("Renders doclist", async () => {
-        render(<App />);
-        screen.debug();
-        await waitFor(() => expect(screen.getByText("Testdokument")).toBeInTheDocument)
-
-})
+    render(<App />);
+    // screen.debug(); // text initially not present
+    await waitFor(() => expect(screen.getByText("Dokument")).toBeInTheDocument());
+    // screen.debug(); // text is present
+});
