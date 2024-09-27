@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom'
 import { fireEvent, render, screen, waitFor } from "@testing-library/react"
 import App from "../App"
-import axios from 'axios'
+
 
 beforeEach(() => {
     render(<App />);
