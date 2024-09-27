@@ -1,7 +1,10 @@
 import '@testing-library/jest-dom'
 import { fireEvent, getByText, render, screen, waitFor, within } from "@testing-library/react"
 import App from "../App"
+import Axios from "axios"
 
+
+jest.mock('axios')
 
 beforeEach(() => {
     render(<App />);
@@ -50,6 +53,16 @@ test("Renders create-view", async () => {
     await waitFor(() => expect(screen.getByText("Titel")).toBeInTheDocument());
 
 });
+
+test("Renders create-view", async () => {
+    const navLinks = screen.getAllByRole('listitem');
+
+    fireEvent.click(navLinks[1]);
+
+    await waitFor(() => expect(screen.getByText("Titel")).toBeInTheDocument());
+
+});
+
 
 test("Renders update-view", async () => {
     await waitFor(() => expect(screen.getByText("Dokument")).toBeInTheDocument());
