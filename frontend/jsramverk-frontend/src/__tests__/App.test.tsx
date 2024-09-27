@@ -52,7 +52,6 @@ test("Renders create-view", async () => {
 });
 
 test("Renders update-view", async () => {
-    render(<App />);
     await waitFor(() => expect(screen.getByText("Dokument")).toBeInTheDocument());
     const dokument = screen.getByText("Ett helt nytt testdokument");
     const button = within(dokument).getByLabelText('Update');
