@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom'
-import { fireEvent, render, screen, waitFor } from "@testing-library/react"
+import { fireEvent, getByText, render, screen, waitFor, within } from "@testing-library/react"
 import App from "../App"
 import axios from 'axios'
 
@@ -13,16 +13,17 @@ test("Renders the main page", () => {
 })
 
 test("should render loading message", async () => {
-        render(<App />);
-        const loadingText = screen.getByText("Loading...");
-        expect(loadingText).toBeInTheDocument();
+    render(<App />);
+    const loadingText = screen.getByText("Loading...");
+    expect(loadingText).toBeInTheDocument();
 });
 
-test("When loading message displays no further elements should be displayed, eg doclist", async() => {
+test("When loading message displays no further elements should be displayed, eg doclist", async () => {
     render(<App />);
     const doclist = screen.queryByRole("doclist")
     expect(doclist).toBeNull();
-})
+});
+
 test("Renders doclist", async () => {
     render(<App />);
     // screen.debug(); // text initially not present
@@ -38,4 +39,15 @@ test("Renders create-view", async () => {
 
     await waitFor(() => expect(screen.getByText("Titel")).toBeInTheDocument());
 
+});
+
+test("Renders update-view", async () => {
+    render(<App />);
+    await waitFor(() => expect(screen.getByText("Dokument")).toBeInTheDocument());
+    const dokument = screen.getByText("Ett helt nytt testdokument");
+    const button = within(dokument).getByLabelText('Update');
+
+    fireEvent.click(button);
+
+    await waitFor(() => expect(screen.getByText("Ett helt nytt testdokument")).toBeInTheDocument());
 });

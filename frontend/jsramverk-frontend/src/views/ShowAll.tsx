@@ -46,8 +46,8 @@ const ShowAll = ({ data, loading, onSelected }: { data: Item[]; loading: boolean
           <ul>
             {data.map((item) => <h3 key={item._id} >
               <span>{item.title}</span>
-              <FontAwesomeIcon icon={faFilePen} onClick={() => handleUpdate(item._id)} />
-              <FontAwesomeIcon icon={faTrash} onClick={() => handleDelete(item._id)} /></h3>)}
+              <FontAwesomeIcon aria-label='Update' icon={faFilePen} onClick={() => handleUpdate(item._id)} />
+              <FontAwesomeIcon aria-label='Delete' icon={faTrash} onClick={() => handleDelete(item._id)} /></h3>)}
           </ul>
         </div>
       </div>
