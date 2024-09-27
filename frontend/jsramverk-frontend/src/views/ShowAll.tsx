@@ -43,7 +43,7 @@ const ShowAll = ({ data, loading, onSelected }: { data: Item[]; loading: boolean
       <div>
         <div className="doclist">
           <div className="docheader"><h2>Dokument</h2></div>
-          <ul>
+          <ul role='Items'>
             {data.map((item) => <h3 key={item._id} >
               <span>{item.title}</span>
               <FontAwesomeIcon aria-label='Update' icon={faFilePen} onClick={() => handleUpdate(item._id)} />

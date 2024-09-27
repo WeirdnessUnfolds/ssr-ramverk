@@ -20,14 +20,18 @@ test("should render loading message", async () => {
 
 test("When loading message displays no further elements should be displayed, eg doclist", async () => {
     render(<App />);
-    const doclist = screen.queryByRole("doclist")
+    const doclist = screen.queryByRole("Items")
     expect(doclist).toBeNull();
-});
-
-test("Renders doclist", async () => {
+})
+test("Doclist length to be 3", async () => {
     render(<App />);
     // screen.debug(); // text initially not present
-    await waitFor(() => expect(screen.getByText("Dokument")).toBeInTheDocument());
+    await waitFor(() => {
+        const doclist = screen.getByRole("Items")
+        const documents = doclist.children
+        expect(documents.length).toBe(3)
+
+    });
     // screen.debug(); // text is present
 });
 
