@@ -14,9 +14,15 @@ test("Renders the main page", () => {
 
 test("should render loading message", async () => {
         render(<App />);
-        expect((screen.getByText("Loading...")).toBeInTheDocument);
+        const loadingText = screen.getByText("Loading...");
+        expect(loadingText).toBeInTheDocument();
 });
 
+test("When loading message displays no further elements should be displayed, eg doclist", async() => {
+    render(<App />);
+    const doclist = screen.queryByRole("doclist")
+    expect(doclist).toBeNull();
+})
 test("Renders doclist", async () => {
         render(<App />);
         screen.debug();
