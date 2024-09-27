@@ -22,7 +22,8 @@ test("When loading message displays no further elements should be displayed, eg 
     render(<App />);
     const doclist = screen.queryByRole("Items")
     expect(doclist).toBeNull();
-})
+});
+
 test("Doclist length to be 3", async () => {
     render(<App />);
     // screen.debug(); // text initially not present
@@ -53,5 +54,5 @@ test("Renders update-view", async () => {
 
     fireEvent.click(button);
 
-    await waitFor(() => expect(screen.getByText("Ett helt nytt testdokument")).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText("Titel")).toBeInTheDocument());
 });
