@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom'
-import { render, screen, waitFor } from "@testing-library/react"
+import { fireEvent, render, screen, waitFor } from "@testing-library/react"
 import App from "../App"
 import axios from 'axios'
 
@@ -33,4 +33,14 @@ test("Doclist length to be 3", async () => {
 
 });
     // screen.debug(); // text is present
+});
+
+test("Renders create-view", async () => {
+    render(<App />);
+    const navLinks = screen.getAllByRole('listitem');
+
+    fireEvent.click(navLinks[1]);
+
+    await waitFor(() => expect(screen.getByText("Titel")).toBeInTheDocument());
+
 });
