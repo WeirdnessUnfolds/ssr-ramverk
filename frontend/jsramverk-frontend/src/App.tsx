@@ -26,10 +26,17 @@ function App() {
   const [loading, setLoading] = useState(true)
   // Fetches all the documents from the database and sets them as items
   useEffect(() => {
-    axios.get("http://localhost:3539/all").then((res) => {
+    const cancelToken = axios.CancelToken.source();
+    // For proper cancelling
+    axios.get("http://localhost:3539/all", {
+      cancelToken: cancelToken.token,
+    }).then((res) => {
       setItems(res.data);
       setLoading(false);
     });
+    return () => {
+      cancelToken.cancel();
+    };
   }, []);
 
 

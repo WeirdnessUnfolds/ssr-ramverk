@@ -8,8 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "npm run buildtests && jest",
-    "buildtests": "cd testdb && mongosh int-testdocs --eval 'db.dropDatabase()' &&  mongoimport --db int-testdocs -c int-testcollection --jsonArray testdb.json"
+    "test": "jest",
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.6.0",
