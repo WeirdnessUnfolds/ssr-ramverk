@@ -55,7 +55,6 @@ test("Renders create-view", async () => {
 
 test("Create-view sends post and alert is shown", async () => {
     const navLinks = screen.getAllByRole('listitem');
-    jest.mock('axios')
     fireEvent.click(navLinks[1]);
     const send = screen.getByRole('Send')
     fireEvent.click(send);
@@ -65,6 +64,7 @@ test("Create-view sends post and alert is shown", async () => {
     
 
 });
+
 
 
 test("Renders update-view", async () => {
