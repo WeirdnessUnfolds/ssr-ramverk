@@ -1,9 +1,9 @@
 "use strict";
-
+import 'dotenv/config';
 import { MongoClient, ObjectId } from 'mongodb';
 const mongo = MongoClient;
-var dsn;
-var collection;
+let dsn = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@jsramverk.owzo2.mongodb.net/?retryWrites=true&w=majority&appName=jsramverk`;
+let collection = "docscollection";
 
 if (process.env.NODE_ENV === 'test') {
     dsn = "mongodb://localhost:27017/testdocs";
@@ -12,7 +12,7 @@ if (process.env.NODE_ENV === 'test') {
 else if (process.env.NODE_ENV === 'integration-test') {
     dsn = "mongodb://localhost:27017/int-testdocs";
     collection = "int-testcollection";
-} 
+}
 
 const dbhandler = {
     /**
@@ -20,7 +20,7 @@ const dbhandler = {
      * @returns {Promise<Object[]>}
      */
     findAll: async function findAll() {
-        const client  = await mongo.connect(dsn);
+        const client = await mongo.connect(dsn);
         const db = await client.db();
         const col = await db.collection(collection);
         const res = await col.find({}).toArray();
@@ -36,10 +36,10 @@ const dbhandler = {
      * @returns {Promise<Object[]> | undefined>}
      */
     findWithId: async function findWithId(id) {
-        const client  = await mongo.connect(dsn);
+        const client = await mongo.connect(dsn);
         const db = await client.db();
         const col = await db.collection(collection);
-        const res = await col.find({_id: new ObjectId(id)}).toArray();
+        const res = await col.find({ _id: new ObjectId(id) }).toArray();
 
         await client.close();
 
@@ -53,10 +53,10 @@ const dbhandler = {
      * @returns {Promise<Object>} - The result of the insert operation.
      */
     addDocument: async function addDocument(title, content) {
-        const client  = await mongo.connect(dsn);
+        const client = await mongo.connect(dsn);
         const db = await client.db();
         const col = await db.collection(collection);
-        const doc = {title: title, content: content};
+        const doc = { title: title, content: content };
         const res = await col.insertOne(doc);
 
         await client.close();
@@ -70,10 +70,10 @@ const dbhandler = {
      * @returns {Promise<Object[]> | undefined>}
      */
     deleteWithId: async function deleteWithId(id) {
-        const client  = await mongo.connect(dsn);
+        const client = await mongo.connect(dsn);
         const db = await client.db();
         const col = await db.collection(collection);
-        const res = await col.deleteOne({_id: new ObjectId(id)});
+        const res = await col.deleteOne({ _id: new ObjectId(id) });
 
         await client.close();
 
@@ -86,11 +86,11 @@ const dbhandler = {
      * @returns {Promise<Object[]> | undefined>}
      */
     updateDocument: async function updateDocument(id, title, content) {
-        const client  = await mongo.connect(dsn);
+        const client = await mongo.connect(dsn);
         const db = await client.db();
-        const col = await db.collection('');
-        const res = await col.updateOne({_id: new ObjectId(id)},
-            { $set: {title: title, content: content }});
+        const col = await db.collection(collection);
+        const res = await col.updateOne({ _id: new ObjectId(id) },
+            { $set: { title: title, content: content } });
 
         await client.close();
         return res;

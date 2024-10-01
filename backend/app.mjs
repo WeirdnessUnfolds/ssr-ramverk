@@ -1,6 +1,6 @@
 import 'dotenv/config';
 
-const port = process.env.PORT;
+const port = process.env.PORT || 3539;
 
 import express from 'express';
 import bodyParser from 'body-parser';
@@ -8,6 +8,7 @@ import path from 'path';
 import morgan from 'morgan';
 import cors from 'cors';
 import methodOverride from 'method-override';
+import database from './db/database.mjs';
 import base from './routes/baseroutes.mjs';
 import docroutes from './routes/docroutes.mjs';
 
