@@ -7,10 +7,10 @@ let dsn = "";
 let collection = "";
 
 if (process.env.NODE_ENV === 'test') {
-    dsn = "mongodb://localhost:3539/testdocs";
+    dsn = "mongodb://localhost:27017/testdocs";
     collection = "testcollection";
 } else if (process.env.NODE_ENV === 'integration-test') {
-    dsn = "mongodb://localhost:3539/int-testdocs";
+    dsn = "mongodb://localhost:27017/int-testdocs";
     collection = "int-testcollection";
 } else {
     dsn = `mongodb+srv://${process.env.DB_USER}
