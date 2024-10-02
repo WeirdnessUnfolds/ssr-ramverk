@@ -38,19 +38,19 @@ jobs:
       with:
         mongo-shell: true
         mongo-tools: true
-      
-
-
-          
         
     - run: npm ci
       working-directory: backend
     - run: npm run build --if-present
       working-directory: backend
+    - name: Run backend tests
     - run: npm run test
       working-directory: backend
     - run: npm install
       working-directory: frontend/jsramverk-frontend
+       env:
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASS: ${{ secrets.DB_PASS }}
     - run: PORT=3539  NODE_ENV=test node app.mjs
       working-directory: backend
     - run: npm run test
