@@ -38,6 +38,7 @@ jobs:
       with:
         mongo-shell: true
         mongo-tools: true
+      
 
 
           
@@ -49,6 +50,10 @@ jobs:
     - run: npm run test
       working-directory: backend
     - run: npm install
-      working-directory: frontend/jsramverk-frontend 
+      working-directory: frontend/jsramverk-frontend
+    - run: PORT=3539  NODE_ENV=test node app.mjs
+      working-directory: backend
     - run: npm run test
       working-directory: frontend/jsramverk-frontend
+    - run: ^C
+      working-directory: backend
