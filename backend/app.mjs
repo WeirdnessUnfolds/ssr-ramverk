@@ -19,7 +19,8 @@ app.use(methodOverride('_method'));
 
 
 app.use(cors({
-    origin: 'https://www.student.bth.se/~viav23/editor/'
+    origin: 'https://www.student.bth.se/~viav23/editor/',
+    origin: 'http://localhost:5173'
 }));
 app.use(express.static(path.join(process.cwd(), "public")));
 
