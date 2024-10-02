@@ -16,8 +16,9 @@ const ShowAll = ({ data, loading, onSelected }: { data: Item[]; loading: boolean
 
   const handleUpdate = (id: string) => {
     const item = data.find((item) => item._id === id);
-    onSelected(item);
-
+    if (item) {
+      onSelected(item);
+    }
   }
 
   const handleDelete = async (id: string) => {
@@ -42,11 +43,11 @@ const ShowAll = ({ data, loading, onSelected }: { data: Item[]; loading: boolean
       <div>
         <div className="doclist">
           <div className="docheader"><h2>Dokument</h2></div>
-          <ul>
+          <ul role='Items'>
             {data.map((item) => <h3 key={item._id} >
-              <span>{item.title}</span>
-              <FontAwesomeIcon icon={faFilePen} onClick={() => handleUpdate(item._id)} />
-              <FontAwesomeIcon icon={faTrash} onClick={() => handleDelete(item._id)} /></h3>)}
+              {item.title}
+              <FontAwesomeIcon aria-label='Update' icon={faFilePen} onClick={() => handleUpdate(item._id)} />
+              <FontAwesomeIcon aria-label='Delete' icon={faTrash} onClick={() => handleDelete(item._id)} /></h3>)}
           </ul>
         </div>
       </div>

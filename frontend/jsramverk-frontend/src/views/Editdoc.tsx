@@ -36,10 +36,10 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
                 {alertVisible && <Alert onClose={() => window.location.reload()}>Nu är dokumentet uppdaterat</Alert>}
                 <form id="docForm" className="docForm">
                     <label>Titel</label>
-                    <input name="title" type="text" defaultValue={data.title}></input>
+                    <input role="titletext" name="title" type="text" defaultValue={data.title}></input>
                     <label>Innehåll</label>
                     <textarea name="content" defaultValue={data.content}></textarea>
-                    <button type="button"><FontAwesomeIcon icon={faFloppyDisk} onClick={handleClick} /></button>
+                    <button role="Sendupdate" type="button"><FontAwesomeIcon icon={faFloppyDisk} onClick={handleClick} /></button>
                 </form>
             </div>
 
