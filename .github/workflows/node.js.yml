@@ -48,7 +48,7 @@ jobs:
       working-directory: backend
     - run: npm install
       working-directory: frontend/jsramverk-frontend
-       env:
+      env:
           DB_USER: ${{ secrets.DB_USER }}
           DB_PASS: ${{ secrets.DB_PASS }}
     - run: PORT=3539  NODE_ENV=test node app.mjs
