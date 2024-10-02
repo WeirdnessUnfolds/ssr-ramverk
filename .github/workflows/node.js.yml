@@ -47,10 +47,7 @@ jobs:
       working-directory: backend
     - run: npm install
       working-directory: frontend/jsramverk-frontend
-      env:
-          DB_USER: ${{ secrets.DB_USER }}
-          DB_PASS: ${{ secrets.DB_PASS }}
-    - run: node app.mjs
+    - run:  NODE_ENV=integration-test node app.mjs
       working-directory: backend
     - run: npm run test
       working-directory: frontend/jsramverk-frontend
