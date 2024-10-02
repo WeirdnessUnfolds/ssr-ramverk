@@ -50,7 +50,7 @@ jobs:
       env:
           DB_USER: ${{ secrets.DB_USER }}
           DB_PASS: ${{ secrets.DB_PASS }}
-    - run: PORT=3539  NODE_ENV=test node app.mjs
+    - run: node app.mjs
       working-directory: backend
     - run: npm run test
       working-directory: frontend/jsramverk-frontend
