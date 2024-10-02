@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom'
-import { fireEvent, getByText, act, render, screen, waitFor, within } from "@testing-library/react"
+import { fireEvent,  act, render, screen, waitFor, within } from "@testing-library/react"
 import App from "../App"
-import ShowAll, { Item }  from "../views/ShowAll"
+
 
 
 
