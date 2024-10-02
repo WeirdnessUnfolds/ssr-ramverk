@@ -4,9 +4,9 @@ import axios from 'axios'
 
 let url = "";
 if (process.env.NODE_ENV === 'integration-test') {
-  url = "http://localhost:3539/delete/${id}"
+  url = "http://localhost:3539/delete/"
 } else {
-  url = "https://jsramverk-eafmccbgceegf9bt.swedencentral-01.azurewebsites.net/delete/${id}"
+  url = "https://jsramverk-eafmccbgceegf9bt.swedencentral-01.azurewebsites.net/delete/"
 }
 
 // Shows all the documents currently in the database with options for updating and deleting
@@ -30,7 +30,7 @@ const ShowAll = ({ data, loading, onSelected }: { data: Item[]; loading: boolean
 
   const handleDelete = async (id: string) => {
 
-    await axios.post(url, {
+    await axios.post(`${url}${id}`, {
     }).then(function (res) {
       console.log(res);
       window.location.reload();

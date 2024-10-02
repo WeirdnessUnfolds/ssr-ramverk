@@ -7,9 +7,9 @@ import { useState } from 'react'
 
 let url = "";
 if (process.env.NODE_ENV === 'integration-test') {
-    url = "http://localhost:3539/update/${data._id}"
+    url = "http://localhost:3539/update/"
 } else {
-    url = "https://jsramverk-eafmccbgceegf9bt.swedencentral-01.azurewebsites.net/update/${data._id}"
+    url = "https://jsramverk-eafmccbgceegf9bt.swedencentral-01.azurewebsites.net/update/"
 }
 
 // Ordna en action som uppdaterar
@@ -20,7 +20,7 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
     const [alertVisible, setAlertVisibility] = useState(false);
     const handleClick = async () => {
 
-        await axios.post(url,
+        await axios.post(`${url}${data._id}`,
             document.querySelector('#docForm'), {
             headers: {
                 'Content-Type': 'application/json'
