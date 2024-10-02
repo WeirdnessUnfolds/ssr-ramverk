@@ -5,6 +5,13 @@ import { faFloppyDisk } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
 import { useState } from 'react'
 
+let url = "";
+if (process.env.NODE_ENV === 'integration-test') {
+    url = "http://localhost:3539/update/${data._id}"
+} else {
+    url = "https://jsramverk-eafmccbgceegf9bt.swedencentral-01.azurewebsites.net/update/${data._id}"
+}
+
 // Ordna en action som uppdaterar
 
 // Updates the selected document
@@ -13,7 +20,8 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
     const [alertVisible, setAlertVisibility] = useState(false);
     const handleClick = async () => {
 
-        await axios.post(`http://localhost:3539/update/${data._id}`, document.querySelector('#docForm'), {
+        await axios.post(url,
+            document.querySelector('#docForm'), {
             headers: {
                 'Content-Type': 'application/json'
             },

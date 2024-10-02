@@ -4,6 +4,13 @@ import Alert from './Alert'
 import { useState } from 'react'
 import axios from 'axios'
 
+let url = "";
+if (process.env.NODE_ENV === 'integration-test') {
+    url = "http://localhost:3539/createdoc"
+} else {
+    url = "https://jsramverk-eafmccbgceegf9bt.swedencentral-01.azurewebsites.net/createdoc"
+}
+
 // Ordna en function som skapar ett nytt dokument till backend.
 
 // Creates a new document from a form
@@ -11,7 +18,8 @@ import axios from 'axios'
 const Createdoc = () => {
     const [alertVisible, setAlertVisibility] = useState(false);
     const handleClick = async () => {
-        await axios.post(`http://localhost:3539/createdoc`, document.querySelector('#docForm'), {
+        await axios.post(url,
+            document.querySelector('#docForm'), {
             headers: {
                 'Content-Type': 'application/json'
             },

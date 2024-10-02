@@ -2,6 +2,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFilePen, faTrash } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
 
+let url = "";
+if (process.env.NODE_ENV === 'integration-test') {
+  url = "http://localhost:3539/delete/${id}"
+} else {
+  url = "https://jsramverk-eafmccbgceegf9bt.swedencentral-01.azurewebsites.net/delete/${id}"
+}
+
 // Shows all the documents currently in the database with options for updating and deleting
 
 export interface Item {
@@ -23,7 +30,7 @@ const ShowAll = ({ data, loading, onSelected }: { data: Item[]; loading: boolean
 
   const handleDelete = async (id: string) => {
 
-    await axios.post(`http://localhost:3539/delete/${id}`, {
+    await axios.post(url, {
     }).then(function (res) {
       console.log(res);
       window.location.reload();
