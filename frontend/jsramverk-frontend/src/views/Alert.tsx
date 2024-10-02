@@ -11,8 +11,8 @@ interface Props {
 const Alert = ({ children, onClose }: Props) => {
     return (
         <>
-            <div className="alert">{children}
-                <button type="button" className="closeBtn" onClick={onClose} >X</button>
+            <div role="alert" className="alert">{children}
+                <button role="closebtn" type="button" className="closeBtn" onClick={onClose} >X</button>
             </div>
         </>
     )

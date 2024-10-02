@@ -29,9 +29,9 @@ const Createdoc = () => {
             {alertVisible && <Alert onClose={() => window.location.reload()}>Nu är dokumentet är nu sparat</Alert>}
             <form id="docForm" className="docForm">
                 <label>Titel</label>
-                <input name="title" type="text" ></input>
+                <input role="titlearea" name="title" type="text" ></input>
                 <label>Innehåll</label>
-                <textarea name="content" ></textarea>
+                <textarea role="contentarea" name="content" ></textarea>
                 <button role="Send" type="button"><FontAwesomeIcon icon={faFloppyDisk} onClick={handleClick} /></button>
             </form>
         </div>

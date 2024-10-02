@@ -90,8 +90,8 @@ const dbhandler = {
         const client = await mongo.connect(dsn);
         const db = await client.db();
         const col = await db.collection(collection);
-        const res = await col.updateOne({ _id: new ObjectId(id) },
-            { $set: { title: title, content: content } });
+        const res = await col.updateOne({_id: new ObjectId(id)},
+            { $set: {title: title, content: content }});
 
         await client.close();
         return res;
