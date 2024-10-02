@@ -38,6 +38,9 @@ jobs:
       with:
         mongo-shell: true
         mongo-tools: true
+
+    - name: Install Dependencies
+      run: npm install
           
         
     - run: npm ci
@@ -46,5 +49,7 @@ jobs:
       working-directory: backend
     - run: npm run test
       working-directory: backend
+    - run: npm install
+      working-directory: frontend/jsramverk-frontend 
     - run: npm run test
       working-directory: frontend/jsramverk-frontend
