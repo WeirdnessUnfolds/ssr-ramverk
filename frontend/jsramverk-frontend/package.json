@@ -3,13 +3,15 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": ".",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "deploy": "npm run build && rsync -av --delete build/ viav23@ssh.student.bth.se:www/editor",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "npm run buildtests && jest --runInBand",
-    "buildtests": "cd testdb && mongosh int-testdocs --eval 'db.dropDatabase()' &&  mongoimport --db testdocs -c int-testcollection --jsonArray testdb.json"
+    "test": "NODE_ENV=integration-test npm run buildtests && jest --runInBand",
+    "buildtests": "cd testdb && mongosh int-testdocs --eval 'db.dropDatabase()' &&  mongoimport --db int-testdocs -c int-testcollection --jsonArray testdb.json"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.6.0",

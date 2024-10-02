@@ -49,7 +49,7 @@ jobs:
       working-directory: frontend/jsramverk-frontend
     - run:  NODE_ENV=integration-test nohup node app.mjs &
       working-directory: backend
-    - run: npm run test
+    - run: NODE_ENV=integration-test npm run test
       working-directory: frontend/jsramverk-frontend
     - run: pkill -f "node app.mjs"
       working-directory: backend

@@ -9,6 +9,13 @@ import { faHouse, faFileCirclePlus } from '@fortawesome/free-solid-svg-icons'
 import ShowAll, { Item } from './views/ShowAll'
 import EditDocview from "./views/Editdoc"
 import Createdoc from './views/Createdoc'
+let url = "";
+if (process.env.NODE_ENV === 'integration-test') {
+  url = "http://localhost:3539/all"
+} else {
+  url = "https://jsramverk-eafmccbgceegf9bt.swedencentral-01.azurewebsites.net/all"
+}
+
 
 function App() {
   // Creates and sets the navbar items, default is no choice
@@ -27,7 +34,7 @@ function App() {
   // Fetches all the documents from the database and sets them as items
   useEffect(() => {
     // For proper cancelling
-    axios.get("http://localhost:3539/all").then((res) => {
+    axios.get(url).then((res) => {
       setItems(res.data);
       setLoading(false);
     });

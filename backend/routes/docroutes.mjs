@@ -25,7 +25,7 @@ router.post("/createdoc", async (req, res) => {
 });
 
 
-router.get('/:id', async (req, res) => {
+router.get('find/:id', async (req, res) => {
     dbhandler.findWithId(req.params.id).then(result => res.json(result))
         .catch(err => console.log(err));
 });

@@ -1,6 +1,7 @@
 
 import { MongoClient, ServerApiVersion } from 'mongodb';
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@jsramverk.owzo2.mongodb.net/?retryWrites=true&w=majority&appName=jsramverk`;
+const uri = `mongodb+srv://${process.env.DB_USER}:
+${process.env.DB_PASS}@jsramverk.owzo2.mongodb.net/?retryWrites=true&w=majority&appName=jsramverk`;
 
 var database;
 
@@ -25,6 +26,8 @@ async function run() {
     await client.close();
   }
 }
-run().catch(console.dir);
+if (process.env.NODE_ENV !== 'test' && process.env.NODE_ENV !== 'integration-test') {
+  run().catch(console.dir);
+}
 
 export default database;
