@@ -1,5 +1,6 @@
 "use strict";
 import 'dotenv/config';
+
 import { MongoClient, ObjectId } from 'mongodb';
 const mongo = MongoClient;
 let dsn = `mongodb+srv://${process.env.DB_USER}
