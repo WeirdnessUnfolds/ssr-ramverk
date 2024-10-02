@@ -39,8 +39,7 @@ jobs:
         mongo-shell: true
         mongo-tools: true
 
-    - name: Install Dependencies
-      run: npm install
+
           
         
     - run: npm ci
