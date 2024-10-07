@@ -9,12 +9,9 @@ import { faHouse, faFileCirclePlus } from '@fortawesome/free-solid-svg-icons'
 import ShowAll, { Item } from './views/ShowAll'
 import EditDocview from "./views/Editdoc"
 import Createdoc from './views/Createdoc'
-let url = "";
-if (process.env.NODE_ENV === 'integration-test') {
-  url = "http://localhost:3539/all"
-} else {
-  url = "https://jsramverk-eafmccbgceegf9bt.swedencentral-01.azurewebsites.net/all"
-}
+const url = process.env.NODE_ENV === 'integration-test'
+   ? "http://localhost:3539/all"
+   : "https://jsramverk-eafmccbgceegf9bt.swedencentral-01.azurewebsites.net/all"
 
 
 function App() {
