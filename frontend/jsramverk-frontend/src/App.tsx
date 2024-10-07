@@ -76,7 +76,6 @@ function App() {
             onClick={() => {
               setSelectedIndex(index);
               onSelectNavbarItem(index);
-              console.log("Selected index: " + index);
             }}>
             {item}</li>))}
       </ul>
