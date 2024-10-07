@@ -4,13 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFloppyDisk } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
 import { useState } from 'react'
-
-let url = "";
-if (process.env.NODE_ENV === 'integration-test') {
-    url = "http://localhost:3539/update/"
-} else {
-    url = "https://jsramverk-eafmccbgceegf9bt.swedencentral-01.azurewebsites.net/update/"
-}
+import { url } from '../helpers/url'
 
 // Ordna en action som uppdaterar
 
@@ -25,8 +19,7 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-        }).then(function (res) {
-            console.log(res);
+        }).then(function () {
             setAlertVisibility(true);
         })
             .catch(function (error) {
