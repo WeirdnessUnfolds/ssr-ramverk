@@ -1,14 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFilePen, faTrash } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
-
-let url = "";
-if (process.env.NODE_ENV === 'integration-test') {
-  url = "http://localhost:3539/delete/"
-} else {
-  url = "https://jsramverk-eafmccbgceegf9bt.swedencentral-01.azurewebsites.net/delete/"
-}
-
+import { url } from '../helpers/url'
 // Shows all the documents currently in the database with options for updating and deleting
 
 export interface Item {
