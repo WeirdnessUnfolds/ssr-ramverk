@@ -25,8 +25,7 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-        }).then(function (res) {
-            console.log(res);
+        }).then(function () {
             setAlertVisibility(true);
         })
             .catch(function (error) {
