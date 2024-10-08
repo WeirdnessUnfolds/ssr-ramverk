@@ -11,11 +11,44 @@ import methodOverride from 'method-override';
 import database from './db/database.mjs';
 import base from './routes/baseroutes.mjs';
 import docroutes from './routes/docroutes.mjs';
+import { Server } from "socket.io";
+import { createServer } from 'http';
 
 const app = express();
 
 app.disable('x-powered-by');
 app.use(methodOverride('_method'));
+
+const httpServer = createServer(app);
+
+const io = new Server(httpServer, {
+    cors: {
+        origin: 'http://localhost:5173'
+    }
+});
+
+let timeout;
+
+io.on('connection', function (socket) {
+    console.log(socket.id);
+    socket.on("content", function (data) {
+        console.log(data);
+
+        io.emit("content", data);
+
+        clearTimeout(timeout);
+        timeout = setTimeout(function () {
+            console.log("spara data");
+        }, 2000);
+    });
+
+});
+
+io.on('connection', function (socket) {
+    socket.on('create', function (room) {
+        socket.join(room);
+    });
+});
 
 
 app.use(cors({
@@ -23,14 +56,14 @@ app.use(cors({
 }));
 app.use(express.static(path.join(process.cwd(), "public")));
 
-// don't show the log when it is test
-if (process.env.NODE_ENV !== 'test') {
-    // use morgan to log at command line
-    app.use(morgan('combined')); // 'combined' outputs the Apache style LOGs
-}
+// // don't show the log when it is test
+// if (process.env.NODE_ENV !== 'test') {
+//     // use morgan to log at command line
+//     app.use(morgan('combined')); // 'combined' outputs the Apache style LOGs
+// }
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: true }));
 
 
 app.use('/all', base);
@@ -41,6 +74,9 @@ app.use((req, res, next) => {
 
     error.status = 404;
     next(error);
+});
+httpServer.listen(port, () => {
+    console.log(`Example app listening on port ${port}`);
 });
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);

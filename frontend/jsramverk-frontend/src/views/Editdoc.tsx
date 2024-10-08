@@ -3,21 +3,47 @@ import Alert from './Alert'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFloppyDisk } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import { io } from "socket.io-client"
 
-let url = "";
+let url = ""
+
 if (process.env.NODE_ENV === 'integration-test') {
     url = "http://localhost:3539/update/"
-} else {
+} else if (process.env.NODE_ENV === 'dev') {
+    url = "http://localhost:3539"
+}
+else {
     url = "https://jsramverk-eafmccbgceegf9bt.swedencentral-01.azurewebsites.net/update/"
 }
-
-// Ordna en action som uppdaterar
 
 // Updates the selected document
 
 const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
     const [alertVisible, setAlertVisibility] = useState(false);
+    const [title, setTitle] = useState(data.title);
+    const [content, setContent] = useState(data.content);
+
+    const socket = useRef(io())
+
+    useEffect(() => {
+        socket.current = io(url);
+
+        socket.current.on("content", (data) => {
+            setContent(data);
+        });
+
+        return () => {
+            socket.current.disconnect();
+        }
+    }, []);
+
+    function handleContentChange(e: any) {
+        const value = e.target.value;
+
+        socket.current.emit("content", value);
+    }
+
     const handleClick = async () => {
 
         await axios.post(`${url}${data._id}`,
@@ -37,7 +63,7 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
 
         loading ?
             <div>
-                <p>Loading document contents..</p>
+                <p>Loading document content..</p>
             </div>
             :
             <div>
@@ -46,7 +72,7 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
                     <label>Titel</label>
                     <input role="titletext" name="title" type="text" defaultValue={data.title}></input>
                     <label>Innehåll</label>
-                    <textarea name="content" defaultValue={data.content}></textarea>
+                    <textarea name="content" value={content} onChange={handleContentChange}></textarea>
                     <button role="Sendupdate" type="button"><FontAwesomeIcon icon={faFloppyDisk} onClick={handleClick} /></button>
                 </form>
             </div>

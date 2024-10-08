@@ -12,6 +12,8 @@ import Createdoc from './views/Createdoc'
 let url = "";
 if (process.env.NODE_ENV === 'integration-test') {
   url = "http://localhost:3539/all"
+} else if (process.env.NODE_ENV === 'dev') {
+  url = "http://localhost:3539/all"
 } else {
   url = "https://jsramverk-eafmccbgceegf9bt.swedencentral-01.azurewebsites.net/all"
 }
@@ -64,7 +66,6 @@ function App() {
     setShowAllDocuments(false);
     setSelectedIndex(-1);
   }
-
 
   return (
     <>
