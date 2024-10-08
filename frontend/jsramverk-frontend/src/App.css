@@ -135,3 +135,19 @@
   color: black;
   margin-left: 300px;
 }
+
+.login {
+  display:flex;
+  justify-content: space-around;
+  flex-direction: column;
+}
+
+.login input {
+  margin: 0.5em;
+}
+
+.logincontainer {
+  border: 1px solid rgb(114, 106, 106);
+  border-radius: 25px;
+  padding: 2em;
+}

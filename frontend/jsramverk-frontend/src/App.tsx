@@ -9,15 +9,18 @@ import { faHouse, faFileCirclePlus } from '@fortawesome/free-solid-svg-icons'
 import ShowAll, { Item } from './views/ShowAll'
 import EditDocview from "./views/Editdoc"
 import Createdoc from './views/Createdoc'
+import Login from './views/Login'
 import { url } from './helpers/url'
 function App() {
   // Creates and sets the navbar items, default is no choice
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const navItems = [<FontAwesomeIcon icon={faHouse} />, <FontAwesomeIcon icon={faFileCirclePlus} />];
   // sets the ShowAllDocuments view
-  const [showAllDocuments, setShowAllDocuments] = useState(true)
+  const [showAllDocuments, setShowAllDocuments] = useState(false)
   // sets the crateDoc view
   const [showCreateDoc, setShowCreateDoc] = useState(false)
+  // Logged in is false from the start.
+  const [loggedIn, setLoggedIn] = useState(false)
   // Sets all the documents as items from the result from the database
   const [items, setItems] = useState<Item[]>([])
   // Sets The selected document
@@ -62,16 +65,26 @@ function App() {
   return (
     <>
 
-      <ul className="nav-list">
-        {navItems.map((item, index) => (
-          <li key={index}
-            className={selectedIndex === index ? 'nav-list-item-active' : 'nav-list-item'}
-            onClick={() => {
-              setSelectedIndex(index);
-              onSelectNavbarItem(index);
-            }}>
-            {item}</li>))}
-      </ul>
+    { 
+    loggedIn ?
+    <ul className="nav-list">
+    {navItems.map((item, index) => (
+      <li key={index}
+        className={selectedIndex === index ? 'nav-list-item-active' : 'nav-list-item'}
+        onClick={() => {
+          setSelectedIndex(index);
+          onSelectNavbarItem(index);
+        }}>
+        {item}</li>))}
+  </ul>
+      
+     :
+     <Login onLoginSubmit={() => { 
+      setLoggedIn(true);
+      setShowAllDocuments(true);
+     }}/>
+
+    }
 
       {
         showAllDocuments ?
@@ -88,7 +101,6 @@ function App() {
           <EditDocview data={selectedItem} loading={loading}></EditDocview> :
           <p></p>
       }
-
     </>
   )
 }
