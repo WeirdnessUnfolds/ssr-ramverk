@@ -44,6 +44,7 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
 
         let docInfo = {
             _id: data._id,
+            title: data.title,
             content: value
         };
 

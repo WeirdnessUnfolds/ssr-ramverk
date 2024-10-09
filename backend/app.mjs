@@ -13,6 +13,7 @@ import base from './routes/baseroutes.mjs';
 import docroutes from './routes/docroutes.mjs';
 import { Server } from "socket.io";
 import { createServer } from 'http';
+import dbhandler from './docs-new.mjs';
 
 const app = express();
 
@@ -39,8 +40,11 @@ io.on('connection', function (socket) {
         io.in(data["_id"]).emit("content", data);
 
         clearTimeout(timeout);
-        timeout = setTimeout(function () {
+        timeout = setTimeout(async function () {
             console.log("spara data");
+
+            await dbhandler.updateDocument(data["_id"], data["title"], data["content"]);
+
         }, 2000);
     });
 
@@ -52,14 +56,14 @@ app.use(cors({
 }));
 app.use(express.static(path.join(process.cwd(), "public")));
 
-// // don't show the log when it is test
-// if (process.env.NODE_ENV !== 'test') {
-//     // use morgan to log at command line
-//     app.use(morgan('combined')); // 'combined' outputs the Apache style LOGs
-// }
+// don't show the log when it is test
+if (process.env.NODE_ENV !== 'test') {
+    // use morgan to log at command line
+    app.use(morgan('combined')); // 'combined' outputs the Apache style LOGs
+}
 
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 
 app.use('/all', base);
