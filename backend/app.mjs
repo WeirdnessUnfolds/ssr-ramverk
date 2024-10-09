@@ -31,10 +31,12 @@ let timeout;
 
 io.on('connection', function (socket) {
     console.log(socket.id);
-    socket.on("content", function (data) {
-        console.log(data);
 
-        io.emit("content", data);
+    socket.on("content", function (data) {
+
+        socket.join(data["_id"]);
+        // io.emit("content", data);
+        io.in(data["_id"]).emit("content", data);
 
         clearTimeout(timeout);
         timeout = setTimeout(function () {
@@ -42,12 +44,6 @@ io.on('connection', function (socket) {
         }, 2000);
     });
 
-});
-
-io.on('connection', function (socket) {
-    socket.on('create', function (room) {
-        socket.join(room);
-    });
 });
 
 

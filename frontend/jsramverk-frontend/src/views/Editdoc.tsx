@@ -21,7 +21,7 @@ else {
 
 const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
     const [alertVisible, setAlertVisibility] = useState(false);
-    const [title, setTitle] = useState(data.title);
+    // const [title, setTitle] = useState(data.title);
     const [content, setContent] = useState(data.content);
 
     const socket = useRef(io())
@@ -29,8 +29,9 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
     useEffect(() => {
         socket.current = io(url);
 
-        socket.current.on("content", (data) => {
-            setContent(data);
+        socket.current.on("content", (docInfo) => {
+
+            setContent(docInfo["content"]);
         });
 
         return () => {
@@ -41,7 +42,12 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
     function handleContentChange(e: any) {
         const value = e.target.value;
 
-        socket.current.emit("content", value);
+        let docInfo = {
+            _id: data._id,
+            content: value
+        };
+
+        socket.current.emit("content", docInfo);
     }
 
     const handleClick = async () => {
@@ -59,6 +65,9 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
                 console.log(error);
             });
     }
+
+
+
     return (
 
         loading ?
