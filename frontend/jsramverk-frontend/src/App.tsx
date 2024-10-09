@@ -5,28 +5,33 @@ import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 config.autoAddCss = false
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHouse, faFileCirclePlus } from '@fortawesome/free-solid-svg-icons'
+import { faHouse, faFileCirclePlus, faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 import ShowAll, { Item } from './views/ShowAll'
 import EditDocview from "./views/Editdoc"
 import Createdoc from './views/Createdoc'
 import Login from './views/Login'
+import Signup from './views/Signup'
 import { url } from './helpers/url'
 function App() {
   // Creates and sets the navbar items, default is no choice
   const [selectedIndex, setSelectedIndex] = useState(-1);
-  const navItems = [<FontAwesomeIcon icon={faHouse} />, <FontAwesomeIcon icon={faFileCirclePlus} />];
-  // sets the ShowAllDocuments view
-  const [showAllDocuments, setShowAllDocuments] = useState(false)
+  const navItems = [<FontAwesomeIcon icon={faHouse} size="lg" />, <FontAwesomeIcon icon={faFileCirclePlus} size="lg" />, <FontAwesomeIcon icon={faRightFromBracket} size="lg" />];
+  // sets the ShowAllDocuments view, depends on if the user is logged in or not.
+  const [showAllDocuments, setShowAllDocuments] = useState(localStorage.getItem('loggedIn') === 'true');
   // sets the crateDoc view
   const [showCreateDoc, setShowCreateDoc] = useState(false)
   // Logged in is false from the start.
-  const [loggedIn, setLoggedIn] = useState(false)
+  const [loggedIn, setLoggedIn] = useState(localStorage.getItem('loggedIn') === 'true');
+
+
+
   // Sets all the documents as items from the result from the database
   const [items, setItems] = useState<Item[]>([])
   // Sets The selected document
   const [selectedItem, setSelectedItem] = useState<Item | null>(null)
   // Sets the loading screen when the data is fetched
   const [loading, setLoading] = useState(true)
+  const [showSignup, setshowSignup] = useState(false)
   // Fetches all the documents from the database and sets them as items
   useEffect(() => {
     // For proper cancelling
@@ -50,6 +55,11 @@ function App() {
         setShowCreateDoc(true);
         setSelectedItem(null);
         break;
+      case 2:
+        localStorage.removeItem('loggedIn');
+        setLoggedIn(false);
+        setShowAllDocuments(false);
+        setshowSignup(false);
     }
   }
 
@@ -61,12 +71,14 @@ function App() {
     setSelectedIndex(-1);
   }
 
-
   return (
     <>
 
-    { 
+    {
+    (!loggedIn && showSignup) ?
+    <Signup onSignupSubmit={() => setshowSignup(false)} /> :
     loggedIn ?
+    
     <ul className="nav-list">
     {navItems.map((item, index) => (
       <li key={index}
@@ -77,30 +89,32 @@ function App() {
         }}>
         {item}</li>))}
   </ul>
+  
+  
       
      :
      <Login onLoginSubmit={() => { 
+      localStorage.setItem('loggedIn', 'true')
       setLoggedIn(true);
       setShowAllDocuments(true);
-     }}/>
+     }} onSignup={() => setshowSignup(true)}/>
 
     }
-
-      {
+    {
         showAllDocuments ?
-          <ShowAll data={items} loading={loading} onSelected={(item) => onUpdateDoc(item)}></ShowAll> :
-          <p></p>
-      }
-      {
+            <ShowAll data={items} loading={loading} onSelected={(item) => onUpdateDoc(item)}></ShowAll> :
+             <p></p>
+    }
+    {
         showCreateDoc ?
-          <Createdoc /> :
-          <p></p>
-      }
-      {
+            <Createdoc /> :
+            <p></p>
+    }
+    {
         selectedItem ?
-          <EditDocview data={selectedItem} loading={loading}></EditDocview> :
-          <p></p>
-      }
+            <EditDocview data={selectedItem} loading={loading}></EditDocview> :
+            <p></p>
+    }
     </>
   )
 }

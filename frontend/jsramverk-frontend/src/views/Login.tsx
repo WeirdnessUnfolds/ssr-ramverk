@@ -1,13 +1,16 @@
-// LoginScreen.tsx
 import React from 'react';
 
 interface LoginProps {
     onLoginSubmit: () => void;
+    onSignup: () => void;
 }
-function Login({ onLoginSubmit }: LoginProps) {
+function Login({ onLoginSubmit, onSignup }: LoginProps) {
    const handleLoginSubmit = () => {
        onLoginSubmit();
    };
+   const handleSignupPress = () => {
+     onSignup();
+   }
   return (
     <div className='logincontainer'>
       <h1>File Editor - Login</h1>
@@ -17,7 +20,7 @@ function Login({ onLoginSubmit }: LoginProps) {
         <input type="password" placeholder="Password" />
         <button type="submit" onClick={handleLoginSubmit}>Login</button>
       </form>
-      <button type="button">Register</button>
+      <button type="button" onClick={handleSignupPress}>Register</button>
     </div>
   );
 }

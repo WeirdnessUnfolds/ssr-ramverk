@@ -151,3 +151,16 @@
   border-radius: 25px;
   padding: 2em;
 }
+
+.nav-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%; /* assuming the height of the navbar is set */
+}
+.nav-list-item-active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%; /* assuming the height of the navbar is set */
+}
