@@ -71,7 +71,7 @@ app.use((req, res, next) => {
     next(error);
 });
 httpServer.listen(port, () => {
-    console.log(`Example app listening on port ${port}`);
+    console.log(`Example socket-server listening on port ${port}`);
 });
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);

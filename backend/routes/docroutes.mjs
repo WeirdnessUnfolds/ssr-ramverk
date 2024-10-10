@@ -1,7 +1,6 @@
 import express from 'express';
 import dbhandler from '../docs-new.mjs';
 var router = express.Router();
-import { bcrypt } from 'bcrypt';
 
 router.get("/createdoc", async (req, res) => {
     const data = {
@@ -50,7 +49,7 @@ router.post("/update/:id", async (req, res) => {
         .catch(err => console.log(err));
 });
 
-router.post("/login", async (req, res) => {
+router.post("/signup", async (req, res) => {
     const data = req.body;
 
     console.log("Användarnamn:", data.username);
