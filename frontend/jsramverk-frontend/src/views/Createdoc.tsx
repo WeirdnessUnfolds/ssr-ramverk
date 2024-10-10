@@ -3,14 +3,7 @@ import { faFloppyDisk } from '@fortawesome/free-solid-svg-icons'
 import Alert from './Alert'
 import { useState } from 'react'
 import axios from 'axios'
-
-let url = "";
-if (process.env.NODE_ENV === 'integration-test') {
-    url = "http://localhost:3539/createdoc"
-} else {
-    url = "https://jsramverk-eafmccbgceegf9bt.swedencentral-01.azurewebsites.net/createdoc"
-}
-
+import { url } from '../helpers/url'
 // Ordna en function som skapar ett nytt dokument till backend.
 
 // Creates a new document from a form

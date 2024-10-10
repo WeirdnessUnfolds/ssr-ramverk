@@ -3,19 +3,11 @@ import Alert from './Alert'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFloppyDisk } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
+import { url } from '../helpers/url'
+
 import { useState, useEffect, useRef } from 'react'
 import { io } from "socket.io-client"
 
-let url = ""
-
-if (process.env.NODE_ENV === 'integration-test') {
-    url = "http://localhost:3539/update/"
-} else if (process.env.NODE_ENV === 'dev') {
-    url = "http://localhost:3539"
-}
-else {
-    url = "https://jsramverk-eafmccbgceegf9bt.swedencentral-01.azurewebsites.net/update/"
-}
 
 // Updates the selected document
 
@@ -58,8 +50,7 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-        }).then(function (res) {
-            console.log(res);
+        }).then(function () {
             setAlertVisibility(true);
         })
             .catch(function (error) {
