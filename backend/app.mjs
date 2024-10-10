@@ -34,20 +34,15 @@ io.on('connection', function (socket) {
     console.log(socket.id);
 
     socket.on("content", function (data) {
-
         socket.join(data["_id"]);
         // io.emit("content", data);
         io.in(data["_id"]).emit("content", data);
-
         clearTimeout(timeout);
         timeout = setTimeout(async function () {
             console.log("spara data");
-
             await dbhandler.updateDocument(data["_id"], data["title"], data["content"]);
-
         }, 2000);
     });
-
 });
 
 
