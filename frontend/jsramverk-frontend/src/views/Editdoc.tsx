@@ -5,7 +5,7 @@ import { faFloppyDisk } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
 import { url } from '../helpers/url'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, ChangeEvent } from 'react'
 import { io } from "socket.io-client"
 
 
@@ -31,10 +31,10 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
         }
     }, []);
 
-    function handleContentChange(e: any) {
+    function handleContentChange(e: ChangeEvent<HTMLTextAreaElement>) {
         const value = e.target.value;
 
-        let docInfo = {
+        const docInfo = {
             _id: data._id,
             title: data.title,
             content: value
