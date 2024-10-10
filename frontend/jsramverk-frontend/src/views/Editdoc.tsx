@@ -1,5 +1,7 @@
 import { Item } from './ShowAll'
-import { url } from '../helpers/url'
+
+// import axios from 'axios'
+import url from '../helpers/url.tsx'
 
 import { useState, useEffect, useRef, ChangeEvent } from 'react'
 import { io } from "socket.io-client"
@@ -8,6 +10,7 @@ import { io } from "socket.io-client"
 // Updates the selected document
 
 const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
+
     // const [title, setTitle] = useState(data.title);
     const [content, setContent] = useState(data.content);
 
@@ -38,6 +41,20 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
         socket.current.emit("content", docInfo);
     }
 
+    // const handleClick = async () => {
+
+    //     await axios.post(`${url}/update/${data._id}`,
+    //         document.querySelector('#docForm'), {
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //     }).then(function () {
+    //         setAlertVisibility(true);
+    //     })
+    //         .catch(function (error) {
+    //             console.log(error);
+    //         });
+    // }
 
 
 
@@ -49,11 +66,13 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
             </div>
             :
             <div>
+
                 <form id="docForm" className="docForm">
                     <label>Titel</label>
                     <input role="titletext" name="title" type="text" defaultValue={data.title}></input>
                     <label>Innehåll</label>
                     <textarea name="content" value={content} onChange={handleContentChange}></textarea>
+
                 </form>
             </div>
 

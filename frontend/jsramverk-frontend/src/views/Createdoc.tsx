@@ -3,7 +3,7 @@ import { faFloppyDisk } from '@fortawesome/free-solid-svg-icons'
 import Alert from './Alert'
 import { useState } from 'react'
 import axios from 'axios'
-import { url } from '../helpers/url'
+import url from '../helpers/url.tsx'
 // Ordna en function som skapar ett nytt dokument till backend.
 
 // Creates a new document from a form

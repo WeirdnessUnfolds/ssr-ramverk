@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFilePen, faTrash } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
-import { url } from '../helpers/url'
+import url from '../helpers/url.tsx'
 // Shows all the documents currently in the database with options for updating and deleting
 
 export interface Item {
