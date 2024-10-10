@@ -1,6 +1,6 @@
 
 import bcrypt  from 'bcryptjs';
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import url from '../helpers/url.tsx';
 
