@@ -23,7 +23,7 @@ const ShowAll = ({ data, loading, onSelected }: { data: Item[]; loading: boolean
 
   const handleDelete = async (id: string) => {
 
-    await axios.post(`${url}${id}`, {
+    await axios.post(`${url}/delete/${id}`, {
     }).then(function (res) {
       console.log(res);
       window.location.reload();
