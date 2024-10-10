@@ -50,6 +50,7 @@ function App() {
         setShowAllDocuments(true);
         setShowCreateDoc(false);
         setSelectedItem(null);
+        window.location.reload();
         break
       case 1:
         setShowAllDocuments(false);
