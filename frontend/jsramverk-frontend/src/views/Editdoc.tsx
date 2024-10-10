@@ -7,9 +7,11 @@ import { useState, useEffect, useRef, ChangeEvent } from 'react'
 import { io } from "socket.io-client"
 
 
+
 // Updates the selected document
 
 const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
+
 
     // const [title, setTitle] = useState(data.title);
     const [content, setContent] = useState(data.content);
@@ -39,6 +41,16 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
         };
 
         socket.current.emit("content", docInfo);
+    }
+
+    function handleComment(e: any) {
+        const selection = e.target.value.substring(
+            e.target.selectionStart,
+            e.target.selectionEnd
+        );
+        const position = e.target.selectionEnd;
+        console.log(selection);
+        console.log(position);
     }
 
     // const handleClick = async () => {
@@ -71,7 +83,7 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
                     <label>Titel</label>
                     <input role="titletext" name="title" type="text" defaultValue={data.title}></input>
                     <label>Innehåll</label>
-                    <textarea name="content" value={content} onChange={handleContentChange}></textarea>
+                    <textarea name="content" value={content} onChange={handleContentChange} onSelect={handleComment}></textarea>
 
                 </form>
             </div>
