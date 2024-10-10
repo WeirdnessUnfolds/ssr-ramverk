@@ -1,11 +1,14 @@
 import React from 'react';
+import { bcrypt } from 'bcryptjs';
+import { useState, ChangeEvent } from 'react';
 
-interface SignupProps {
-    onSignupSubmit: () => void;
-}
-function Signup({ onSignupSubmit }: SignupProps) {
-   const handleSignupSubmit = () => {
-       onSignupSubmit();
+
+
+function Signup() {
+   const [password, setPassword] = useState('');
+   const handleSignupSubmit = (e : ChangeEvent<HTMLFormElement> ) => {
+       const saltrounds = 12;
+       console.log(password);
    };
   return (
     <div className='logincontainer'>
@@ -13,8 +16,8 @@ function Signup({ onSignupSubmit }: SignupProps) {
       <form className='login'>
         <input type="text" placeholder="Username" />
         <input type="email" placeholder="Email" />
-        <input type="password" placeholder="Password" />
-        <input type="password" placeholder="Confirm Password" />
+        <input type="password" role='password' value={password} onChange={(e) => setPassword(e.target.value)} />
+        <input type="password" role='confirmpassword' placeholder="Confirm Password" />
         <button type="submit" onClick={handleSignupSubmit}>Sign up</button>
       </form>
     </div>
