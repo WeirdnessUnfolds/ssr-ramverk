@@ -11,7 +11,7 @@ import { url } from '../helpers/url'
 const Createdoc = () => {
     const [alertVisible, setAlertVisibility] = useState(false);
     const handleClick = async () => {
-        await axios.post(url,
+        await axios.post(`${url}/createdoc`,
             document.querySelector('#docForm'), {
             headers: {
                 'Content-Type': 'application/json'

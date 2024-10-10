@@ -36,7 +36,7 @@ function App() {
   // Fetches all the documents from the database and sets them as items
   useEffect(() => {
     // For proper cancelling
-    axios.get(url).then((res) => {
+    axios.get(`${url}/all`).then((res) => {
       setItems(res.data);
       setLoading(false);
     });
@@ -75,47 +75,47 @@ function App() {
   return (
     <>
 
-    {
-    (!loggedIn && showSignup) ?
-    <Signup onSignupSubmit={() => setshowSignup(false)} /> :
-    loggedIn ?
-    
-    <ul className="nav-list">
-    {navItems.map((item, index) => (
-      <li key={index}
-        className={selectedIndex === index ? 'nav-list-item-active' : 'nav-list-item'}
-        onClick={() => {
-          setSelectedIndex(index);
-          onSelectNavbarItem(index);
-        }}>
-        {item}</li>))}
-  </ul>
-  
-  
-      
-     :
-     <Login onLoginSubmit={() => { 
-      localStorage.setItem('loggedIn', 'true')
-      setLoggedIn(true);
-      setShowAllDocuments(true);
-     }} onSignup={() => setshowSignup(true)}/>
+      {
+        (!loggedIn && showSignup) ?
+          <Signup onSignupSubmit={() => setshowSignup(false)} /> :
+          loggedIn ?
 
-    }
-    {
+            <ul className="nav-list">
+              {navItems.map((item, index) => (
+                <li key={index}
+                  className={selectedIndex === index ? 'nav-list-item-active' : 'nav-list-item'}
+                  onClick={() => {
+                    setSelectedIndex(index);
+                    onSelectNavbarItem(index);
+                  }}>
+                  {item}</li>))}
+            </ul>
+
+
+
+            :
+            <Login onLoginSubmit={() => {
+              localStorage.setItem('loggedIn', 'true')
+              setLoggedIn(true);
+              setShowAllDocuments(true);
+            }} onSignup={() => setshowSignup(true)} />
+
+      }
+      {
         showAllDocuments ?
-            <ShowAll data={items} loading={loading} onSelected={(item) => onUpdateDoc(item)}></ShowAll> :
-             <p></p>
-    }
-    {
+          <ShowAll data={items} loading={loading} onSelected={(item) => onUpdateDoc(item)}></ShowAll> :
+          <p></p>
+      }
+      {
         showCreateDoc ?
-            <Createdoc /> :
-            <p></p>
-    }
-    {
+          <Createdoc /> :
+          <p></p>
+      }
+      {
         selectedItem ?
-            <EditDocview data={selectedItem} loading={loading}></EditDocview> :
-            <p></p>
-    }
+          <EditDocview data={selectedItem} loading={loading}></EditDocview> :
+          <p></p>
+      }
     </>
   )
 }

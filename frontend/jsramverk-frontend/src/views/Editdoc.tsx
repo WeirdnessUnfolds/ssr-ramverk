@@ -45,7 +45,7 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
 
     const handleClick = async () => {
 
-        await axios.post(`${url}${data._id}`,
+        await axios.post(`${url}/update/${data._id}`,
             document.querySelector('#docForm'), {
             headers: {
                 'Content-Type': 'application/json'
