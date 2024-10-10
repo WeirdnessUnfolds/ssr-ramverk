@@ -85,6 +85,25 @@ const dbhandler = {
     },
 
     /**
+     * Adds a new user to the users collection
+     * @param {string} username - The username of the user
+     * @param {string} email - The email of the user
+     * @param {string} password - The password of the user
+     * @returns {Promise<Object>} - The result of the insert operation
+     */
+    sendUser: async function saveUserDetails(username, email, password) {
+        const client = await mongo.connect(dsn);
+        const db = await client.db();
+        const col = await db.collection("users");
+        const nameentry = { username: username, email: email, password: password };
+        const res = await col.insertOne(nameentry);
+
+        await client.close();
+
+        return res;
+    },
+
+    /**
      * Finds a document in the database by its ObjectId, and updates it or undefined
      * @param {string} id
      * @returns {Promise<Object[]> | undefined>}
