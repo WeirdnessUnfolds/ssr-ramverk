@@ -78,7 +78,7 @@ function App() {
 
       {
         (!loggedIn && showSignup) ?
-          <Signup onSignupSubmit={() => setshowSignup(false)} /> :
+          <Signup SignupSubmit={() => setshowSignup(false)} /> :
           loggedIn ?
 
             <ul className="nav-list">
@@ -95,7 +95,7 @@ function App() {
 
 
             :
-            <Login onLoginSubmit={() => {
+            <Login onLogin={() => {
               localStorage.setItem('loggedIn', 'true')
               setLoggedIn(true);
               setShowAllDocuments(true);

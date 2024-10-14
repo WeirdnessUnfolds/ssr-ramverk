@@ -3,10 +3,12 @@ import bcrypt  from 'bcryptjs';
 import React, { useState } from 'react';
 import axios from 'axios';
 import url from '../helpers/url.tsx';
+interface SignupProps {
+  SignupSubmit: () => void;
+}
 
 
-
-function Signup() {
+function Signup( {SignupSubmit}: SignupProps) {
    const [password, setPassword] = useState('');
    const [email, setEmail] = useState('');
    const [username, setUsername] = useState('');
@@ -22,8 +24,8 @@ function Signup() {
                email: email,
                password: hash     
            }).then(function () {
-            console.log("Användare skapad");
-            window.location.reload();
+            SignupSubmit();
+            
         })
             .catch(function (err) {
                 console.log(err);

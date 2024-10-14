@@ -3,10 +3,10 @@ import axios from 'axios';
 import url from '../helpers/url.tsx';
 import { useState } from 'react';
 interface LoginProps {
-
+    onLogin: () => void;
     onSignup: () => void;
 }
-function Login({ onSignup }: LoginProps) {
+function Login({ onLogin, onSignup }: LoginProps) {
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
   const handleLoginSubmit = async (e : React.FormEvent | React.MouseEvent ) => {
@@ -18,7 +18,12 @@ function Login({ onSignup }: LoginProps) {
         username: username,
         password: password
     }).then (function(res) {
-        console.log(res);
+        if (res.data === "Match") {
+            onLogin();
+        }
+        else {
+            alert("Wrong username or password");
+        }
     }).catch(function (err) {
             console.log(err);
         });
