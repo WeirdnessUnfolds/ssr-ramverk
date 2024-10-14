@@ -91,7 +91,7 @@ const dbhandler = {
      * @param {string} password - The password of the user
      * @returns {Promise<Object>} - The result of the insert operation
      */
-    sendUser: async function saveUserDetails(username, email, password) {
+    sendUser: async function sendUser(username, email, password) {
         const client = await mongo.connect(dsn);
         const db = await client.db();
         const col = await db.collection("users");
