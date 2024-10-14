@@ -60,6 +60,15 @@ router.post("/signup", async (req, res) => {
     console.log("Email:", data.email);
 });
 
+router.post("/login", async (req, res) => {
+    const data = req.body;
+
+    dbhandler.matchPass(data.username, data.password).then(result => res.json(result))
+        .catch(err => console.log(err));
+
+    console.log(res);
+});
+
 
 
 export default router;
