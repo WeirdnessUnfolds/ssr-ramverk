@@ -10,6 +10,7 @@
     "eslint": "eslint .",
     "eslint-fix": "eslint . --fix",
     "pretest": "npm run buildtests",
+    "resetuserdb": "cd db && mongosh testdocs --eval 'db.users.deleteMany({})'",
     "buildtests": "cd db && mongosh testdocs --eval 'db.dropDatabase()' &&  mongoimport --db testdocs -c testcollection --jsonArray testdb.json"
   },
   "keywords": [],
