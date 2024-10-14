@@ -1,6 +1,6 @@
 "use strict";
 import 'dotenv/config';
-
+import bcrypt from 'bcrypt';
 import { MongoClient, ObjectId } from 'mongodb';
 const mongo = MongoClient;
 let dsn = "";
@@ -102,6 +102,26 @@ const dbhandler = {
 
         return res;
     },
+
+    matchPass: async function matchPass(username, inputpassword) {
+        const client = await mongo.connect(dsn);
+        const db = await client.db()
+        const col = await db.collection("users");
+        col.findOne({ username: username, password: hashedpassword }, (err, user) => {
+            if (err) {
+                return err;
+            } else if (!user) {
+                return "No user exists with this username.";
+            } else {
+                const match = bcrypt.compareSync(inputpassword, user.password);
+                if (match) {
+                    return "Match";
+                } else {
+                    return "Wrong password.";
+                }
+            }
+        }) 
+    }
 
     /**
      * Finds a document in the database by its ObjectId, and updates it or undefined
