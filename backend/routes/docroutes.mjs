@@ -52,11 +52,12 @@ router.post("/update/:id", async (req, res) => {
 router.post("/signup", async (req, res) => {
     const data = req.body;
 
+
+    dbhandler.sendUser(data.username, data.email, data.password).then(result => res.json(result))
+        .catch(err => console.log(err));
     console.log("Användarnamn:", data.username);
     console.log("Hashat lösenord:", data.password);
     console.log("Email:", data.email);
-    dbhandler.sendUser(data.username, data.email, data.password).then(result => res.json(result))
-        .catch(err => console.log(err));
 });
 
 

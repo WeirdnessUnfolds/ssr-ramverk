@@ -1,13 +1,16 @@
 import React from 'react';
 
 interface LoginProps {
-    onLoginSubmit: () => void;
+
     onSignup: () => void;
 }
-function Login({ onLoginSubmit, onSignup }: LoginProps) {
-   const handleLoginSubmit = () => {
-       onLoginSubmit();
-   };
+function Login({ onSignup }: LoginProps) {
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
+  const handleLoginSubmit = async (e : React.FormEvent | React.MouseEvent ) => {
+    e.preventDefault();
+   const hash = await matchPass(password)
    const handleSignupPress = () => {
      onSignup();
    }
