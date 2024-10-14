@@ -65,8 +65,6 @@ router.post("/login", async (req, res) => {
 
     dbhandler.matchPass(data.username, data.password).then(result => res.json(result))
         .catch(err => console.log(err));
-
-    console.log(res);
 });
 
 

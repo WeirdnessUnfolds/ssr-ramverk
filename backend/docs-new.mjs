@@ -107,22 +107,28 @@ const dbhandler = {
         const client = await mongo.connect(dsn);
         const db = await client.db();
         const col = await db.collection("users");
+        let resstring = "";
 
-        col.findOne({ username: username }, (err, user) => {
-            if (err) {
-                return err;
-            } else if (!user) {
-                return "No user exists with this username.";
+        try {
+            const user = await col.findOne({ username: username });
+
+            if (!user) {
+                resstring = "No user exists with this username.";
             } else {
-                const match = bcrypt.compareSync(inputpassword, user.password);
+                const match = await bcrypt.compare(inputpassword, user.password);
 
                 if (match) {
-                    return "Match";
+                    resstring = "Match";
                 } else {
-                    return "Wrong password.";
+                    resstring = "Wrong password.";
                 }
             }
-        });
+        } catch (err) {
+            console.error(err);
+            resstring = err.message;
+        }
+        await client.close();
+        return resstring;
     },
 
     /**
