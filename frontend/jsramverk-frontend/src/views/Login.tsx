@@ -8,7 +8,6 @@ interface LoginProps {
 }
 function Login({ onSignup }: LoginProps) {
   const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const handleLoginSubmit = async (e : React.FormEvent | React.MouseEvent ) => {
     e.preventDefault();
@@ -17,7 +16,6 @@ function Login({ onSignup }: LoginProps) {
             'Content-Type': 'application/json'
         },
         username: username,
-        email: email,
         password: password
     }).then (function(res) {
         console.log(res);
@@ -33,7 +31,6 @@ function Login({ onSignup }: LoginProps) {
       <h1>File Editor - Login</h1>
       <form className='login'>
         <input type="text" placeholder="Username" onChange={(e) => setUsername(e.target.value)}/>
-        <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
         <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
         <button type="submit" onClick={handleLoginSubmit}>Login</button>
       </form>
