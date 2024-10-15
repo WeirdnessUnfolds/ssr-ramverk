@@ -1,7 +1,9 @@
 import { Item } from './ShowAll'
 
 // import axios from 'axios'
+
 import url from '../helpers/url.tsx'
+import Popup from './Popup.tsx'
 
 import { useState, useEffect, useRef, ChangeEvent } from 'react'
 import { io } from "socket.io-client"
@@ -15,6 +17,8 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
 
     // const [title, setTitle] = useState(data.title);
     const [content, setContent] = useState(data.content);
+    const [showPopup, setShowPopup] = useState(false);
+    const [popupContent, setPopupContent] = useState<e | null>(null)
 
     const socket = useRef(io())
 
@@ -49,8 +53,17 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
             e.target.selectionEnd
         );
         const position = e.target.selectionEnd;
+        setShowPopup(true);
+        setPopupContent(e);
+
         console.log(selection);
         console.log(position);
+    }
+
+    function sendComment() {
+        console.log("send comment")
+        const text = document.querySelector(".comment")?.innerHTML
+        console.log(text)
     }
 
     // const handleClick = async () => {
@@ -78,7 +91,7 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
             </div>
             :
             <div>
-
+                {showPopup && <Popup data={popupContent} onClose={sendComment}></Popup>}
                 <form id="docForm" className="docForm">
                     <label>Titel</label>
                     <input role="titletext" name="title" type="text" defaultValue={data.title}></input>
