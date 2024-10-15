@@ -1,5 +1,6 @@
 import express from 'express';
 import dbhandler from '../docs-new.mjs';
+const jwt = require('jsonwebtoken');
 var router = express.Router();
 
 router.get("/createdoc", async (req, res) => {
