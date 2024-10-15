@@ -10,6 +10,7 @@
     "eslint": "eslint .",
     "eslint-fix": "eslint . --fix",
     "pretest": "npm run buildtests",
+    "resetuserdb": "cd db && mongosh testdocs --eval 'db.users.deleteMany({})'",
     "buildtests": "cd db && mongosh testdocs --eval 'db.dropDatabase()' &&  mongoimport --db testdocs -c testcollection --jsonArray testdb.json"
   },
   "keywords": [],
@@ -17,6 +18,7 @@
   "license": "ISC",
   "dependencies": {
     "@istanbuljs/esm-loader-hook": "^0.2.0",
+    "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "chai": "^5.1.1",
     "cors": "^2.8.5",
@@ -36,6 +38,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3.1.0",
     "@eslint/js": "^9.10.0",
+    "@types/bcryptjs": "^2.4.6",
     "babel-plugin-istanbul": "^7.0.0",
     "cross-env": "^7.0.3",
     "eslint": "^9.10.0",

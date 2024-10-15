@@ -1,6 +1,6 @@
 "use strict";
 import 'dotenv/config';
-
+import bcrypt from 'bcrypt';
 import { MongoClient, ObjectId } from 'mongodb';
 const mongo = MongoClient;
 let dsn = "";
@@ -91,7 +91,7 @@ const dbhandler = {
      * @param {string} password - The password of the user
      * @returns {Promise<Object>} - The result of the insert operation
      */
-    sendUser: async function saveUserDetails(username, email, password) {
+    sendUser: async function sendUser(username, email, password) {
         const client = await mongo.connect(dsn);
         const db = await client.db();
         const col = await db.collection("users");
@@ -101,6 +101,34 @@ const dbhandler = {
         await client.close();
 
         return res;
+    },
+
+    matchPass: async function matchPass(username, inputpassword) {
+        const client = await mongo.connect(dsn);
+        const db = await client.db();
+        const col = await db.collection("users");
+        let resstring = "";
+
+        try {
+            const user = await col.findOne({ username: username });
+
+            if (!user) {
+                resstring = "No user exists with this username.";
+            } else {
+                const match = await bcrypt.compare(inputpassword, user.password);
+
+                if (match) {
+                    resstring = "Match";
+                } else {
+                    resstring = "Wrong password.";
+                }
+            }
+        } catch (err) {
+            console.error(err);
+            resstring = err.message;
+        }
+        await client.close();
+        return resstring;
     },
 
     /**
