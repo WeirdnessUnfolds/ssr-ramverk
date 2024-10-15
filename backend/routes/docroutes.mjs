@@ -36,7 +36,8 @@ router.put("/:id", (req, res, next) => checkToken(req, res, next), async (req, r
     res.status(204).send();
 });
 
-router.post('/delete/:id', (req, res, next) => checkToken(req, res, next),  async (req, res) => {
+router.delete('/delete/:id', (req, res, next) => checkToken(req, res, next),  async (req, res) => {
+    console.log(req.headers['x-access-token']);
     dbhandler.deleteWithId(req.params.id).then(result => res.json(result))
         .catch(err => console.log(err));
 });
@@ -51,7 +52,7 @@ router.post("/update/:id", (req, res, next) => checkToken(req, res, next), async
         .catch(err => console.log(err));
 });
 
-router.post("/signup", (req, res, next) => checkToken(req, res, next), async (req, res) => {
+router.post("/signup", async (req, res) => {
     const data = req.body;
 
 
@@ -62,7 +63,7 @@ router.post("/signup", (req, res, next) => checkToken(req, res, next), async (re
     console.log("Email:", data.email);
 });
 
-router.post("/login", (req, res, next) => checkToken(req, res, next), async (req, res) => {
+router.post("/login", async (req, res) => {
     const data = req.body;
 
     dbhandler.matchPass(data.username, data.password).then(result => res.json(result))
@@ -70,9 +71,9 @@ router.post("/login", (req, res, next) => checkToken(req, res, next), async (req
 });
 
 router.post("/gettoken", async (req, res) => {
-    const mail = req.body.email;
+    const username = req.body.username;
     const secret = process.env.JWT_SECRET;
-    const token = jwt.sign({ mail }, secret, { expiresIn: '1h' });
+    const token = jwt.sign({ username }, secret, { expiresIn: '1h' });
 
     res.send(token);
 });

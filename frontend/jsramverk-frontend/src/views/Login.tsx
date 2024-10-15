@@ -6,27 +6,37 @@ interface LoginProps {
     onLogin: () => void;
     onSignup: () => void;
 }
-function Login({ onLogin, onSignup }: LoginProps) {
+function Login({ onLogin, onSignup}: LoginProps) {
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
   const handleLoginSubmit = async (e : React.FormEvent | React.MouseEvent ) => {
     e.preventDefault();
-    axios.post(url + '/login', {
+    try {
+      const response = await axios.post(url + '/login', {
         headers: {
-            'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         username: username,
         password: password
-    }).then (function(res) {
-        if (res.data === "Match") {
-            onLogin();
+      });
+  
+      if (response.data === "Match") {
+        try {
+          const tokenResponse = await axios.post(url + '/gettoken', {
+            username: username
+          });
+          const token = tokenResponse.data;
+          localStorage.setItem('token', token);
+          onLogin(); // Call the original onLogin function
+        } catch (error) {
+          console.log(error);
         }
-        else {
-            alert("Wrong username or password");
-        }
-    }).catch(function (err) {
-            console.log(err);
-        });
+      } else {
+        alert("Wrong username or password");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
    const handleSignupPress = () => {
      onSignup();

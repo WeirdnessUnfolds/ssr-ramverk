@@ -25,7 +25,6 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(localStorage.getItem('loggedIn') === 'true');
 
 
-
   // Sets all the documents as items from the result from the database
   const [items, setItems] = useState<Item[]>([])
   // Sets The selected document
@@ -36,7 +35,12 @@ function App() {
   // Fetches all the documents from the database and sets them as items
   useEffect(() => {
     // For proper cancelling
-    axios.get(`${url}/all`).then((res) => {
+    axios.get(`${url}/all`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': localStorage.getItem('token')
+      },
+    }).then((res) => {
       setItems(res.data);
       setLoading(false);
     });
@@ -59,6 +63,7 @@ function App() {
         break;
       case 2:
         localStorage.removeItem('loggedIn');
+        localStorage.removeItem('token');
         setLoggedIn(false);
         setShowAllDocuments(false);
         setshowSignup(false);
