@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import checkToken from './middleware/checkToken.mjs';
 var router = express.Router();
 
-router.get("/createdoc", async (req, res) => {
+router.get("/createdoc", (req, res, next) => checkToken(req, res, next), async (req, res) => {
     const data = {
         data: {
             info: "Here, a document will be created."
@@ -17,7 +17,7 @@ router.get("/createdoc", async (req, res) => {
 });
 
 
-router.post("/createdoc", async (req, res) => {
+router.post("/createdoc", (req, res, next) => checkToken(req, res, next), async (req, res) => {
     const data = req.body;
 
     console.log("Ny titel:", data.title);
@@ -27,21 +27,21 @@ router.post("/createdoc", async (req, res) => {
 });
 
 
-router.get('find/:id', async (req, res) => {
+router.get('find/:id', (req, res, next) => checkToken(req, res, next), async (req, res) => {
     dbhandler.findWithId(req.params.id).then(result => res.json(result))
         .catch(err => console.log(err));
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", (req, res, next) => checkToken(req, res, next), async (req, res) => {
     res.status(204).send();
 });
 
-router.post('/delete/:id', async (req, res) => {
+router.post('/delete/:id', (req, res, next) => checkToken(req, res, next),  async (req, res) => {
     dbhandler.deleteWithId(req.params.id).then(result => res.json(result))
         .catch(err => console.log(err));
 });
 
-router.post("/update/:id", async (req, res) => {
+router.post("/update/:id", (req, res, next) => checkToken(req, res, next), async (req, res) => {
     const data = req.body;
 
     console.log("Uppdaterad titel:", data.title);
@@ -51,7 +51,7 @@ router.post("/update/:id", async (req, res) => {
         .catch(err => console.log(err));
 });
 
-router.post("/signup", async (req, res) => {
+router.post("/signup", (req, res, next) => checkToken(req, res, next), async (req, res) => {
     const data = req.body;
 
 
@@ -62,7 +62,7 @@ router.post("/signup", async (req, res) => {
     console.log("Email:", data.email);
 });
 
-router.post("/login", async (req, res) => {
+router.post("/login", (req, res, next) => checkToken(req, res, next), async (req, res) => {
     const data = req.body;
 
     dbhandler.matchPass(data.username, data.password).then(result => res.json(result))
