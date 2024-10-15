@@ -1,6 +1,7 @@
 import express from 'express';
 import dbhandler from '../docs-new.mjs';
 import jwt from 'jsonwebtoken';
+import checkToken from './middleware/checkToken.mjs';
 var router = express.Router();
 
 router.get("/createdoc", async (req, res) => {
@@ -75,7 +76,5 @@ router.post("/gettoken", async (req, res) => {
 
     res.send(token);
 });
-
-
 
 export default router;
