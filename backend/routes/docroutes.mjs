@@ -1,6 +1,6 @@
 import express from 'express';
 import dbhandler from '../docs-new.mjs';
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
 var router = express.Router();
 
 router.get("/createdoc", async (req, res) => {
@@ -66,6 +66,14 @@ router.post("/login", async (req, res) => {
 
     dbhandler.matchPass(data.username, data.password).then(result => res.json(result))
         .catch(err => console.log(err));
+});
+
+router.post("/gettoken", async (req, res) => {
+    const mail = req.body.email;
+    const secret = process.env.JWT_SECRET;
+    const token = jwt.sign({ mail }, secret, { expiresIn: '1h' });
+
+    res.send(token);
 });
 
 
