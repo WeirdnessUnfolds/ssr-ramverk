@@ -56,11 +56,11 @@ const dbhandler = {
      * @param {string} content - The content of the document
      * @returns {Promise<Object>} - The result of the insert operation.
      */
-    addDocument: async function addDocument(title, content) {
+    addDocument: async function addDocument(title, content, shareusername) {
         const client = await mongo.connect(dsn);
         const db = await client.db();
         const col = await db.collection(collection);
-        const doc = { title: title, content: content };
+        const doc = { title: title, content: content, sharedWith: ["admin", shareusername] };
         const res = await col.insertOne(doc);
 
         await client.close();
