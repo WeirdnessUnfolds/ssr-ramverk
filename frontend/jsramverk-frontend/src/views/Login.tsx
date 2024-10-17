@@ -27,6 +27,7 @@ function Login({ onLogin, onSignup}: LoginProps) {
           });
           const token = tokenResponse.data;
           localStorage.setItem('token', token);
+          localStorage.setItem('username', username);
           onLogin(); // Call the original onLogin function
         } catch (error) {
           console.log(error);

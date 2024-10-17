@@ -8,6 +8,7 @@ export interface Item {
   _id: string
   title: string
   content: string
+  sharedWith: string[];
 
 }
 
