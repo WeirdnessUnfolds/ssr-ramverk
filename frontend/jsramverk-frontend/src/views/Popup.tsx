@@ -1,24 +1,20 @@
 
 interface Props {
-    onClose: () => void;
-    data: e
-
+    onComment: () => void;
+    line: String
 }
 
 
 
-const Popup = ({ data, onClose }: Props) => {
-
-    const selection = data.target.value.substring(
-        data.target.selectionStart,
-        data.target.selectionEnd
-    );
+const Popup = ({ line, onComment }: Props) => {
 
     return (
         <>
-            <div role="popup" className="popup">Vill du kommentera följande: <span className="comment">{selection}</span>
-                <button role="closebtn" type="button" className="closeBtn" onClick={onClose} >Kommentera</button>
-            </div>
+            <form>
+                <label>Kommentera på rad {line}</label>
+                <input id="comment" name="comment" type="text"></input>
+                <button role="closebtn" type="button" className="closeBtn" onClick={onComment}>Kommentera</button>
+            </form>
         </>
     )
 }
