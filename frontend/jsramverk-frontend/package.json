@@ -26,6 +26,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "reactjs-popup": "^2.0.6",
+    "slate-react": "^0.110.2",
     "socket.io-client": "^4.8.0",
     "user-event": "^4.0.0"
   },

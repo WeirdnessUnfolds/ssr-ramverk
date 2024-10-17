@@ -1,12 +1,28 @@
 import { Item } from './ShowAll'
 
+import { BaseEditor, Descendant, createEditor, Node } from 'slate'
+import { ReactEditor, Slate, Editable, withReact } from 'slate-react'
+
+type CustomElement = { type: 'paragraph'; children: CustomText[] }
+type CustomText = { text: string }
+
+declare module 'slate' {
+    interface CustomTypes {
+        Editor: BaseEditor & ReactEditor
+        Element: CustomElement
+        Text: CustomText
+    }
+}
+
 // import axios from 'axios'
 
 import url from '../helpers/url.tsx'
 import Popup from './Popup.tsx'
 
-import { useState, useEffect, useRef, ChangeEvent, FormEvent } from 'react'
+import { useState, useEffect, useRef, ChangeEvent } from 'react'
 import { io } from "socket.io-client"
+
+
 
 
 
@@ -19,6 +35,13 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
     const [content, setContent] = useState(data.content);
     const [showPopup, setShowPopup] = useState(false);
     const [popupContent, setPopupContent] = useState("");
+    const [editor] = useState(() => withReact(createEditor()));
+    const initialValue = [
+        {
+            type: 'paragraph',
+            children: [{ text: data.content }],
+        },
+    ]
 
     const socket = useRef(io())
 
@@ -35,8 +58,17 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
         }
     }, []);
 
-    function handleContentChange(e: ChangeEvent<HTMLTextAreaElement>) {
-        const value = e.target.value;
+    const serialize = value => {
+        return (
+            value
+                // Return the string content of each paragraph in the value's children.
+                .map(n => Node.string(n))
+                // Join them all with line breaks denoting paragraphs.
+                .join('\n')
+        )
+    }
+
+    function handleContentChange(value: any) {
 
         const docInfo = {
             _id: data._id,
@@ -102,14 +134,29 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
             <div>
 
                 {showPopup && <Popup line={popupContent} onComment={sendComment}></Popup>}
-                <form id="docForm" className="docForm">
-                    <label>Titel</label>
-                    <input role="titletext" name="title" type="text" defaultValue={data.title}></input>
-                    <label>Innehåll</label>
-                    <textarea className="textarea" name="content" value={content} onChange={handleContentChange} onSelect={handleComment}></textarea>
 
-                </form>
-            </div>
+
+                <label>Titel</label>
+                <input role="titletext" name="title" type="text" defaultValue={data.title}></input>
+                <label>Innehåll</label>
+
+                <Slate editor={editor}
+                    initialValue={initialValue}
+                    onChange={value => {
+                        const isAstChange = editor.operations.some(
+                            op => 'set_selection' !== op.type
+                        )
+                        if (isAstChange) {
+                            handleContentChange(serialize(value))
+                            console.log(serialize(value))
+                        }
+
+                    }}
+                >
+                    <Editable />
+                </Slate>
+
+            </div >
 
     )
 }
