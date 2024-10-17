@@ -10,11 +10,13 @@ import url from '../helpers/url.tsx'
 
 const Createdoc = () => {
     const [alertVisible, setAlertVisibility] = useState(false);
+    const token = localStorage.getItem('token')
     const handleClick = async () => {
         await axios.post(`${url}/createdoc`,
             document.querySelector('#docForm'), {
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'x-access-token': token
             },
         }).then(function (res) {
             console.log(res);

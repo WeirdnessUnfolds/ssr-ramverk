@@ -22,15 +22,18 @@ const ShowAll = ({ data, loading, onSelected }: { data: Item[]; loading: boolean
   }
 
   const handleDelete = async (id: string) => {
-
-    await axios.post(`${url}/delete/${id}`, {
+    await axios.delete(`${url}/delete/${id}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': localStorage.getItem('token')
+    },
     }).then(function (res) {
-      console.log(res);
       window.location.reload();
 
     })
       .catch(function (error) {
         console.log(error);
+        console.log(localStorage.getItem('token'));
       });
   }
 

@@ -1,8 +1,10 @@
 import express from 'express';
 import dbhandler from '../docs-new.mjs';
+import jwt from 'jsonwebtoken';
+import checkToken from './middleware/checkToken.mjs';
 var router = express.Router();
 
-router.get("/createdoc", async (req, res) => {
+router.get("/createdoc", (req, res, next) => checkToken(req, res, next), async (req, res) => {
     const data = {
         data: {
             info: "Here, a document will be created."
@@ -15,7 +17,7 @@ router.get("/createdoc", async (req, res) => {
 });
 
 
-router.post("/createdoc", async (req, res) => {
+router.post("/createdoc", (req, res, next) => checkToken(req, res, next), async (req, res) => {
     const data = req.body;
 
     console.log("Ny titel:", data.title);
@@ -25,21 +27,22 @@ router.post("/createdoc", async (req, res) => {
 });
 
 
-router.get('find/:id', async (req, res) => {
+router.get('find/:id', (req, res, next) => checkToken(req, res, next), async (req, res) => {
     dbhandler.findWithId(req.params.id).then(result => res.json(result))
         .catch(err => console.log(err));
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", (req, res, next) => checkToken(req, res, next), async (req, res) => {
     res.status(204).send();
 });
 
-router.post('/delete/:id', async (req, res) => {
+router.delete('/delete/:id', (req, res, next) => checkToken(req, res, next),  async (req, res) => {
+    console.log(req.headers['x-access-token']);
     dbhandler.deleteWithId(req.params.id).then(result => res.json(result))
         .catch(err => console.log(err));
 });
 
-router.post("/update/:id", async (req, res) => {
+router.post("/update/:id", (req, res, next) => checkToken(req, res, next), async (req, res) => {
     const data = req.body;
 
     console.log("Uppdaterad titel:", data.title);
@@ -67,6 +70,12 @@ router.post("/login", async (req, res) => {
         .catch(err => console.log(err));
 });
 
+router.post("/gettoken", async (req, res) => {
+    const username = req.body.username;
+    const secret = process.env.JWT_SECRET;
+    const token = jwt.sign({ username }, secret, { expiresIn: '1h' });
 
+    res.send(token);
+});
 
 export default router;
