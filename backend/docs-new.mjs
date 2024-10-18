@@ -105,6 +105,16 @@ const dbhandler = {
         return res;
     },
 
+    /**
+     * Compares the input password with the one stored in the database.
+     * @param {string} username - The username of the user
+     * @param {string} inputpassword - The password that the user is trying to log in with
+     * @returns {Promise<string>} - A string indicating whether the passwords match or not.
+     * "Match" - The passwords match
+     * "No user exists with this username." - The username does not exist in the database
+     * "Wrong password." - The passwords do not match
+     * err.message - An error occurred
+     */
     matchPass: async function matchPass(username, inputpassword) {
         const client = await mongo.connect(dsn);
         const db = await client.db();
@@ -134,7 +144,7 @@ const dbhandler = {
     },
 
     /**
-     * Finds a document in the database by its ObjectId, and updates it or undefined
+     * Finds a document in the database by its ObjectId, and updates it.
      * @param {string} id
      * @returns {Promise<Object[]> | undefined>}
      */
