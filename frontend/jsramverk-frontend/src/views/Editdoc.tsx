@@ -1,29 +1,11 @@
 import { Item } from './ShowAll'
 
-import { BaseEditor, Descendant, createEditor, Node } from 'slate'
-import { ReactEditor, Slate, Editable, withReact } from 'slate-react'
-
-type CustomElement = { type: 'paragraph'; children: CustomText[] }
-type CustomText = { text: string }
-
-declare module 'slate' {
-    interface CustomTypes {
-        Editor: BaseEditor & ReactEditor
-        Element: CustomElement
-        Text: CustomText
-    }
-}
-
 // import axios from 'axios'
-
+import ContentEditable from 'react-contenteditable'
 import url from '../helpers/url.tsx'
-import Popup from './Popup.tsx'
 
 import { useState, useEffect, useRef, ChangeEvent } from 'react'
 import { io } from "socket.io-client"
-
-
-
 
 
 // Updates the selected document
@@ -35,13 +17,9 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
     const [content, setContent] = useState(data.content);
     const [showPopup, setShowPopup] = useState(false);
     const [popupContent, setPopupContent] = useState("");
-    const [editor] = useState(() => withReact(createEditor()));
-    const initialValue = [
-        {
-            type: 'paragraph',
-            children: [{ text: data.content }],
-        },
-    ]
+
+    const text = useRef(content);
+
 
     const socket = useRef(io())
 
@@ -49,7 +27,7 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
         socket.current = io(url);
 
         socket.current.on("content", (docInfo) => {
-
+            console.log(docInfo["content"]);
             setContent(docInfo["content"]);
         });
 
@@ -58,47 +36,50 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
         }
     }, []);
 
-    const serialize = value => {
-        return (
-            value
-                // Return the string content of each paragraph in the value's children.
-                .map(n => Node.string(n))
-                // Join them all with line breaks denoting paragraphs.
-                .join('\n')
-        )
-    }
+    const handleChange = evt => {
+        text.current = evt.target.value;
+    };
 
-    function handleContentChange(value: any) {
+    function handleBlur() {
+        let editor = document.getElementById('editor');
+        editor?.focus();
+    };
+
+    function handleContentChange(e: any) {
+        let content = e.target.value
+
+        console.log(content)
 
         const docInfo = {
             _id: data._id,
             title: data.title,
-            content: value
+            content: content
         };
 
         socket.current.emit("content", docInfo);
     }
-    function getLineNumber(textarea: any) {
-        let lines = textarea.value.substr(0, textarea.selectionStart).split("\n").length;
-        return lines
-    }
 
-    function handleComment(e: any) {
-        // const selection = e.target.value.substring(
-        //     e.target.selectionStart,
-        //     e.target.selectionEnd
-        // );
-        // const position = e.target.selectionEnd;
+    // function getLineNumber(textarea: any) {
+    //     let lines = textarea.value.substr(0, textarea.selectionStart).split("\n").length;
+    //     return lines
+    // }
+
+    // function handleComment(e: any) {
+    //     // const selection = e.target.value.substring(
+    //     //     e.target.selectionStart,
+    //     //     e.target.selectionEnd
+    //     // );
+    //     // const position = e.target.selectionEnd;
 
 
-        // console.log(selection);
-        // console.log(position);
+    //     // console.log(selection);
+    //     // console.log(position);
 
-        let line = getLineNumber(e.target);
-        console.log(line)
-        setShowPopup(true);
-        setPopupContent(line);
-    }
+    //     let line = getLineNumber(e.target);
+    //     console.log(line)
+    //     setShowPopup(true);
+    //     setPopupContent(line);
+    // }
 
     function sendComment(e: any) {
         console.log("send comment")
@@ -106,6 +87,7 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
 
         console.log(comment)
     }
+
 
     // const handleClick = async () => {
 
@@ -140,21 +122,8 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
                 <input role="titletext" name="title" type="text" defaultValue={data.title}></input>
                 <label>Innehåll</label>
 
-                <Slate editor={editor}
-                    initialValue={initialValue}
-                    onChange={value => {
-                        const isAstChange = editor.operations.some(
-                            op => 'set_selection' !== op.type
-                        )
-                        if (isAstChange) {
-                            handleContentChange(serialize(value))
-                            console.log(serialize(value))
-                        }
+                <ContentEditable id="editor" html={content} onBlur={handleBlur} onChange={handleContentChange} />
 
-                    }}
-                >
-                    <Editable />
-                </Slate>
 
             </div >
 
