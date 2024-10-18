@@ -1,7 +1,7 @@
 
 interface Props {
     onComment: () => void;
-    line: String
+    line: string
 }
 
 
