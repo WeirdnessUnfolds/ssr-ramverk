@@ -58,6 +58,8 @@ const dbhandler = {
      */
     addDocument: async function addDocument(title, content, shareusername) {
         const client = await mongo.connect(dsn);
+
+        console.log('shareusername:', shareusername);
         const db = await client.db();
         const col = await db.collection(collection);
         const doc = { title: title, content: content, sharedWith: ["admin", shareusername] };

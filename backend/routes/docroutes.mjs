@@ -20,10 +20,10 @@ router.get("/createdoc", (req, res, next) => checkToken(req, res, next), async (
 router.post("/createdoc", (req, res, next) => checkToken(req, res, next), async (req, res) => {
     const data = req.body;
 
-    console.log("Ny titel:", data.title);
     dbhandler.addDocument(data.title,
-        data.content).then(result => res.json(result))
-        .catch(err => console.log(err));
+        data.content, data.sharedWith[1]).then(result =>  {
+        res.json(result);
+    }).catch(err => console.log(err));
 });
 
 

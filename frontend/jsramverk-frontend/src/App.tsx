@@ -42,8 +42,8 @@ function App() {
       },
     }).then((res) => {
       console.log(res.data);
-      const filteredItems = res.data.filter((item) => item.sharedWith.includes
-      .localStorage.getItem('username'));
+      console.log(localStorage.getItem('username'));
+      const filteredItems = res.data.filter((item) => item.sharedWith.includes(localStorage.getItem('username')));
       setItems(filteredItems);
       setLoading(false);
     });

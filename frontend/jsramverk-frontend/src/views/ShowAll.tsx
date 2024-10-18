@@ -34,7 +34,6 @@ const ShowAll = ({ data, loading, onSelected }: { data: Item[]; loading: boolean
     })
       .catch(function (error) {
         console.log(error);
-        console.log(localStorage.getItem('token'));
       });
   }
 

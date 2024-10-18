@@ -12,14 +12,24 @@ const Createdoc = () => {
     const [alertVisible, setAlertVisibility] = useState(false);
     const token = localStorage.getItem('token')
     const handleClick = async () => {
+
+    const formData = new FormData(document.querySelector('#docForm') as HTMLFormElement);
+    const data = Object.fromEntries(formData);
+    const username = localStorage.getItem('username');
+
+   const postData = {
+    ...data,
+    sharedWith: ["admin", username]
+  };
+
+  console.log(postData);
         await axios.post(`${url}/createdoc`,
-            document.querySelector('#docForm'), {
+            postData, {
             headers: {
                 'Content-Type': 'application/json',
                 'x-access-token': token
             },
-        }).then(function (res) {
-            console.log(res);
+        }).then(function () {
             setAlertVisibility(true);
         })
             .catch(function (error) {
