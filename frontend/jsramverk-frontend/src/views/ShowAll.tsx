@@ -8,6 +8,7 @@ export interface Item {
   _id: string
   title: string
   content: string
+  sharedWith: string[];
 
 }
 
@@ -33,7 +34,6 @@ const ShowAll = ({ data, loading, onSelected }: { data: Item[]; loading: boolean
     })
       .catch(function (error) {
         console.log(error);
-        console.log(localStorage.getItem('token'));
       });
   }
 

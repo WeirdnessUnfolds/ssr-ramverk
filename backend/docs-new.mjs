@@ -56,11 +56,13 @@ const dbhandler = {
      * @param {string} content - The content of the document
      * @returns {Promise<Object>} - The result of the insert operation.
      */
-    addDocument: async function addDocument(title, content) {
+    addDocument: async function addDocument(title, content, shareusername) {
         const client = await mongo.connect(dsn);
+
+        console.log('shareusername:', shareusername);
         const db = await client.db();
         const col = await db.collection(collection);
-        const doc = { title: title, content: content };
+        const doc = { title: title, content: content, sharedWith: ["admin", shareusername] };
         const res = await col.insertOne(doc);
 
         await client.close();
@@ -103,6 +105,16 @@ const dbhandler = {
         return res;
     },
 
+    /**
+     * Compares the input password with the one stored in the database.
+     * @param {string} username - The username of the user
+     * @param {string} inputpassword - The password that the user is trying to log in with
+     * @returns {Promise<string>} - A string indicating whether the passwords match or not.
+     * "Match" - The passwords match
+     * "No user exists with this username." - The username does not exist in the database
+     * "Wrong password." - The passwords do not match
+     * err.message - An error occurred
+     */
     matchPass: async function matchPass(username, inputpassword) {
         const client = await mongo.connect(dsn);
         const db = await client.db();
@@ -132,7 +144,7 @@ const dbhandler = {
     },
 
     /**
-     * Finds a document in the database by its ObjectId, and updates it or undefined
+     * Finds a document in the database by its ObjectId, and updates it.
      * @param {string} id
      * @returns {Promise<Object[]> | undefined>}
      */

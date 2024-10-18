@@ -41,7 +41,10 @@ function App() {
         'x-access-token': localStorage.getItem('token')
       },
     }).then((res) => {
-      setItems(res.data);
+      console.log(res.data);
+      console.log(localStorage.getItem('username'));
+      const filteredItems = res.data.filter((item) => item.sharedWith.includes(localStorage.getItem('username')));
+      setItems(filteredItems);
       setLoading(false);
     });
   }, []);
