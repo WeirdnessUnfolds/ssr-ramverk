@@ -1,5 +1,0 @@
-{
-  "exclude": [
-    "**/docs-new.mjs:13-19"
-  ]
-}

@@ -1,0 +1,7 @@
+{
+  "exclude": [
+    "**/dbenvs.mjs",
+    "**/test_docs.mjs",
+    "**/test_login.mjs"
+  ]
+}
