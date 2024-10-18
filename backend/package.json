@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node app.mjs",
     "watch": "nodemon app.mjs",
-    "test": "export NODE_ENV=test && cross-env NODE_OPTIONS='--experimental-loader @istanbuljs/esm-loader-hook' nyc --reporter=html --reporter=text --reporter=clover mocha --exit --timeout 10000",
+    "test": "export NODE_ENV=test && cross-env NODE_OPTIONS='--experimental-loader @istanbuljs/esm-loader-hook' nyc --reporter=html --reporter=text --reporter=clover --no-compact mocha --exit --timeout 10000",
     "eslint": "eslint .",
     "eslint-fix": "eslint . --fix",
     "pretest": "npm run buildtests",

@@ -6,27 +6,32 @@ const mongo = MongoClient;
 let dsn = "";
 let collection = "";
 
-if (process.env.NODE_ENV === 'test') {
-    dsn = "mongodb://localhost:27017/testdocs";
-    collection = "testcollection";
-} else if (process.env.NODE_ENV === 'integration-test') {
-    dsn = "mongodb://localhost:27017/int-testdocs";
-    collection = "int-testcollection";
-} else {
-    dsn = `mongodb+srv://${process.env.DB_USER}
-:${process.env.DB_PASS}@jsramverk.owzo2.mongodb.net/?retryWrites=true&w=majority&appName=jsramverk`;
-    collection = "docscollection";
+function getdbfromEnv() {
+    if (process.env.NODE_ENV === 'test') {
+        dsn = "mongodb://localhost:27017/testdocs";
+        collection = "testcollection";
+    } else if (process.env.NODE_ENV === 'integration-test') {
+        dsn = "mongodb://localhost:27017/int-testdocs";
+        collection = "int-testcollection";
+    } else {
+        dsn = `mongodb+srv://${process.env.DB_USER}
+        :${process.env.DB_PASS}
+        @jsramverk.owzo2.mongodb.net/?retryWrites=true&w=majority&appName=jsramverk`;
+        collection = "docscollection";
+    }
+    return [dsn, collection];
 }
 
+/* istanbul ignore end */
 const dbhandler = {
     /**
      * Finds all documents in the collection
      * @returns {Promise<Object[]>}
      */
     findAll: async function findAll() {
-        const client = await mongo.connect(dsn);
+        const client = await mongo.connect(getdbfromEnv()[0]);
         const db = await client.db();
-        const col = await db.collection(collection);
+        const col = await db.collection(getdbfromEnv()[1]);
         const res = await col.find({}).toArray();
 
         await client.close();
@@ -40,9 +45,9 @@ const dbhandler = {
      * @returns {Promise<Object[]> | undefined>}
      */
     findWithId: async function findWithId(id) {
-        const client = await mongo.connect(dsn);
+        const client = await mongo.connect(getdbfromEnv()[0]);
         const db = await client.db();
-        const col = await db.collection(collection);
+        const col = await db.collection(getdbfromEnv()[1]);
         const res = await col.find({ _id: new ObjectId(id) }).toArray();
 
         await client.close();
@@ -57,11 +62,11 @@ const dbhandler = {
      * @returns {Promise<Object>} - The result of the insert operation.
      */
     addDocument: async function addDocument(title, content, shareusername) {
-        const client = await mongo.connect(dsn);
+        const client = await mongo.connect(getdbfromEnv()[0]);
 
         console.log('shareusername:', shareusername);
         const db = await client.db();
-        const col = await db.collection(collection);
+        const col = await db.collection(getdbfromEnv()[1]);
         const doc = { title: title, content: content, sharedWith: ["admin", shareusername] };
         const res = await col.insertOne(doc);
 
@@ -76,9 +81,9 @@ const dbhandler = {
      * @returns {Promise<Object[]> | undefined>}
      */
     deleteWithId: async function deleteWithId(id) {
-        const client = await mongo.connect(dsn);
+        const client = await mongo.connect(getdbfromEnv()[0]);
         const db = await client.db();
-        const col = await db.collection(collection);
+        const col = await db.collection(getdbfromEnv()[1]);
         const res = await col.deleteOne({ _id: new ObjectId(id) });
 
         await client.close();
@@ -94,7 +99,7 @@ const dbhandler = {
      * @returns {Promise<Object>} - The result of the insert operation
      */
     sendUser: async function sendUser(username, email, password) {
-        const client = await mongo.connect(dsn);
+        const client = await mongo.connect(getdbfromEnv()[0]);
         const db = await client.db();
         const col = await db.collection("users");
         const nameentry = { username: username, email: email, password: password };
@@ -116,7 +121,7 @@ const dbhandler = {
      * err.message - An error occurred
      */
     matchPass: async function matchPass(username, inputpassword) {
-        const client = await mongo.connect(dsn);
+        const client = await mongo.connect(getdbfromEnv()[0]);
         const db = await client.db();
         const col = await db.collection("users");
         let resstring = "";
@@ -149,9 +154,9 @@ const dbhandler = {
      * @returns {Promise<Object[]> | undefined>}
      */
     updateDocument: async function updateDocument(id, title, content) {
-        const client = await mongo.connect(dsn);
+        const client = await mongo.connect(getdbfromEnv()[0]);
         const db = await client.db();
-        const col = await db.collection(collection);
+        const col = await db.collection(getdbfromEnv()[1]);
         const res = await col.updateOne({ _id: new ObjectId(id) },
             { $set: { title: title, content: content } });
 
