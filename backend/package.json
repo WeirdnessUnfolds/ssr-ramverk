@@ -11,7 +11,7 @@
     "eslint-fix": "eslint . --fix",
     "pretest": "npm run buildtests",
     "resetuserdb": "cd db && mongosh testdocs --eval 'db.users.deleteMany({})'",
-    "buildtests": "cd db && mongosh testdocs --eval 'db.dropDatabase()' &&  mongoimport --db testdocs -c testcollection --jsonArray testdb.json"
+    "buildtests": "cd db && mongosh testdocs --eval 'db.dropDatabase()' && npm run resetuserdb && mongoimport --db testdocs -c testcollection --jsonArray testdb.json"
   },
   "keywords": [],
   "author": "",
