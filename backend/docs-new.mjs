@@ -114,7 +114,7 @@ const dbhandler = {
             }
         } catch (err) {
             console.error(err);
-            resstring = err.message;
+            resstring = "An error occured with the encryption function.";
         }
         await client.close();
         return resstring;
