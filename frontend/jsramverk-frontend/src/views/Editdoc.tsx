@@ -16,8 +16,8 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
     const [comments, setComments] = useState<Object[]>([]);
     const [showPopup, setShowPopup] = useState(false);
     const [popupContent, setPopupContent] = useState("");
-
-
+    const [line, setCommentLine] = useState(0);
+    const [selection, setSelection] = useState("");
 
     const socket = useRef(io())
 
@@ -61,39 +61,43 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
     }
 
     function handleComment(e: any) {
-        const selection = e.target.value.substring(
+        setSelection(e.target.value.substring(
             e.target.selectionStart,
             e.target.selectionEnd
-        );
+        ));
 
         if (selection != "") {
             const position = e.target.selectionEnd;
 
-            setShowPopup(true);
-
             console.log(selection);
             console.log(position);
 
-            let line = getLineNumber(e.target);
+            setCommentLine(getLineNumber(e.target));
             console.log(line)
             setShowPopup(true);
-            setPopupContent(line);
-
-            const commentContent = {
-                line: line,
-                comment: selection
-            };
-
-            socket.current.emit("comment", commentContent);
         }
 
     }
 
     function sendComment() {
         console.log("send comment")
-        const comment = document.getElementById('comment').value
+        const formData = new FormData(document.querySelector('#commentForm') as HTMLFormElement);
 
-        console.log(comment)
+        console.log(formData.get("comment"))
+        console.log(line)
+        console.log(selection)
+
+        const commentContent = {
+            line: line,
+            selection: selection,
+            comment: formData.get("comment")
+        };
+
+        socket.current.emit("comment", commentContent);
+    }
+
+    function closePopup() {
+        setShowPopup(false);
     }
 
 
@@ -105,18 +109,28 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
                 <p>Loading document content..</p>
             </div>
             :
-            <div>
-                {showPopup && <Popup line={popupContent} onComment={sendComment}></Popup>}
+            <div >
+                {showPopup &&
+                    <div className='popup'>
+                        <form className="commentForm" id="commentForm">
+                            <p>Kommentera texten "{selection}" på rad {line} </p>
+                            <input id="comment" name="comment" type="text"></input>
+                            <button role="commentbtn" type="button" className="commentbtn" onClick={sendComment}>Kommentera</button>
+                            <button role="closebtn" type="button" className="closebtn" onClick={closePopup}>X</button>
+                        </form>
+                    </div>}
+                <div className='two-column'>
+                    <CommentSection>{comments}</CommentSection>
+                    <div className='edit-column'>
+                        <form className="docForm">
+                            <label>Titel</label>
+                            <input role="titletext" name="title" type="text" defaultValue={data.title}></input>
+                            <label>Innehåll</label>
 
-                <CommentSection>{comments}</CommentSection>
-
-                <form className="docForm">
-                    <label>Titel</label>
-                    <input role="titletext" name="title" type="text" defaultValue={data.title}></input>
-                    <label>Innehåll</label>
-
-                    <textarea name="content" value={content} onChange={handleContentChange} onSelect={handleComment}>{content}</textarea>
-                </form>
+                            <textarea name="content" value={content} onChange={handleContentChange} onSelect={handleComment}>{content}</textarea>
+                        </form>
+                    </div>
+                </div>
             </div >
 
     )

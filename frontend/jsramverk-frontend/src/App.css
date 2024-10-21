@@ -87,6 +87,15 @@
   color: #888;
 }
 
+.two-column {
+  display: flex;
+}
+
+.edit-column {
+  width: 75%;
+  padding: 1rem;
+}
+
 .docForm {
   display: flex;
   flex-direction: column;
@@ -137,7 +146,7 @@
 }
 
 .login {
-  display:flex;
+  display: flex;
   justify-content: space-around;
   flex-direction: column;
 }
@@ -156,11 +165,40 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%; /* assuming the height of the navbar is set */
+  height: 100%;
+  /* assuming the height of the navbar is set */
 }
+
 .nav-list-item-active {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%; /* assuming the height of the navbar is set */
+  height: 100%;
+  /* assuming the height of the navbar is set */
+}
+
+.commentForm {
+  width: 600px;
+  padding: 1em;
+  border-radius: 25px;
+  font-size: 1em;
+  border: grey 2px solid;
+}
+
+.commentForm input {
+  width: 600px;
+  padding: 1em;
+  border-radius: 25px;
+  font-size: 1em;
+  border: grey 2px solid;
+}
+
+CommentSection {
+  width: 25%;
+  padding: 1rem;
+}
+
+.popup {
+  z-index: 1000;
+  display: block;
 }
