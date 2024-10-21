@@ -43,6 +43,13 @@ io.on('connection', function (socket) {
             await dbhandler.updateDocument(data["_id"], data["title"], data["content"]);
         }, 2000);
     });
+
+    socket.on("comment", function (data) {
+        socket.join(data["_id"]);
+        // io.emit("content", data);
+        io.in(data["_id"]).emit("comment", data);
+
+    });
 });
 
 
