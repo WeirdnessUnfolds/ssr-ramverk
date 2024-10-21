@@ -3,7 +3,6 @@ import { Item } from './ShowAll'
 // import axios from 'axios'
 import url from '../helpers/url.tsx'
 import CommentSection from './CommentSection.tsx'
-import Popup from './Popup.tsx'
 import { useState, useEffect, useRef, ChangeEvent } from 'react'
 import { io } from "socket.io-client"
 
@@ -15,7 +14,6 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
     const [content, setContent] = useState(data.content);
     const [comments, setComments] = useState<Object[]>([]);
     const [showPopup, setShowPopup] = useState(false);
-    const [popupContent, setPopupContent] = useState("");
     const [line, setCommentLine] = useState(0);
     const [selection, setSelection] = useState("");
 
@@ -25,12 +23,10 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
         socket.current = io(url);
 
         socket.current.on("content", (docInfo) => {
-            console.log(docInfo["content"]);
             setContent(docInfo["content"]);
         });
 
-        socket.current.on("comment", (comment) => {
-            comments.push(comment);
+        socket.current.on("comment", (comments) => {
             setComments(comments);
         });
 
@@ -43,8 +39,6 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
 
     function handleContentChange(e: ChangeEvent<HTMLTextAreaElement>) {
         let content = e.target.value
-
-        console.log(content)
 
         const docInfo = {
             _id: data._id,
@@ -67,39 +61,36 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
         ));
 
         if (selection != "") {
-            const position = e.target.selectionEnd;
-
-            console.log(selection);
-            console.log(position);
-
             setCommentLine(getLineNumber(e.target));
             console.log(line)
             setShowPopup(true);
         }
-
     }
 
     function sendComment() {
         console.log("send comment")
         const formData = new FormData(document.querySelector('#commentForm') as HTMLFormElement);
 
-        console.log(formData.get("comment"))
-        console.log(line)
-        console.log(selection)
-
         const commentContent = {
             line: line,
             selection: selection,
-            comment: formData.get("comment")
+            comment: formData.get("comment"),
+            comment_id: Math.floor(Math.random() * 1000),
         };
-
-        socket.current.emit("comment", commentContent);
+        comments.push(commentContent);
+        socket.current.emit("comment", comments);
     }
 
     function closePopup() {
         setShowPopup(false);
     }
 
+    function deleteComment(id: number) {
+        const newCommentArray = comments.filter((i) => (i.comment_id !== id))
+        setComments(newCommentArray);
+        console.log(newCommentArray)
+        socket.current.emit("comment", newCommentArray);
+    }
 
 
     return (
@@ -121,7 +112,7 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
                         </form>
                     </div>}
                 <div className='two-column'>
-                    <CommentSection>{comments}</CommentSection>
+                    <CommentSection deleteComment={(id) => deleteComment(id)}>{comments}</CommentSection>
                     <div className='edit-column'>
                         <form className="docForm">
                             <label>Titel</label>
