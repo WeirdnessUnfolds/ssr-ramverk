@@ -183,10 +183,12 @@
   border-radius: 25px;
   font-size: 1em;
   border: grey 2px solid;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .commentForm input {
-  width: 600px;
+  width: 400px;
   padding: 1em;
   border-radius: 25px;
   font-size: 1em;
@@ -201,4 +203,17 @@ CommentSection {
 .popup {
   z-index: 1000;
   display: block;
+}
+
+.closebtn {
+  float: right;
+
+}
+
+.commentBox {
+  padding: 1em;
+  border-radius: 25px;
+  font-size: 1em;
+  border: grey 2px solid;
+  margin: 1em;
 }

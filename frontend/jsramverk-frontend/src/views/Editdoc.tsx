@@ -113,10 +113,11 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
                 {showPopup &&
                     <div className='popup'>
                         <form className="commentForm" id="commentForm">
+                            <button role="closebtn" type="button" className="closebtn" onClick={closePopup}>X</button>
                             <p>Kommentera texten "{selection}" på rad {line} </p>
                             <input id="comment" name="comment" type="text"></input>
                             <button role="commentbtn" type="button" className="commentbtn" onClick={sendComment}>Kommentera</button>
-                            <button role="closebtn" type="button" className="closebtn" onClick={closePopup}>X</button>
+
                         </form>
                     </div>}
                 <div className='two-column'>
