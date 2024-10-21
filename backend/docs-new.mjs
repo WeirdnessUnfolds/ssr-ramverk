@@ -2,21 +2,8 @@
 import 'dotenv/config';
 import bcrypt from 'bcrypt';
 import { MongoClient, ObjectId } from 'mongodb';
+import { dsn, collection } from './dbenvs.mjs';
 const mongo = MongoClient;
-let dsn = "";
-let collection = "";
-
-if (process.env.NODE_ENV === 'test') {
-    dsn = "mongodb://localhost:27017/testdocs";
-    collection = "testcollection";
-} else if (process.env.NODE_ENV === 'integration-test') {
-    dsn = "mongodb://localhost:27017/int-testdocs";
-    collection = "int-testcollection";
-} else {
-    dsn = `mongodb+srv://${process.env.DB_USER}
-:${process.env.DB_PASS}@jsramverk.owzo2.mongodb.net/?retryWrites=true&w=majority&appName=jsramverk`;
-    collection = "docscollection";
-}
 
 const dbhandler = {
     /**
@@ -105,16 +92,6 @@ const dbhandler = {
         return res;
     },
 
-    /**
-     * Compares the input password with the one stored in the database.
-     * @param {string} username - The username of the user
-     * @param {string} inputpassword - The password that the user is trying to log in with
-     * @returns {Promise<string>} - A string indicating whether the passwords match or not.
-     * "Match" - The passwords match
-     * "No user exists with this username." - The username does not exist in the database
-     * "Wrong password." - The passwords do not match
-     * err.message - An error occurred
-     */
     matchPass: async function matchPass(username, inputpassword) {
         const client = await mongo.connect(dsn);
         const db = await client.db();
@@ -137,14 +114,14 @@ const dbhandler = {
             }
         } catch (err) {
             console.error(err);
-            resstring = err.message;
+            resstring = "An error occured with the encryption function.";
         }
         await client.close();
         return resstring;
     },
 
     /**
-     * Finds a document in the database by its ObjectId, and updates it.
+     * Finds a document in the database by its ObjectId, and updates it or undefined
      * @param {string} id
      * @returns {Promise<Object[]> | undefined>}
      */

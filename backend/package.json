@@ -6,12 +6,12 @@
   "scripts": {
     "start": "node app.mjs",
     "watch": "nodemon app.mjs",
-    "test": "export NODE_ENV=test && cross-env NODE_OPTIONS='--experimental-loader @istanbuljs/esm-loader-hook' nyc --reporter=html --reporter=text --reporter=clover mocha --exit --timeout 10000",
+    "test": "export NODE_ENV=test && cross-env NODE_OPTIONS='--experimental-loader @istanbuljs/esm-loader-hook' nyc --reporter=html --reporter=text --reporter=clover --no-compact mocha --exit --timeout 10000",
     "eslint": "eslint .",
     "eslint-fix": "eslint . --fix",
     "pretest": "npm run buildtests",
     "resetuserdb": "cd db && mongosh testdocs --eval 'db.users.deleteMany({})'",
-    "buildtests": "cd db && mongosh testdocs --eval 'db.dropDatabase()' &&  mongoimport --db testdocs -c testcollection --jsonArray testdb.json"
+    "buildtests": "cd db && mongosh testdocs --eval 'db.dropDatabase()' && npm run resetuserdb && mongoimport --db testdocs -c testcollection --jsonArray testdb.json"
   },
   "keywords": [],
   "author": "",
@@ -31,6 +31,7 @@
     "mongodb": "^6.9.0",
     "morgan": "^1.10.0",
     "nodemon": "^3.1.7",
+    "sinon": "^19.0.2",
     "socket.io": "^4.8.0",
     "sqlite": "^5.1.1",
     "sqlite3": "^5.1.7"
