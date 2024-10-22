@@ -1,14 +1,20 @@
 
 import React from 'react';
-
-
-
+import axios from 'axios';
+import url from '../helpers/url.tsx';
 
 const Share = () => {
-    const handleShare = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const handleShare = async (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
         const email = (document.getElementById("mail") as HTMLInputElement).value;
-
+        try {
+            const mailSend = await axios.post(url + '/sendmail', {
+              mail: email
+            });
+            console.log("A mail has been sent!");
+          } catch (error) {
+            console.log(error);
+          }
     }
     return (
         <>
