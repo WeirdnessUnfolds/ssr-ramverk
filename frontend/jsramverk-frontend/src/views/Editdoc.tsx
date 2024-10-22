@@ -3,6 +3,7 @@ import { Item } from './ShowAll'
 // import axios from 'axios'
 import url from '../helpers/url.tsx'
 import CommentSection from './CommentSection.tsx'
+import Share from './Share.tsx'
 import { useState, useEffect, useRef, ChangeEvent } from 'react'
 import { io } from "socket.io-client"
 import Mailgun from 'mailgun.js';
@@ -68,21 +69,6 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
         }
     }
 
-    function handleShare() {
-        const formData = new  FormData(document.querySelector('#shareForm') as HTMLFormElement);
-        const mailgun = new Mailgun(formData);
-        const mg = mailgun.client({username: 'api', key: process.env.MAILGUN_API_KEY || 'key-yourkeyhere'});
-  
-         mg.messages.create('sandbox-123.mailgun.org', {
-  	     from: "Excited User <mailgun@sandboxbe3768f0308f486c8a4d1ea58190ba46.mailgun.org>",
-  	     to: [formData.get("email")],
-  	     subject: "Hello",
-  	     text: "Testing some Mailgun awesomeness!",
-  	html: "<h1>Testing some Mailgun awesomeness!</h1>"
-  })
-  .then(msg => console.log(msg)) // logs response data
-  .catch(err => console.log(err)); // logs any error
-    }
 
     function sendComment() {
         console.log("send comment")
@@ -137,10 +123,7 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
                             <label>Innehåll</label>
                             <textarea name="content" value={content} onChange={handleContentChange} onSelect={handleComment}>{content}</textarea>
                         </form>
-                        <form className='shareForm'>
-                            <textarea role="email" name="shareemail" defaultValue="Skriv in ett mail som du vill skicka en delningsinbjudan med.."></textarea>
-                            <button role="sharebtn" type="button" className="sharebtn">Dela</button>
-                        </form>
+                        <Share></Share>
                     </div>
                 </div>
             </div >
