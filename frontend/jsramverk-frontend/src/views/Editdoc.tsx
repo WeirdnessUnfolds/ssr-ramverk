@@ -5,6 +5,7 @@ import url from '../helpers/url.tsx'
 import CommentSection from './CommentSection.tsx'
 import { useState, useEffect, useRef, ChangeEvent } from 'react'
 import { io } from "socket.io-client"
+import Mailgun from 'mailgun.js';
 
 
 // Updates the selected document
@@ -69,7 +70,6 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
 
     function handleShare() {
         const formData = new  FormData(document.querySelector('#shareForm') as HTMLFormElement);
-        const Mailgun = require('mailgun.js');
         const mailgun = new Mailgun(formData);
         const mg = mailgun.client({username: 'api', key: process.env.MAILGUN_API_KEY || 'key-yourkeyhere'});
   
