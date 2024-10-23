@@ -12,7 +12,7 @@ import Mailgun from 'mailgun.js';
 // Updates the selected document
 
 const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
-    // const [title, setTitle] = useState(data.title);
+    const [title, setTitle] = useState(data.title);
     const [content, setContent] = useState(data.content);
     const [comments, setComments] = useState(data.comments);
     const [showPopup, setShowPopup] = useState(false);
@@ -32,6 +32,9 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
             setComments(comments["comments"]);
         });
 
+        socket.current.on("title", (docInfo) => {
+            setTitle(docInfo["title"])
+        });
 
         return () => {
             socket.current.disconnect();
@@ -44,12 +47,25 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
 
         const docInfo = {
             _id: data._id,
-            title: data.title,
+            title: title,
             content: content
         };
 
         socket.current.emit("content", docInfo);
     }
+
+    function handleTitleChange(e: ChangeEvent<HTMLInputElement>) {
+        let title = e.target.value
+
+        const docInfo = {
+            _id: data._id,
+            title: title,
+            content: content
+        };
+
+        socket.current.emit("title", docInfo);
+    }
+
 
     function getLineNumber(textarea: any) {
         let lines = textarea.value.substr(0, textarea.selectionStart).split("\n").length;
@@ -134,7 +150,7 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
                     <div className='edit-column'>
                         <form className="docForm">
                             <label>Titel</label>
-                            <input role="titletext" name="title" type="text" defaultValue={data.title}></input>
+                            <input role="titletext" name="title" type="text" onChange={handleTitleChange} defaultValue={title}></input>
                             <label>Innehåll</label>
                             <textarea name="content" value={content} onChange={handleContentChange} onSelect={handleComment}>{content}</textarea>
                         </form>
