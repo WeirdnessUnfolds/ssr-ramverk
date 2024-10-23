@@ -2,7 +2,8 @@ import express from 'express';
 import dbhandler from '../docs-new.mjs';
 import jwt from 'jsonwebtoken';
 import checkToken from './middleware/checkToken.mjs';
-import sgMail from "@sendgrid/mail"
+import sgMail from "@sendgrid/mail";
+import Generator from "generate-password";
 var router = express.Router();
 
 router.get("/createdoc", (req, res, next) => checkToken(req, res, next), async (req, res) => {
@@ -79,18 +80,19 @@ router.post("/gettoken", async (req, res) => {
     res.send(token);
 });
 
-router.post("/sendmail", async (req, res) => {
+router.post("/share", async (req, res) => {
     const data = req.body;
-    
+
     sgMail.setApiKey(process.env.SENDGRID_API_KEY)
     const msg = {
         to: data.mail, // Change to your recipient
         from: 'simon.langstrom@hotmail.com', // Change to your verified sender
         subject: 'Test invite',
-        text: 'Du har blivit inbjuden till att redigera ett dokument med texteditorn.',
-        html: `<a href="http://localhost:5173/signup/signupref=${data.mail}" 
-        class="button">Gör en användare och få åtkomst (WIP, TEST)</a>`
+        text: `Du har blivit inbjuden till att redigera ett dokument med texteditorn.
+        Ditt användarnamn blir: ${data.mail.split('@')[0]}
+        Gå in på vår adress och skapa en användare med namnet ovan för att få åtkomst.`
     };
+
 
     sgMail
         .send(msg)
@@ -100,7 +102,10 @@ router.post("/sendmail", async (req, res) => {
         .catch((error) => {
             console.log(process.env.SENDGRID_API_KEY);
             console.error(error);
-        })
+        });
+  
+    dbhandler.sendUser(data.mail.split('@')[0], data.email, data.password).then(result => res.json(result))
+    .catch(err => console.log(err));
 });
 
 export default router;
