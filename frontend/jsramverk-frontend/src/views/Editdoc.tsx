@@ -3,8 +3,10 @@ import { Item } from './ShowAll'
 // import axios from 'axios'
 import url from '../helpers/url.tsx'
 import CommentSection from './CommentSection.tsx'
+import Share from './Share.tsx'
 import { useState, useEffect, useRef, ChangeEvent } from 'react'
 import { io } from "socket.io-client"
+import Mailgun from 'mailgun.js';
 
 
 // Updates the selected document
@@ -66,6 +68,7 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
             setShowPopup(true);
         }
     }
+
 
     function sendComment() {
         console.log("send comment")
@@ -129,9 +132,9 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
                             <label>Titel</label>
                             <input role="titletext" name="title" type="text" defaultValue={data.title}></input>
                             <label>Innehåll</label>
-
                             <textarea name="content" value={content} onChange={handleContentChange} onSelect={handleComment}>{content}</textarea>
                         </form>
+                        <Share></Share>
                     </div>
                 </div>
             </div >

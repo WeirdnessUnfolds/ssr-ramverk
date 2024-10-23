@@ -2,6 +2,7 @@ import express from 'express';
 import dbhandler from '../docs-new.mjs';
 import jwt from 'jsonwebtoken';
 import checkToken from './middleware/checkToken.mjs';
+import sgMail from "@sendgrid/mail"
 var router = express.Router();
 
 router.get("/createdoc", (req, res, next) => checkToken(req, res, next), async (req, res) => {
@@ -76,6 +77,30 @@ router.post("/gettoken", async (req, res) => {
     const token = jwt.sign({ username }, secret, { expiresIn: '1h' });
 
     res.send(token);
+});
+
+router.post("/sendmail", async (req, res) => {
+    const data = req.body;
+    
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+    const msg = {
+        to: data.mail, // Change to your recipient
+        from: 'simon.langstrom@hotmail.com', // Change to your verified sender
+        subject: 'Test invite',
+        text: 'Du har blivit inbjuden till att redigera ett dokument med texteditorn.',
+        html: `<a href="http://localhost:5173/signup/signupref=${data.mail}" 
+        class="button">Gör en användare och få åtkomst (WIP, TEST)</a>`
+    };
+
+    sgMail
+        .send(msg)
+        .then(() => {
+            console.log('Email sent');
+        })
+        .catch((error) => {
+            console.log(process.env.SENDGRID_API_KEY);
+            console.error(error);
+        })
 });
 
 export default router;
