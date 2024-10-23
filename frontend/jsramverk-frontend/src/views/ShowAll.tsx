@@ -9,7 +9,7 @@ export interface Item {
   title: string
   content: string
   sharedWith: string[];
-
+  comments: Object[]
 }
 
 
@@ -27,7 +27,7 @@ const ShowAll = ({ data, loading, onSelected }: { data: Item[]; loading: boolean
       headers: {
         'Content-Type': 'application/json',
         'x-access-token': localStorage.getItem('token')
-    },
+      },
     }).then(function (res) {
       window.location.reload();
 

@@ -49,7 +49,7 @@ const dbhandler = {
         console.log('shareusername:', shareusername);
         const db = await client.db();
         const col = await db.collection(collection);
-        const doc = { title: title, content: content, sharedWith: ["admin", shareusername] };
+        const doc = { title: title, content: content, sharedWith: ["admin", shareusername], comments: [] };
         const res = await col.insertOne(doc);
 
         await client.close();
@@ -131,6 +131,22 @@ const dbhandler = {
         const col = await db.collection(collection);
         const res = await col.updateOne({ _id: new ObjectId(id) },
             { $set: { title: title, content: content } });
+
+        await client.close();
+        return res;
+    },
+
+    /**
+ * Finds a document in the database by its ObjectId, and sets comments or undefined
+ * @param {string} id
+ * @returns {Promise<Object[]> | undefined>}
+ */
+    updateComments: async function updateDocument(id, comments) {
+        const client = await mongo.connect(dsn);
+        const db = await client.db();
+        const col = await db.collection(collection);
+        const res = await col.updateOne({ _id: new ObjectId(id) },
+            { $set: { comments: comments } });
 
         await client.close();
         return res;

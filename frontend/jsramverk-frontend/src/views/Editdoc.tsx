@@ -12,7 +12,7 @@ import { io } from "socket.io-client"
 const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
     // const [title, setTitle] = useState(data.title);
     const [content, setContent] = useState(data.content);
-    const [comments, setComments] = useState<Object[]>([]);
+    const [comments, setComments] = useState(data.comments);
     const [showPopup, setShowPopup] = useState(false);
     const [line, setCommentLine] = useState(0);
     const [selection, setSelection] = useState("");
@@ -27,7 +27,7 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
         });
 
         socket.current.on("comment", (comments) => {
-            setComments(comments);
+            setComments(comments["comments"]);
         });
 
 
@@ -78,7 +78,12 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
             comment_id: Math.floor(Math.random() * 1000),
         };
         comments.push(commentContent);
-        socket.current.emit("comment", comments);
+
+        const commentInfo = {
+            _id: data._id,
+            comments: comments
+        };
+        socket.current.emit("comment", commentInfo);
     }
 
     function closePopup() {
@@ -88,8 +93,14 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
     function deleteComment(id: number) {
         const newCommentArray = comments.filter((i) => (i.comment_id !== id))
         setComments(newCommentArray);
-        console.log(newCommentArray)
-        socket.current.emit("comment", newCommentArray);
+        console.log(newCommentArray);
+
+        const commentInfo = {
+            _id: data._id,
+            comments: newCommentArray
+        };
+
+        socket.current.emit("comment", commentInfo);
     }
 
 

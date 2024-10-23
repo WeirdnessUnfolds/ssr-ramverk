@@ -49,6 +49,8 @@ io.on('connection', function (socket) {
         // io.emit("content", data);
         io.in(data["_id"]).emit("comment", data);
 
+        dbhandler.updateComments(data["_id"], data["comments"]);
+
     });
 });
 
