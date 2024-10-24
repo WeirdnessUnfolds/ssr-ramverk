@@ -72,6 +72,7 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
 
     function sendComment() {
         console.log("send comment")
+        console.log(localStorage.getItem('username'));
         const formData = new FormData(document.querySelector('#commentForm') as HTMLFormElement);
 
         const commentContent = {
@@ -79,13 +80,16 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
             selection: selection,
             comment: formData.get("comment"),
             comment_id: Math.floor(Math.random() * 1000),
+            user: localStorage.getItem('username'),
         };
+
         comments.push(commentContent);
 
         const commentInfo = {
             _id: data._id,
             comments: comments
         };
+
         socket.current.emit("comment", commentInfo);
     }
 

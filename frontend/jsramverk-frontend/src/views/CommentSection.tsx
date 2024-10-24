@@ -10,11 +10,10 @@ function CommentSection({ children: commentArray, deleteComment }: Props) {
 
         <div className="commentBox" key={comment.comment_id}>
             <button role="closebtn" type="button" className="closebtn" onClick={() => deleteComment(comment.comment_id)}>X</button>
-            <p>Text: {comment.selection}</p>
-            <p>Rad: {comment.line}</p>
+            <p> {comment.user} har kommenterat på rad {comment.line}</p>
+            <p>" {comment.selection} "</p>
             <p>Kommentar: {comment.comment}</p>
         </div>
-
     );
 
     return (

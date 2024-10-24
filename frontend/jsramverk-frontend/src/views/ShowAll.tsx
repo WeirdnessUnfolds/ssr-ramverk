@@ -9,7 +9,7 @@ export interface Item {
   title: string
   content: string
   sharedWith: string[];
-  comments: Object[]
+  comments: Array<any>
 }
 
 
