@@ -10,6 +10,7 @@ export interface Item {
   content: string
   sharedWith: string[];
   comments: Array<any>
+  type: string
 }
 
 

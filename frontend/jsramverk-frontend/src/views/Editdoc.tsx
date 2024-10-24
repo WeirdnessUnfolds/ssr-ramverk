@@ -7,6 +7,7 @@ import Share from './Share.tsx'
 import { useState, useEffect, useRef, ChangeEvent } from 'react'
 import { io } from "socket.io-client"
 import Mailgun from 'mailgun.js';
+import Editor from "@monaco-editor/react";
 
 
 // Updates the selected document
@@ -18,6 +19,7 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
     const [showPopup, setShowPopup] = useState(false);
     const [line, setCommentLine] = useState(0);
     const [selection, setSelection] = useState("");
+    const [type, setType] = useState("text");
 
     const socket = useRef(io())
 
@@ -107,6 +109,8 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
         };
 
         socket.current.emit("comment", commentInfo);
+
+        setShowPopup(false);
     }
 
     function closePopup() {
@@ -152,8 +156,17 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
                             <label>Titel</label>
                             <input role="titletext" name="title" type="text" onChange={handleTitleChange} defaultValue={title}></input>
                             <label>Innehåll</label>
-                            <textarea name="content" value={content} onChange={handleContentChange} onSelect={handleComment}>{content}</textarea>
+                            {type == "text" && <textarea name="content" value={content} onChange={handleContentChange} onSelect={handleComment}>{content}</textarea>}
+                            {type == "code" && <Editor
+                                height="100px"
+                                language="javascript"
+                                theme="vs-dark"
+                                value={content}
+                                onChange={handleContentChange}
+                            />}
+
                         </form>
+
                         <Share></Share>
                     </div>
                 </div>

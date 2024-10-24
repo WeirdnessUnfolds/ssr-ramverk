@@ -8,7 +8,7 @@ const Share = () => {
     event.preventDefault();
     const email = (document.getElementById("mail") as HTMLInputElement).value;
     try {
-      const mailSend = await axios.post(url + '/sendmail', {
+      const mailSend = await axios.post(url + '/share', {
         mail: email
       });
       console.log("A mail has been sent!");
