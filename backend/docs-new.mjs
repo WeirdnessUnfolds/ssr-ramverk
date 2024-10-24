@@ -74,6 +74,16 @@ const dbhandler = {
         return res;
     },
 
+    checkUser: async function checkUser(username) {
+        const client = await mongo.connect(dsn);
+        const db = await client.db();
+        const col = await db.collection("users");
+        const res = await col.findOne({ username: username });
+
+        await client.close();
+        return res;
+    },
+
     /**
      * Finds a document in the database by its ObjectId, and deletes it or undefined
      * @param {string} id
