@@ -15,7 +15,7 @@ const Createdoc = () => {
     const [codeVisible, setCodeVisibility] = useState(false);
     const [editorContent, setEditorContent] = useState("");
     const token = localStorage.getItem('token')
-    function handleEditorChange(value: string, event) {
+    function handleEditorChange(value: string) {
         setEditorContent(value)
     }
 
@@ -23,36 +23,40 @@ const Createdoc = () => {
 
         if (codeVisible) {
             let content = editorContent
-            let data = {
-                title: title,
-                content: content
-            }
+            const formData = new FormData(document.querySelector('#docForm') as HTMLFormElement);
+            formData.append("content", content)
+            let data = Object.fromEntries(formData);
+
+            console.log(data)
+
         }
         else if (textVisible) {
             const formData = new FormData(document.querySelector('#docForm') as HTMLFormElement);
             let data = Object.fromEntries(formData);
+
+            console.log(data)
         }
 
-        const username = localStorage.getItem('username');
+        // const username = localStorage.getItem('username');
 
-        const postData = {
-            ...data,
-            sharedWith: ["admin", username]
-        };
+        // const postData = {
+        //     ...data,
+        //     sharedWith: ["admin", username]
+        // };
 
-        console.log(postData);
-        await axios.post(`${url}/createdoc`,
-            postData, {
-            headers: {
-                'Content-Type': 'application/json',
-                'x-access-token': token
-            },
-        }).then(function () {
-            setAlertVisibility(true);
-        })
-            .catch(function (error) {
-                console.log(error);
-            });
+        // console.log(postData);
+        // await axios.post(`${url}/createdoc`,
+        //     postData, {
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //         'x-access-token': token
+        //     },
+        // }).then(function () {
+        //     setAlertVisibility(true);
+        // })
+        //     .catch(function (error) {
+        //         console.log(error);
+        //     });
     }
 
     function chooseEditor(e: ChangeEvent<HTMLInputElement>) {
