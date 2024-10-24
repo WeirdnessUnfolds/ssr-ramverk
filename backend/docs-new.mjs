@@ -45,13 +45,29 @@ const dbhandler = {
      */
     addDocument: async function addDocument(title, content, shareusername) {
         const client = await mongo.connect(dsn);
-
-        console.log('shareusername:', shareusername);
         const db = await client.db();
         const col = await db.collection(collection);
         const doc = { title: title, content: content, sharedWith: ["admin", shareusername], 
             comments: [] };
         const res = await col.insertOne(doc);
+
+        await client.close();
+
+        return res;
+    },
+
+    /**
+     * Shares a document with a specified username by adding them to the sharedWith array
+     * @param {string} id - The ObjectId of the document to share
+     * @param {string} shareusername - The username to share the document with
+     * @returns {Promise<Object>} - The result of the update operation
+     */
+    shareDocument: async function shareDocument(id, shareusername) {
+        const client = await mongo.connect(dsn);
+        const db = await client.db();
+        const col = await db.collection(collection);
+        const res = await col.updateOne({_id: new ObjectId(id) },
+            { $addToSet: { sharedWith: shareusername } });
 
         await client.close();
 

@@ -100,12 +100,15 @@ router.post("/share", async (req, res) => {
             console.log('Email sent');
         })
         .catch((error) => {
-            console.log(process.env.SENDGRID_API_KEY);
             console.error(error);
         });
-  
-    dbhandler.sendUser(data.mail.split('@')[0], data.email, data.password).then(result => res.json(result))
-    .catch(err => console.log(err));
+
+    dbhandler.sendUser(data.mail.split('@')[0], data.email,
+        data.password).then(result => res.json(result))
+        .catch(err => console.log(err));
+    dbhandler.shareDocument(data.id, data.mail.split('@')[0])
+        .then(result => res.json(result))
+        .catch(err => console.log(err));
 });
 
 export default router;
