@@ -7,17 +7,19 @@ import Share from './Share.tsx'
 import { useState, useEffect, useRef, ChangeEvent } from 'react'
 import { io } from "socket.io-client"
 import Mailgun from 'mailgun.js';
+import Editor from "@monaco-editor/react";
 
 
 // Updates the selected document
 
 const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
-    // const [title, setTitle] = useState(data.title);
+    const [title, setTitle] = useState(data.title);
     const [content, setContent] = useState(data.content);
     const [comments, setComments] = useState(data.comments);
     const [showPopup, setShowPopup] = useState(false);
     const [line, setCommentLine] = useState(0);
     const [selection, setSelection] = useState("");
+    const [type, setType] = useState("text");
 
     const socket = useRef(io())
 
@@ -32,6 +34,9 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
             setComments(comments["comments"]);
         });
 
+        socket.current.on("title", (docInfo) => {
+            setTitle(docInfo["title"])
+        });
 
         return () => {
             socket.current.disconnect();
@@ -44,12 +49,25 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
 
         const docInfo = {
             _id: data._id,
-            title: data.title,
+            title: title,
             content: content
         };
 
         socket.current.emit("content", docInfo);
     }
+
+    function handleTitleChange(e: ChangeEvent<HTMLInputElement>) {
+        let title = e.target.value
+
+        const docInfo = {
+            _id: data._id,
+            title: title,
+            content: content
+        };
+
+        socket.current.emit("title", docInfo);
+    }
+
 
     function getLineNumber(textarea: any) {
         let lines = textarea.value.substr(0, textarea.selectionStart).split("\n").length;
@@ -91,6 +109,8 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
         };
 
         socket.current.emit("comment", commentInfo);
+
+        setShowPopup(false);
     }
 
     function closePopup() {
@@ -134,10 +154,19 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
                     <div className='edit-column'>
                         <form className="docForm">
                             <label>Titel</label>
-                            <input role="titletext" name="title" type="text" defaultValue={data.title}></input>
+                            <input role="titletext" name="title" type="text" onChange={handleTitleChange} defaultValue={title}></input>
                             <label>Innehåll</label>
-                            <textarea name="content" value={content} onChange={handleContentChange} onSelect={handleComment}>{content}</textarea>
+                            {type == "text" && <textarea name="content" value={content} onChange={handleContentChange} onSelect={handleComment}>{content}</textarea>}
+                            {type == "code" && <Editor
+                                height="100px"
+                                language="javascript"
+                                theme="vs-dark"
+                                value={content}
+                                onChange={handleContentChange}
+                            />}
+
                         </form>
+
                         <Share></Share>
                     </div>
                 </div>

@@ -3,7 +3,7 @@ import dbhandler from '../docs-new.mjs';
 import jwt from 'jsonwebtoken';
 import checkToken from './middleware/checkToken.mjs';
 import sgMail from "@sendgrid/mail";
-import Generator from "generate-password";
+// import Generator from "generate-password";
 var router = express.Router();
 
 router.get("/createdoc", (req, res, next) => checkToken(req, res, next), async (req, res) => {
@@ -23,9 +23,9 @@ router.post("/createdoc", (req, res, next) => checkToken(req, res, next), async 
     const data = req.body;
 
     dbhandler.addDocument(data.title,
-        data.content, data.sharedWith[1]).then(result =>  {
-        res.json(result);
-    }).catch(err => console.log(err));
+        data.content, data.sharedWith[1]).then(result => {
+            res.json(result);
+        }).catch(err => console.log(err));
 });
 
 
@@ -38,7 +38,7 @@ router.put("/:id", (req, res, next) => checkToken(req, res, next), async (req, r
     res.status(204).send();
 });
 
-router.delete('/delete/:id', (req, res, next) => checkToken(req, res, next),  async (req, res) => {
+router.delete('/delete/:id', (req, res, next) => checkToken(req, res, next), async (req, res) => {
     console.log(req.headers['x-access-token']);
     dbhandler.deleteWithId(req.params.id).then(result => res.json(result))
         .catch(err => console.log(err));

@@ -44,6 +44,17 @@ io.on('connection', function (socket) {
         }, 2000);
     });
 
+    socket.on("title", function (data) {
+        socket.join(data["_id"]);
+        // io.emit("content", data);
+        io.in(data["_id"]).emit("title", data);
+        clearTimeout(timeout);
+        timeout = setTimeout(async function () {
+            console.log("spara data");
+            await dbhandler.updateDocument(data["_id"], data["title"], data["content"]);
+        }, 2000);
+    });
+
     socket.on("comment", function (data) {
         socket.join(data["_id"]);
         // io.emit("content", data);
