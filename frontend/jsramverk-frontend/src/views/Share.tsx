@@ -3,21 +3,27 @@ import React from 'react';
 import axios from 'axios';
 import url from '../helpers/url.tsx';
 
-const Share = () => {
+
+
+interface Props {
+  id: string
+  onShare: () => void
+}
+const Share = (id  : Props) => {
   const handleShare = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     const email = (document.getElementById("mail") as HTMLInputElement).value;
     try {
-      const mailSend = await axios.post(url + '/share', {
-        mail: email
+      await axios.post(url + '/share', {
+        mail: email,
+        id: id
       });
-      console.log("A mail has been sent!");
     } catch (error) {
       console.log(error);
     }
   }
   return (
-    <>
+    <> 
       <form>
         <label>Dela med </label>
         <input id="mail" name="mail" type="email"></input>
