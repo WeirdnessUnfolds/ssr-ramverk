@@ -3,7 +3,6 @@ import dbhandler from '../docs-new.mjs';
 import jwt from 'jsonwebtoken';
 import checkToken from './middleware/checkToken.mjs';
 import sgMail from "@sendgrid/mail";
-// import Generator from "generate-password";
 var router = express.Router();
 
 router.get("/createdoc", (req, res, next) => checkToken(req, res, next), async (req, res) => {
