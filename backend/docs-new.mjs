@@ -49,7 +49,8 @@ const dbhandler = {
         console.log('shareusername:', shareusername);
         const db = await client.db();
         const col = await db.collection(collection);
-        const doc = { title: title, content: content, sharedWith: ["admin", shareusername], comments: [] };
+        const doc = { title: title, content: content, sharedWith: ["admin", shareusername], 
+            comments: [] };
         const res = await col.insertOne(doc);
 
         await client.close();
