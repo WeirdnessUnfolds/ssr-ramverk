@@ -3,13 +3,13 @@ import axios from 'axios';
 import url from '../helpers/url.tsx';
 import { useState } from 'react';
 interface LoginProps {
-  onLogin: () => void;
-  onSignup: () => void;
+    onLogin: () => void;
+    onSignup: () => void;
 }
-function Login({ onLogin, onSignup }: LoginProps) {
+function Login({ onLogin, onSignup}: LoginProps) {
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
-  const handleLoginSubmit = async (e: React.FormEvent | React.MouseEvent) => {
+  const handleLoginSubmit = async (e : React.FormEvent | React.MouseEvent ) => {
     e.preventDefault();
     try {
       const response = await axios.post(url + '/login', {
@@ -19,9 +19,7 @@ function Login({ onLogin, onSignup }: LoginProps) {
         username: username,
         password: password
       });
-
-      console.log(response.data)
-
+  
       if (response.data === "Match") {
         try {
           const tokenResponse = await axios.post(url + '/gettoken', {
@@ -41,14 +39,14 @@ function Login({ onLogin, onSignup }: LoginProps) {
       console.log(error);
     }
   };
-  const handleSignupPress = () => {
-    onSignup();
-  }
+   const handleSignupPress = () => {
+     onSignup();
+   }
   return (
     <div className='logincontainer'>
       <h1>File Editor - Login</h1>
       <form className='login'>
-        <input type="text" placeholder="Username" onChange={(e) => setUsername(e.target.value)} />
+        <input type="text" placeholder="Username" onChange={(e) => setUsername(e.target.value)}/>
         <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
         <button type="submit" onClick={handleLoginSubmit}>Login</button>
       </form>
