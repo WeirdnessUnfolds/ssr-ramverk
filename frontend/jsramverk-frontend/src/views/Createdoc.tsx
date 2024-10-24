@@ -1,10 +1,10 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFloppyDisk } from '@fortawesome/free-solid-svg-icons'
 import Alert from './Alert'
-import { ChangeEvent, useState, useRef } from 'react'
+import { ChangeEvent, useState } from 'react'
 import axios from 'axios'
 import url from '../helpers/url.tsx'
-import Editor, { EditorProps } from "@monaco-editor/react";
+import Editor from "@monaco-editor/react";
 // Ordna en function som skapar ett nytt dokument till backend.
 
 // Creates a new document from a form
@@ -21,42 +21,43 @@ const Createdoc = () => {
 
     const handleClick = async () => {
 
+        let data: any
+
         if (codeVisible) {
             let content = editorContent
             const formData = new FormData(document.querySelector('#docForm') as HTMLFormElement);
             formData.append("content", content)
-            let data = Object.fromEntries(formData);
+            data = Object.fromEntries(formData);
 
             console.log(data)
 
         }
         else if (textVisible) {
             const formData = new FormData(document.querySelector('#docForm') as HTMLFormElement);
-            let data = Object.fromEntries(formData);
-
+            data = Object.fromEntries(formData);
             console.log(data)
         }
 
-        // const username = localStorage.getItem('username');
+        const username = localStorage.getItem('username');
 
-        // const postData = {
-        //     ...data,
-        //     sharedWith: ["admin", username]
-        // };
+        const postData = {
+            ...data,
+            sharedWith: ["admin", username]
+        };
 
-        // console.log(postData);
-        // await axios.post(`${url}/createdoc`,
-        //     postData, {
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         'x-access-token': token
-        //     },
-        // }).then(function () {
-        //     setAlertVisibility(true);
-        // })
-        //     .catch(function (error) {
-        //         console.log(error);
-        //     });
+        console.log(postData);
+        await axios.post(`${url}/createdoc`,
+            postData, {
+            headers: {
+                'Content-Type': 'application/json',
+                'x-access-token': token
+            },
+        }).then(function () {
+            setAlertVisibility(true);
+        })
+            .catch(function (error) {
+                console.log(error);
+            });
     }
 
     function chooseEditor(e: ChangeEvent<HTMLInputElement>) {

@@ -43,12 +43,14 @@ const dbhandler = {
      * @param {string} content - The content of the document
      * @returns {Promise<Object>} - The result of the insert operation.
      */
-    addDocument: async function addDocument(title, content, shareusername) {
+    addDocument: async function addDocument(title, content, shareusername, type) {
         const client = await mongo.connect(dsn);
         const db = await client.db();
         const col = await db.collection(collection);
-        const doc = { title: title, content: content, sharedWith: ["admin", shareusername], 
-            comments: [] };
+        const doc = {
+            title: title, content: content, sharedWith: ["admin", shareusername],
+            comments: [], type: type
+        };
         const res = await col.insertOne(doc);
 
         await client.close();
@@ -66,7 +68,7 @@ const dbhandler = {
         const client = await mongo.connect(dsn);
         const db = await client.db();
         const col = await db.collection(collection);
-        const res = await col.updateOne({_id: new ObjectId(id) },
+        const res = await col.updateOne({ _id: new ObjectId(id) },
             { $addToSet: { sharedWith: shareusername } });
 
         await client.close();
@@ -124,6 +126,7 @@ const dbhandler = {
         const db = await client.db();
         const col = await db.collection("users");
         let resstring = "";
+        console.log(inputpassword)
 
         try {
             const user = await col.findOne({ username: username });

@@ -21,7 +21,9 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
     const [line, setCommentLine] = useState(0);
     const [selection, setSelection] = useState("");
     const [alertVisible, setAlertVisibility] = useState(false);
-    const [type, setType] = useState("text");
+    const [type, setType] = useState(data.type);
+
+    console.log(data.type)
 
     const socket = useRef(io())
 
@@ -89,9 +91,6 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
         }
     }
 
-
-
-
     function sendComment() {
         console.log("send comment")
         console.log(localStorage.getItem('username'));
@@ -146,7 +145,7 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
                 <p>Loading document content..</p>
             </div>
             :
-            <div > 
+            <div >
                 {showPopup &&
                     <div className='popup'>
                         <form className="commentForm" id="commentForm">
@@ -176,7 +175,7 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
                         </form>
                         {alertVisible && <Alert onClose={() => window.location.reload()}>Ett mail har skickats med en inbjudan till att redigera dokumentet</Alert>}
                         <Share id={data._id} onShare={handleOnShare} ></Share>
-                
+
                     </div>
                 </div>
             </div >

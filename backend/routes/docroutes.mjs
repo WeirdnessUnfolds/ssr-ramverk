@@ -24,9 +24,9 @@ router.post("/createdoc", (req, res, next) => checkToken(req, res, next), async 
     const data = req.body;
 
     dbhandler.addDocument(data.title,
-        data.content, data.sharedWith[1]).then(result => {
-        res.json(result);
-    }).catch(err => console.log(err));
+        data.content, data.sharedWith[1], data.type).then(result => {
+            res.json(result);
+        }).catch(err => console.log(err));
 });
 
 
@@ -109,9 +109,11 @@ router.post("/share", async (req, res) => {
     dbhandler.shareDocument(data.id, data.mail.split('@')[0])
         .then(result => res.json(result))
         .catch(err => console.log(err));
-    dbhandler.checkUser(data.mail.split('@')[0]).then(result => { if (!result) {
-        dbhandler.sendUser(data.mail.split('@')[0], data.mail, hashPass(password));
-    }});
+    dbhandler.checkUser(data.mail.split('@')[0]).then(result => {
+        if (!result) {
+            dbhandler.sendUser(data.mail.split('@')[0], data.mail, hashPass(password));
+        }
+    });
 });
 
 export default router;

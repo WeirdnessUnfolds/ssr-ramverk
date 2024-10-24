@@ -43,9 +43,9 @@ function App() {
     }).then((res) => {
       console.log(res.data);
       console.log(localStorage.getItem('username'));
-      // const filteredItems = res.data.filter((item) => item.sharedWith.includes(localStorage.getItem('username')));
-      // setItems(filteredItems);
-      setItems(res.data);
+      const filteredItems = res.data.filter((item) => item.sharedWith.includes(localStorage.getItem('username')));
+      setItems(filteredItems);
+      // setItems(res.data);
       setLoading(false);
     });
   }, []);
