@@ -6,6 +6,7 @@ import CommentSection from './CommentSection.tsx'
 import Share from './Share.tsx'
 import { useState, useEffect, useRef, ChangeEvent } from 'react'
 import { io } from "socket.io-client"
+import Alert from './Alert.tsx'
 import Mailgun from 'mailgun.js';
 import Editor from "@monaco-editor/react";
 
@@ -19,6 +20,7 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
     const [showPopup, setShowPopup] = useState(false);
     const [line, setCommentLine] = useState(0);
     const [selection, setSelection] = useState("");
+    const [alertVisible, setAlertVisibility] = useState(false);
     const [type, setType] = useState("text");
 
     const socket = useRef(io())
@@ -88,6 +90,8 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
     }
 
 
+
+
     function sendComment() {
         console.log("send comment")
         console.log(localStorage.getItem('username'));
@@ -117,6 +121,10 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
         setShowPopup(false);
     }
 
+    function handleOnShare() {
+        setAlertVisibility(true);
+    }
+
     function deleteComment(id: number) {
         const newCommentArray = comments.filter((i) => (i.comment_id !== id))
         setComments(newCommentArray);
@@ -138,7 +146,7 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
                 <p>Loading document content..</p>
             </div>
             :
-            <div >
+            <div > 
                 {showPopup &&
                     <div className='popup'>
                         <form className="commentForm" id="commentForm">
@@ -166,8 +174,9 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
                             />}
 
                         </form>
-
-                        <Share></Share>
+                        {alertVisible && <Alert onClose={() => window.location.reload()}>Ett mail har skickats med en inbjudan till att redigera dokumentet</Alert>}
+                        <Share id={data._id} onShare={handleOnShare} ></Share>
+                
                     </div>
                 </div>
             </div >
