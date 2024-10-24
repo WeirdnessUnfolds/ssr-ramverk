@@ -167,7 +167,8 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
                         </form>
                     </div>}
                 <div className='two-column'>
-                    <CommentSection deleteComment={(id) => deleteComment(id)}>{comments}</CommentSection>
+                    {type == "text" && <CommentSection deleteComment={(id) => deleteComment(id)}>{comments}</CommentSection>}
+
                     <div className='edit-column'>
                         <form className="docForm">
                             <label>Titel</label>
@@ -175,7 +176,8 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
                             <label>Innehåll</label>
                             {type == "text" && <textarea name="content" value={content} onChange={handleContentChange} onSelect={handleComment}>{content}</textarea>}
                             {type == "code" && <Editor
-                                height="100px"
+                                height="400px"
+                                width="600px"
                                 language="javascript"
                                 theme="vs-dark"
                                 value={content}
