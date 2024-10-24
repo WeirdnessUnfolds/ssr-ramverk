@@ -23,8 +23,6 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
     const [alertVisible, setAlertVisibility] = useState(false);
     const [type, setType] = useState(data.type);
 
-    console.log(data.type)
-
     const socket = useRef(io())
 
     useEffect(() => {
@@ -50,6 +48,18 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
 
     function handleContentChange(e: ChangeEvent<HTMLTextAreaElement>) {
         let content = e.target.value
+
+        const docInfo = {
+            _id: data._id,
+            title: title,
+            content: content
+        };
+
+        socket.current.emit("content", docInfo);
+    }
+
+    function handleCodeContentChange(value: string) {
+        let content = value
 
         const docInfo = {
             _id: data._id,
@@ -169,7 +179,7 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
                                 language="javascript"
                                 theme="vs-dark"
                                 value={content}
-                                onChange={handleContentChange}
+                                onChange={handleCodeContentChange}
                             />}
 
                         </form>
