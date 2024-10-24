@@ -4,7 +4,7 @@ import Alert from './Alert'
 import { ChangeEvent, useState, useRef } from 'react'
 import axios from 'axios'
 import url from '../helpers/url.tsx'
-import Editor from "@monaco-editor/react";
+import Editor, { EditorProps } from "@monaco-editor/react";
 // Ordna en function som skapar ett nytt dokument till backend.
 
 // Creates a new document from a form
@@ -13,18 +13,16 @@ const Createdoc = () => {
     const [alertVisible, setAlertVisibility] = useState(false);
     const [textVisible, setTextVisibility] = useState(true);
     const [codeVisible, setCodeVisibility] = useState(false);
+    const [editorContent, setEditorContent] = useState("");
     const token = localStorage.getItem('token')
-    const editorRef = useRef(null);
-
-    function handleEditorDidMount(editor) {
-        editorRef.current = editor;
+    function handleEditorChange(value: string, event) {
+        setEditorContent(value)
     }
 
     const handleClick = async () => {
 
         if (codeVisible) {
-            let content = editorRef.current.getValue()
-            let title = document.getElementsByName("title")[0].textContent
+            let content = editorContent
             let data = {
                 title: title,
                 content: content
@@ -73,19 +71,26 @@ const Createdoc = () => {
         <div>
             {alertVisible && <Alert onClose={() => window.location.reload()}>Nu är dokumentet är nu sparat</Alert>}
             <form id="docForm" className="docForm">
-                <div onChange={chooseEditor}>
-                    <input type="radio" value="text" name="type" defaultChecked /> Text
-                    <input type="radio" value="code" name="type" /> Code
+                <div className="radioButton" onChange={chooseEditor}>
+                    <label>
+                        <input type="radio" value="text" name="type" defaultChecked />
+                        Text
+                    </label>
+                    <label>
+                        <input type="radio" value="code" name="type" />
+                        Code
+                    </label>
                 </div>
                 <label>Titel</label>
                 <input role="titlearea" name="title" type="text" ></input>
                 <label>Innehåll</label>
                 {textVisible && <textarea role="contentarea" name="content" ></textarea>}
                 {codeVisible && <Editor
-                    height="100px"
+                    height="400px"
+                    width="600px"
                     language="javascript"
                     theme="vs-dark"
-                    onMount={handleEditorDidMount}
+                    onChange={handleEditorChange}
                 />}
                 <button role="Send" type="button"><FontAwesomeIcon icon={faFloppyDisk} onClick={handleClick} /></button>
             </form>
