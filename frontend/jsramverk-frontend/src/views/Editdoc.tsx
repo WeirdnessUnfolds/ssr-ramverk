@@ -173,9 +173,8 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
                             />}
 
                         </form>
-                        {alertVisible && <Alert onClose={() => window.location.reload()}>Ett mail har skickats med en inbjudan till att redigera dokumentet</Alert>}
                         <Share id={data._id} onShare={handleOnShare} ></Share>
-
+                        {alertVisible && <Alert onClose={() => setAlertVisibility(false)}>Ett mail har skickats med en inbjudan till att redigera dokumentet</Alert>}
                     </div>
                 </div>
             </div >

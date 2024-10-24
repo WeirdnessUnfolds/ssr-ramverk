@@ -9,7 +9,7 @@ interface Props {
   id: string
   onShare: () => void
 }
-const Share = (id  : Props) => {
+const Share = ({id, onShare}: Props) => {
   const handleShare = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     const email = (document.getElementById("mail") as HTMLInputElement).value;
@@ -21,6 +21,7 @@ const Share = (id  : Props) => {
     } catch (error) {
       console.log(error);
     }
+    onShare();
   }
   return (
     <> 
