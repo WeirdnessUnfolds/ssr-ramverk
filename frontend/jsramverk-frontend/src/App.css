@@ -225,3 +225,14 @@ CommentSection {
   border: grey 2px solid;
   margin: 1em;
 }
+
+.radioButton {
+  width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.radioButton input {
+  width: 50px;
+
+}
