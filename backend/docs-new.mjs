@@ -1,6 +1,5 @@
 "use strict";
 import 'dotenv/config';
-import bcrypt from 'bcrypt';
 import { MongoClient, ObjectId } from 'mongodb';
 import { dsn, collection } from './dbenvs.mjs';
 const mongo = MongoClient;
@@ -76,15 +75,7 @@ const dbhandler = {
         return res;
     },
 
-    checkUser: async function checkUser(username) {
-        const client = await mongo.connect(dsn);
-        const db = await client.db();
-        const col = await db.collection("users");
-        const res = await col.findOne({ username: username });
 
-        await client.close();
-        return res;
-    },
 
     /**
      * Finds a document in the database by its ObjectId, and deletes it or undefined
@@ -100,54 +91,6 @@ const dbhandler = {
         await client.close();
 
         return res;
-    },
-
-    /**
-     * Adds a new user to the users collection
-     * @param {string} username - The username of the user
-     * @param {string} email - The email of the user
-     * @param {string} password - The password of the user
-     * @returns {Promise<Object>} - The result of the insert operation
-     */
-    sendUser: async function sendUser(username, email, password) {
-        const client = await mongo.connect(dsn);
-        const db = await client.db();
-        const col = await db.collection("users");
-        const nameentry = { username: username, email: email, password: password };
-        const res = await col.insertOne(nameentry);
-
-        await client.close();
-
-        return res;
-    },
-
-    matchPass: async function matchPass(username, inputpassword) {
-        const client = await mongo.connect(dsn);
-        const db = await client.db();
-        const col = await db.collection("users");
-        let resstring = "";
-        console.log(inputpassword)
-
-        try {
-            const user = await col.findOne({ username: username });
-
-            if (!user) {
-                resstring = "No user exists with this username.";
-            } else {
-                const match = await bcrypt.compare(inputpassword, user.password);
-
-                if (match) {
-                    resstring = "Match";
-                } else {
-                    resstring = "Wrong password.";
-                }
-            }
-        } catch (err) {
-            console.error(err);
-            resstring = "An error occured with the encryption function.";
-        }
-        await client.close();
-        return resstring;
     },
 
     /**
