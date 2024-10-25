@@ -8,17 +8,6 @@ const mongo = MongoClient;
 const userhandler = {
 
 
-    checkUser: async function checkUser(username, mail) {
-        const client = await mongo.connect(dsn);
-        const db = await client.db();
-        const col = await db.collection("users");
-        var res;
-
-        res = await col.findOne({ $or: [{ email: mail }, { username: username }] });
-        await client.close();
-        return res;
-    },
-
     /**
      * Adds a new user to the users collection
      * @param {string} username - The username of the user
@@ -31,8 +20,16 @@ const userhandler = {
         const db = await client.db();
         const col = await db.collection("users");
         const nameentry = { username: username, email: email, password: password };
-        const res = await col.insertOne(nameentry);
+        var res;
+        var uniqueNameres;
 
+        uniqueNameres = await col.findOne({ $or: [{ email: email }, { username: username }] });
+
+        if (uniqueNameres) {
+            res = "User with this name or email already exists.";
+        } else {
+            res = await col.insertOne(nameentry);
+        }
         await client.close();
 
         return res;

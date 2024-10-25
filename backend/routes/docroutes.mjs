@@ -57,16 +57,8 @@ router.post("/update/:id", (req, res, next) => checkToken(req, res, next), async
 router.post("/signup", async (req, res) => {
     const data = req.body;
 
-
-    userhandler.checkUser(data.username, data.email).then(result => {
-        if (!result) {
-            userhandler.sendUser(data.username, data.email, data.password)
-                .then(result => res.json(result))
-                .catch(err => console.log(err));
-        } else {
-            res.send("User with this name or email already exists.");
-        }
-    });
+    userhandler.sendUser(data.username, data.email, data.password).then(result => res.json(result))
+        .catch(err => console.log(err));
 
     console.log("Användarnamn:", data.username);
     console.log("Hashat lösenord:", data.password);
