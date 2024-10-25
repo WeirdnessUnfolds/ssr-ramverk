@@ -59,8 +59,16 @@ router.post("/signup", async (req, res) => {
     const data = req.body;
 
 
-    dbhandler.sendUser(data.username, data.email, data.password).then(result => res.json(result))
-        .catch(err => console.log(err));
+    dbhandler.checkUser(data.username).then(result => {
+        if (!result) {
+            dbhandler.sendUser(data.username, data.email, data.password)
+                .then(result => res.json(result))
+                .catch(err => console.log(err));
+        } else {
+            res.send("User with this name already exists.")
+        }
+    });
+
     console.log("Användarnamn:", data.username);
     console.log("Hashat lösenord:", data.password);
     console.log("Email:", data.email);
