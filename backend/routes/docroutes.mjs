@@ -13,8 +13,6 @@ router.get("/createdoc", (req, res, next) => checkToken(req, res, next), async (
         data: {
             info: "Here, a document will be created."
         }
-
-
     };
 
     res.json(data);
@@ -26,8 +24,8 @@ router.post("/createdoc", (req, res, next) => checkToken(req, res, next), async 
 
     dbhandler.addDocument(data.title,
         data.content, data.sharedWith[1], data.type).then(result => {
-            res.json(result);
-        }).catch(err => console.log(err));
+        res.json(result);
+    }).catch(err => console.log(err));
 });
 
 
@@ -104,7 +102,6 @@ router.post("/share", async (req, res) => {
         Ditt lösenord blir: ${password}
         Gå in på vår adress och skapa en användare med namnet ovan för att få åtkomst.`
     };
-
 
     sgMail
         .send(msg)
