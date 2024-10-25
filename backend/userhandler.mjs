@@ -8,12 +8,13 @@ const mongo = MongoClient;
 const userhandler = {
 
 
-    checkUser: async function checkUser(username) {
+    checkUser: async function checkUser(username, mail) {
         const client = await mongo.connect(dsn);
         const db = await client.db();
         const col = await db.collection("users");
-        const res = await col.findOne({ username: username });
+        var res;
 
+        res = await col.findOne({ $or: [{ email: mail }, { username: username }] });
         await client.close();
         return res;
     },

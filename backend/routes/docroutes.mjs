@@ -5,6 +5,7 @@ import checkToken from './middleware/checkToken.mjs';
 import sgMail from "@sendgrid/mail";
 import generatePassword from './middleware/passwordgen.mjs';
 import hashPass from './middleware/hashPass.mjs';
+import userhandler from '../userhandler.mjs';
 var router = express.Router();
 
 router.get("/createdoc", (req, res, next) => checkToken(req, res, next), async (req, res) => {
@@ -59,13 +60,13 @@ router.post("/signup", async (req, res) => {
     const data = req.body;
 
 
-    dbhandler.checkUser(data.username).then(result => {
+    userhandler.checkUser(data.username, data.email).then(result => {
         if (!result) {
-            dbhandler.sendUser(data.username, data.email, data.password)
+            userhandler.sendUser(data.username, data.email, data.password)
                 .then(result => res.json(result))
                 .catch(err => console.log(err));
         } else {
-            res.send("User with this name already exists.")
+            res.send("User with this name or email already exists.")
         }
     });
 
@@ -77,7 +78,7 @@ router.post("/signup", async (req, res) => {
 router.post("/login", async (req, res) => {
     const data = req.body;
 
-    dbhandler.matchPass(data.username, data.password).then(result => res.json(result))
+    userhandler.matchPass(data.username, data.password).then(result => res.json(result))
         .catch(err => console.log(err));
 });
 
