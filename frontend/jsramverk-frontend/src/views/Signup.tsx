@@ -23,9 +23,13 @@ function Signup( {SignupSubmit}: SignupProps) {
                username: username,
                email: email,
                password: hash     
-           }).then(function () {
+           }).then(function (result) {
+            if (result.data === 'User with this name or email already exists.') {
+                alert(result.data);
+            }
+            else {
             SignupSubmit();
-            
+            }
         })
             .catch(function (err) {
                 console.log(err);

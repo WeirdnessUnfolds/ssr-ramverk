@@ -5,6 +5,7 @@ import checkToken from './middleware/checkToken.mjs';
 import sgMail from "@sendgrid/mail";
 import generatePassword from './middleware/passwordgen.mjs';
 import hashPass from './middleware/hashPass.mjs';
+import userhandler from '../userhandler.mjs';
 var router = express.Router();
 
 router.get("/createdoc", (req, res, next) => checkToken(req, res, next), async (req, res) => {
@@ -12,8 +13,6 @@ router.get("/createdoc", (req, res, next) => checkToken(req, res, next), async (
         data: {
             info: "Here, a document will be created."
         }
-
-
     };
 
     res.json(data);
@@ -25,8 +24,8 @@ router.post("/createdoc", (req, res, next) => checkToken(req, res, next), async 
 
     dbhandler.addDocument(data.title,
         data.content, data.sharedWith[1], data.type).then(result => {
-            res.json(result);
-        }).catch(err => console.log(err));
+        res.json(result);
+    }).catch(err => console.log(err));
 });
 
 
@@ -58,9 +57,9 @@ router.post("/update/:id", (req, res, next) => checkToken(req, res, next), async
 router.post("/signup", async (req, res) => {
     const data = req.body;
 
-
-    dbhandler.sendUser(data.username, data.email, data.password).then(result => res.json(result))
+    userhandler.sendUser(data.username, data.email, data.password).then(result => res.json(result))
         .catch(err => console.log(err));
+
     console.log("Användarnamn:", data.username);
     console.log("Hashat lösenord:", data.password);
     console.log("Email:", data.email);
@@ -69,7 +68,7 @@ router.post("/signup", async (req, res) => {
 router.post("/login", async (req, res) => {
     const data = req.body;
 
-    dbhandler.matchPass(data.username, data.password).then(result => res.json(result))
+    userhandler.matchPass(data.username, data.password).then(result => res.json(result))
         .catch(err => console.log(err));
 });
 
@@ -95,7 +94,6 @@ router.post("/share", async (req, res) => {
         Ditt lösenord blir: ${password}
         Gå in på vår adress och skapa en användare med namnet ovan för att få åtkomst.`
     };
-
 
     sgMail
         .send(msg)
