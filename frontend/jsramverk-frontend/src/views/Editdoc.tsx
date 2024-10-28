@@ -1,13 +1,13 @@
 import { Item } from './ShowAll'
 
-// import axios from 'axios'
+import axios from 'axios'
 import url from '../helpers/url.tsx'
 import CommentSection from './CommentSection.tsx'
 import Share from './Share.tsx'
 import { useState, useEffect, useRef, ChangeEvent } from 'react'
 import { io } from "socket.io-client"
 import Alert from './Alert.tsx'
-import Mailgun from 'mailgun.js';
+// import Mailgun from 'mailgun.js';
 import Editor from "@monaco-editor/react";
 
 
@@ -22,6 +22,7 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
     const [selection, setSelection] = useState("");
     const [alertVisible, setAlertVisibility] = useState(false);
     const [type, setType] = useState(data.type);
+    const [codeResult, setCodeResult] = useState("");
 
     const socket = useRef(io())
 
@@ -58,7 +59,7 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
         socket.current.emit("content", docInfo);
     }
 
-    function handleCodeContentChange(value: string) {
+    function handleCodeContentChange(value: string | undefined) {
         let content = value
 
         const docInfo = {
@@ -147,6 +148,26 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
         socket.current.emit("comment", commentInfo);
     }
 
+    const runCode = async () => {
+        setCodeResult("Running code...")
+        var data = {
+            code: btoa(content)
+        };
+
+        await axios.post(`https://execjs.emilfolino.se/code`,
+            JSON.stringify(data), {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        }).then((res) => {
+            let decodedOutput = atob(res.data.data);
+            setCodeResult(decodedOutput)
+        })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
 
     return (
 
@@ -168,21 +189,25 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
                     </div>}
                 <div className='two-column'>
                     {type == "text" && <CommentSection deleteComment={(id) => deleteComment(id)}>{comments}</CommentSection>}
-
+                    {type == "code" && <div className="consoleColumn">
+                        <h2>Konsol</h2>
+                        <div className="console">{codeResult}</div>
+                        <button className='runbtn' type="button" onClick={runCode}>Kör kod</button></div>}
                     <div className='edit-column'>
                         <form className="docForm">
                             <label>Titel</label>
                             <input role="titletext" name="title" type="text" onChange={handleTitleChange} defaultValue={title}></input>
                             <label>Innehåll</label>
                             {type == "text" && <textarea name="content" value={content} onChange={handleContentChange} onSelect={handleComment}>{content}</textarea>}
-                            {type == "code" && <Editor
+                            {type == "code" && <div className="editor"><Editor
                                 height="400px"
                                 width="600px"
                                 language="javascript"
                                 theme="vs-dark"
                                 value={content}
                                 onChange={handleCodeContentChange}
-                            />}
+                            />
+                            </div>}
 
                         </form>
                         <Share id={data._id} onShare={handleOnShare} ></Share>

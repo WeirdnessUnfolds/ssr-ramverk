@@ -9,7 +9,7 @@ interface Props {
   id: string
   onShare: () => void
 }
-const Share = ({id, onShare}: Props) => {
+const Share = ({ id, onShare }: Props) => {
   const handleShare = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     const email = (document.getElementById("mail") as HTMLInputElement).value;
@@ -24,7 +24,7 @@ const Share = ({id, onShare}: Props) => {
     onShare();
   }
   return (
-    <> 
+    <>
       <form>
         <label>Dela med </label>
         <input id="mail" name="mail" type="email"></input>

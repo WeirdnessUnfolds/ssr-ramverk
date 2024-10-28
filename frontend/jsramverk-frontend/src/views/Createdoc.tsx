@@ -97,7 +97,7 @@ const Createdoc = () => {
                     theme="vs-dark"
                     onChange={handleEditorChange}
                 />}
-                <button role="Send" type="button"><FontAwesomeIcon icon={faFloppyDisk} onClick={handleClick} /></button>
+                <button className='docFormBtn' role="Send" type="button"><FontAwesomeIcon icon={faFloppyDisk} onClick={handleClick} /></button>
             </form>
         </div>
 
