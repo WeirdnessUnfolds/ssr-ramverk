@@ -59,7 +59,6 @@ function CodeEditorView({ inputcontent, id, inputtitle }: Props) {
 
     const runCode = async () => {
         setCodeResult("Running code...")
-        console.log(content)
         var data = {
             code: btoa(content)
         };
@@ -71,6 +70,7 @@ function CodeEditorView({ inputcontent, id, inputtitle }: Props) {
             },
         }).then((res) => {
             let decodedOutput = atob(res.data.data);
+            console.log(decodedOutput)
             setCodeResult(decodedOutput)
         })
             .catch(function (error) {
@@ -91,7 +91,7 @@ function CodeEditorView({ inputcontent, id, inputtitle }: Props) {
                         <input role="titletext" name="title" type="text" onChange={handleTitleChange} defaultValue={title}></input>
                         <label>Innehåll</label>
                         <Editor
-                            height="400px"
+                            height="800px"
                             width="600px"
                             language="javascript"
                             theme="vs-dark"
