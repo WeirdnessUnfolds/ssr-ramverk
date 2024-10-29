@@ -52,7 +52,7 @@ function TextEditorView({ inputcontent, id, inputtitle, inputcomments }: Props) 
     }
 
     function handleTitleChange(e: ChangeEvent<HTMLInputElement>) {
-        let title = e.target.value
+        const title = e.target.value
 
         const docInfo = {
             _id: id,
@@ -68,7 +68,7 @@ function TextEditorView({ inputcontent, id, inputtitle, inputcomments }: Props) 
         return lines
     }
 
-    function handleComment(e: any) {
+    function handleComment(e: ChangeEvent<HTMLTextAreaElement>) {
         setSelection(e.target.value.substring(
             e.target.selectionStart,
             e.target.selectionEnd
