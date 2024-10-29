@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import url from '../helpers/url.ts';
+import url from '../helpers/url';
 import { useState } from 'react';
 interface LoginProps {
     onLogin: () => void;
