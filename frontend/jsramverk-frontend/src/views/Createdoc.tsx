@@ -15,7 +15,8 @@ const Createdoc = () => {
     const [codeVisible, setCodeVisibility] = useState(false);
     const [editorContent, setEditorContent] = useState("");
     const token = localStorage.getItem('token')
-    function handleEditorChange(value: string) {
+
+    function handleEditorChange(value: any) {
         setEditorContent(value)
     }
 

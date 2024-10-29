@@ -29,7 +29,7 @@ const ShowAll = ({ data, loading, onSelected }: { data: Item[]; loading: boolean
         'Content-Type': 'application/json',
         'x-access-token': localStorage.getItem('token')
       },
-    }).then(function (res) {
+    }).then(function () {
       window.location.reload();
 
     })
