@@ -34,7 +34,7 @@ function CodeEditorView({ inputcontent, id, inputtitle }: Props) {
     }, []);
 
     function handleCodeContentChange(value: string | undefined) {
-        let content = value
+        const content = value
 
         const docInfo = {
             _id: id,
@@ -46,7 +46,7 @@ function CodeEditorView({ inputcontent, id, inputtitle }: Props) {
     }
 
     function handleTitleChange(e: ChangeEvent<HTMLInputElement>) {
-        let title = e.target.value
+        const title = e.target.value
 
         const docInfo = {
             _id: id,
@@ -59,7 +59,7 @@ function CodeEditorView({ inputcontent, id, inputtitle }: Props) {
 
     const runCode = async () => {
         setCodeResult("Running code...")
-        var data = {
+        const data = {
             code: btoa(content)
         };
 
@@ -69,7 +69,7 @@ function CodeEditorView({ inputcontent, id, inputtitle }: Props) {
                 'Content-Type': 'application/json',
             },
         }).then((res) => {
-            let decodedOutput = atob(res.data.data);
+            const decodedOutput = atob(res.data.data);
             console.log(decodedOutput)
             setCodeResult(decodedOutput)
         })

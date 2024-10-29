@@ -40,7 +40,7 @@ function TextEditorView({ inputcontent, id, inputtitle, inputcomments }: Props) 
     }, []);
 
     function handleContentChange(e: ChangeEvent<HTMLTextAreaElement>) {
-        let content = e.target.value
+        const content = e.target.value
 
         const docInfo = {
             _id: id,
@@ -52,7 +52,7 @@ function TextEditorView({ inputcontent, id, inputtitle, inputcomments }: Props) 
     }
 
     function handleTitleChange(e: ChangeEvent<HTMLInputElement>) {
-        let title = e.target.value
+        const title = e.target.value
 
         const docInfo = {
             _id: id,
@@ -64,11 +64,11 @@ function TextEditorView({ inputcontent, id, inputtitle, inputcomments }: Props) 
     }
 
     function getLineNumber(textarea: any) {
-        let lines = textarea.value.substr(0, textarea.selectionStart).split("\n").length;
+        const lines = textarea.value.substr(0, textarea.selectionStart).split("\n").length;
         return lines
     }
 
-    function handleComment(e: any) {
+    function handleComment(e: ChangeEvent<HTMLTextAreaElement>) {
         setSelection(e.target.value.substring(
             e.target.selectionStart,
             e.target.selectionEnd

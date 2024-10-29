@@ -24,7 +24,7 @@ const Createdoc = () => {
         let data: any
 
         if (codeVisible) {
-            let content = editorContent
+            const content = editorContent
             const formData = new FormData(document.querySelector('#docForm') as HTMLFormElement);
             formData.append("content", content)
             data = Object.fromEntries(formData);
