@@ -84,7 +84,7 @@ router.post("/share", async (req, res) => {
     const data = req.body;
     const password = generatePassword();
 
-    sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
     const msg = {
         to: data.mail, // Change to your recipient
         from: 'simon.langstrom@hotmail.com', // Change to your verified sender
