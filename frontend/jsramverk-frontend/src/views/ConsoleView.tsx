@@ -7,11 +7,13 @@ interface Props {
 
 function ConsoleView({ inputcontent }: Props) {
     const [codeResult, setCodeResult] = useState("");
+    const [content, setContent] = useState(inputcontent);
 
     const runCode = async () => {
+
         setCodeResult("Running code...")
         var data = {
-            code: btoa(inputcontent)
+            code: btoa(content)
         };
 
         await axios.post(`https://execjs.emilfolino.se/code`,
