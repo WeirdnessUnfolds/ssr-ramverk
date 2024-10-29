@@ -1,10 +1,10 @@
 import { Item } from './ShowAll'
-import Share from './Share.tsx'
+import Share from './Share'
 import { useState } from 'react'
-import Alert from './Alert.tsx'
+import Alert from './Alert'
 // import Mailgun from 'mailgun.js';
-import CodeEditorView from './CodeEditorView.tsx'
-import TextEditorView from './TextEditorView.tsx'
+import CodeEditorView from './CodeEditorView'
+import TextEditorView from './TextEditorView'
 
 
 // Updates the selected document
