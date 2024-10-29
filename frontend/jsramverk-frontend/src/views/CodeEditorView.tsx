@@ -91,7 +91,7 @@ function CodeEditorView({ inputcontent, id, inputtitle }: Props) {
                         <input role="titletext" name="title" type="text" onChange={handleTitleChange} defaultValue={title}></input>
                         <label>Innehåll</label>
                         <Editor
-                            height="800px"
+                            height="700px"
                             width="600px"
                             language="javascript"
                             theme="vs-dark"
