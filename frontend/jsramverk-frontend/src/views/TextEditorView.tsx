@@ -123,6 +123,10 @@ function TextEditorView({ inputcontent, id, inputtitle, inputcomments }: Props) 
         setShowPopup(false);
     }
 
+    function handleBlur(e: any) {
+        e.target.focus();
+    }
+
     return (
         <>
             {showPopup &&
@@ -141,7 +145,7 @@ function TextEditorView({ inputcontent, id, inputtitle, inputcomments }: Props) 
                         <label>Titel</label>
                         <input role="titletext" name="title" type="text" onChange={handleTitleChange} defaultValue={title}></input>
                         <label>Innehåll</label>
-                        <textarea name="content" value={content} onChange={handleContentChange} onSelect={handleComment}>{content}</textarea>
+                        <textarea onBlur={handleBlur} name="content" value={content} onChange={handleContentChange} onSelect={handleComment}>{content}</textarea>
                     </form>
                 </div>
             </div>
