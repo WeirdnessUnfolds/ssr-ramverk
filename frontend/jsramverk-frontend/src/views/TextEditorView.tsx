@@ -8,13 +8,15 @@ interface Props {
     inputtitle: string,
     inputcomments: Array<any>
     id: any
-    sendCommentInfo: (line: number, selection: string) => void
 }
 
-function TextEditorView({ inputcontent, id, inputtitle, inputcomments, sendCommentInfo }: Props) {
+function TextEditorView({ inputcontent, id, inputtitle, inputcomments }: Props) {
     const [content, setContent] = useState(inputcontent);
     const [title, setTitle] = useState(inputtitle);
     const [comments, setComments] = useState(inputcomments);
+    const [showPopup, setShowPopup] = useState(false);
+    const [line, setCommentLine] = useState(0);
+    const [selection, setSelection] = useState("");
     const socket = useRef(io())
 
     useEffect(() => {
@@ -25,7 +27,11 @@ function TextEditorView({ inputcontent, id, inputtitle, inputcomments, sendComme
         });
 
         socket.current.on("title", (docInfo) => {
-            setTitle(docInfo["title"])
+            setTitle(docInfo["title"]);
+        });
+
+        socket.current.on("comment", (comments) => {
+            setComments(comments["comments"]);
         });
 
         return () => {
@@ -63,20 +69,45 @@ function TextEditorView({ inputcontent, id, inputtitle, inputcomments, sendComme
     }
 
     function handleComment(e: any) {
-        const selection = e.target.value.substring(
+        setSelection(e.target.value.substring(
             e.target.selectionStart,
             e.target.selectionEnd
-        );
+        ));
 
-        const line = getLineNumber(e.target)
+        setCommentLine(getLineNumber(e.target));
 
         if (selection != "") {
-            sendCommentInfo(line, selection)
+            setShowPopup(true);
         }
     }
 
-    function deleteComment(id: number) {
-        const newCommentArray = comments.filter((i) => (i.comment_id !== id))
+    function sendComment() {
+        console.log("send comment")
+        console.log(localStorage.getItem('username'));
+        const formData = new FormData(document.querySelector('#commentForm') as HTMLFormElement);
+
+        const commentContent = {
+            line: line,
+            selection: selection,
+            comment: formData.get("comment"),
+            comment_id: Math.floor(Math.random() * 1000),
+            user: localStorage.getItem('username'),
+        };
+
+        comments.push(commentContent);
+
+        const commentInfo = {
+            _id: id,
+            comments: comments
+        };
+
+        socket.current.emit("comment", commentInfo);
+
+        setShowPopup(false);
+    }
+
+    function deleteComment(commentId: number) {
+        const newCommentArray = comments.filter((i) => (i.comment_id !== commentId))
         setComments(newCommentArray);
         console.log(newCommentArray);
 
@@ -88,16 +119,31 @@ function TextEditorView({ inputcontent, id, inputtitle, inputcomments, sendComme
         socket.current.emit("comment", commentInfo);
     }
 
+    function closePopup() {
+        setShowPopup(false);
+    }
+
     return (
         <>
-            <CommentSection deleteComment={(id) => deleteComment(id)}>{comments}</CommentSection>
-            <div className='edit-column'>
-                <form className="docForm">
-                    <label>Titel</label>
-                    <input role="titletext" name="title" type="text" onChange={handleTitleChange} defaultValue={title}></input>
-                    <label>Innehåll</label>
-                    <textarea name="content" value={content} onChange={handleContentChange} onSelect={handleComment}>{content}</textarea>
-                </form>
+            {showPopup &&
+                <div className='popup'>
+                    <form className="commentForm" id="commentForm">
+                        <button role="closebtn" type="button" className="closebtn" onClick={closePopup}>X</button>
+                        <p>Kommentera texten "{selection}" i paragraf {line} </p>
+                        <input id="comment" name="comment" type="text"></input>
+                        <button role="commentbtn" type="button" className="commentbtn" onClick={sendComment}>Kommentera</button>
+                    </form>
+                </div>}
+            <div className='two-column'>
+                <CommentSection deleteComment={(commentId) => deleteComment(commentId)}>{comments}</CommentSection>
+                <div className='edit-column'>
+                    <form className="docForm">
+                        <label>Titel</label>
+                        <input role="titletext" name="title" type="text" onChange={handleTitleChange} defaultValue={title}></input>
+                        <label>Innehåll</label>
+                        <textarea name="content" value={content} onChange={handleContentChange} onSelect={handleComment}>{content}</textarea>
+                    </form>
+                </div>
             </div>
         </>
     )

@@ -80,24 +80,26 @@ function CodeEditorView({ inputcontent, id, inputtitle }: Props) {
 
     return (
         <>
-            <div className="consoleColumn">
-                <h2>Konsol</h2>
-                <div className="console">{codeResult}</div>
-                <button className='runbtn' type="button" onClick={runCode}>Kör kod</button></div>
-            <div className='edit-column'>
-                <form className="docForm">
-                    <label>Titel</label>
-                    <input role="titletext" name="title" type="text" onChange={handleTitleChange} defaultValue={title}></input>
-                    <label>Innehåll</label>
-                    <Editor
-                        height="400px"
-                        width="600px"
-                        language="javascript"
-                        theme="vs-dark"
-                        value={content}
-                        onChange={handleCodeContentChange}
-                    />
-                </form>
+            <div className='two-column'>
+                <div className="consoleColumn">
+                    <h2>Konsol</h2>
+                    <div className="console">{codeResult}</div>
+                    <button className='runbtn' type="button" onClick={runCode}>Kör kod</button></div>
+                <div className='edit-column'>
+                    <form className="docForm">
+                        <label>Titel</label>
+                        <input role="titletext" name="title" type="text" onChange={handleTitleChange} defaultValue={title}></input>
+                        <label>Innehåll</label>
+                        <Editor
+                            height="400px"
+                            width="600px"
+                            language="javascript"
+                            theme="vs-dark"
+                            value={content}
+                            onChange={handleCodeContentChange}
+                        />
+                    </form>
+                </div>
             </div>
         </>
     )
