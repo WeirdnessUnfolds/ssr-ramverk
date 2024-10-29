@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, ChangeEvent } from 'react'
-import url from '../helpers/url.ts' 
+import url from '../helpers/url' 
 import { io } from "socket.io-client"
-import CommentSection from './CommentSection.tsx'
+import CommentSection from './CommentSection'
 
 interface Props {
     inputcontent: string,
