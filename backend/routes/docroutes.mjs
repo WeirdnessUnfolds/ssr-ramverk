@@ -109,7 +109,7 @@ router.post("/share", async (req, res) => {
         .catch(err => console.log(err));
     userhandler.checkUser(data.mail.split('@')[0]).then(result => {
         if (!result) {
-            dbhandler.sendUser(data.mail.split('@')[0], data.mail, hashPass(password));
+            userhandler.sendUser(data.mail.split('@')[0], data.mail, hashPass(password));
         }
     });
 });
