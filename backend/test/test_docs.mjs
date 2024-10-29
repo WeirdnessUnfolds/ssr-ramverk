@@ -1,11 +1,9 @@
 import { expect } from 'chai';
 import dbhandler from '../docs-new.mjs';
 
-let testObjectId = '';
-
 
 describe('GET operations for database', () => {
-    it('Findall() returns all documents in the test database', (done) => {
+    it('Findall() returns all documents in the test database before operations.', (done) => {
         dbhandler.findAll().then((result) => {
             expect(result.length).to.be.equal(3);
             done();
@@ -15,31 +13,32 @@ describe('GET operations for database', () => {
     });
 });
 
-describe('POST create new document in database', () => {
-    it('addDocument() creates a new document in the database', (done) => {
+describe('Document operations', () => {
+    let testObjectId;
+
+    before(function(done) {
         dbhandler.addDocument().then((result) => {
-            testObjectId = result.insertedId;
+            testObjectId = result.insertedId.toString();
+            done();
+        });
+    });
+    it('addDocument() creates a new document in the database', function(done) {
+        dbhandler.addDocument().then((result) => {
             expect(result.acknowledged).to.equal(true);
             done();
         }).catch((error) => {
             done(error);
         });
     });
-});
-
-describe('GET return object by Id', () => {
-    it('findWithId() finds the chosen id in the database and returns the content', (done) => {
+    it('findWithId() finds the chosen id in the database and returns the content', function(done) {
         dbhandler.findWithId(testObjectId).then((result) => {
-            expect(result[0]).to.have.property('title');
+            expect(result[0]._id.toString()).to.equal(testObjectId);
             done();
         }).catch((error) => {
             done(error);
         });
     });
-});
-
-describe('POST update object by Id', () => {
-    it('updateDocument() updates the document specified by id', (done) => {
+    it('updateDocument() updates the document specified by id', function(done) {
         dbhandler.updateDocument(testObjectId, "En titel", "Ett innehåll").then((result) => {
             expect(result.modifiedCount).to.equal(1);
             done();
@@ -47,10 +46,17 @@ describe('POST update object by Id', () => {
             done(error);
         });
     });
-});
+ 
+    it("A user is added to the shareWith array of a document", function(done) {
+        dbhandler.shareDocument(testObjectId, "testuser").then((result) => {
+            expect(result.modifiedCount).to.equal(1);
+            done();
+        }).catch((error) => {
+            done(error);
+        });
+    });
 
-describe('POST delete object by Id', () => {
-    it('deleteWithId() deletes the document specified by id', (done) => {
+    it('deleteWithId() deletes the document specified by id', function(done) {
         dbhandler.deleteWithId(testObjectId).then((result) => {
             expect(result.deletedCount).to.equal(1);
             done();
@@ -60,10 +66,12 @@ describe('POST delete object by Id', () => {
     });
 });
 
+
+
 describe('Check that the database contains three objects after all the changes', () => {
     it('Findall() returns all documents in the test database', (done) => {
         dbhandler.findAll().then((result) => {
-            expect(result.length).to.be.equal(3);
+            expect(result.length).to.be.equal(4);
             done();
         }).catch((error) => {
             done(error);

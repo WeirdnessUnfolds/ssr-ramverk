@@ -9,4 +9,4 @@ function checkToken(req, res, next) {
         next();
     });
 }
-export default checkToken
+export default checkToken;
