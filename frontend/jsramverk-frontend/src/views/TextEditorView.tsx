@@ -11,8 +11,6 @@ interface Props {
 
 function TextEditorView({ inputcontent, id, title, sendCommentInfo }: Props) {
     const [content, setContent] = useState(inputcontent);
-    const [selection, setSelection] = useState("");
-    const [line, setCommentLine] = useState(0);
     const socket = useRef(io())
 
     useEffect(() => {
@@ -45,13 +43,14 @@ function TextEditorView({ inputcontent, id, title, sendCommentInfo }: Props) {
     }
 
     function handleComment(e: any) {
-        setSelection(e.target.value.substring(
+        const selection = e.target.value.substring(
             e.target.selectionStart,
             e.target.selectionEnd
-        ));
+        );
+
+        const line = getLineNumber(e.target)
 
         if (selection != "") {
-            setCommentLine(getLineNumber(e.target));
             sendCommentInfo(line, selection)
         }
     }
