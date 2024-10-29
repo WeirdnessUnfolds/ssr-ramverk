@@ -41,9 +41,8 @@ function App() {
         'x-access-token': localStorage.getItem('token')
       },
     }).then((res) => {
-      console.log(res.data);
-      console.log(localStorage.getItem('username'));
-      const filteredItems = res.data.filter((item) => item.sharedWith.includes(localStorage.getItem('username')));
+      const username = localStorage.getItem('username') ?? '';
+      const filteredItems = res.data.filter((item : Item) => item.sharedWith.includes(username));
       setItems(filteredItems);
       // setItems(res.data);
       setLoading(false);
