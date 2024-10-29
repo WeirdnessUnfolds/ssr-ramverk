@@ -91,7 +91,7 @@ const Createdoc = () => {
                 <label>Innehåll</label>
                 {textVisible && <textarea role="contentarea" name="content" ></textarea>}
                 {codeVisible && <Editor
-                    height="400px"
+                    height="550px"
                     width="600px"
                     language="javascript"
                     theme="vs-dark"
