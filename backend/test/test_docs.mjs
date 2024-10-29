@@ -64,6 +64,16 @@ describe('Document operations', () => {
             done(error);
         });
     });
+
+    it("A comment is added to a document", function(done) {
+        dbhandler.updateComments(testObjectId, "Test commment").then((result) => {
+            console.log(result);
+            expect(result.modifiedCount).to.equal(1);
+            done();
+        }).catch((error) => {
+            done(error);
+        });
+    });
 });
 
 
