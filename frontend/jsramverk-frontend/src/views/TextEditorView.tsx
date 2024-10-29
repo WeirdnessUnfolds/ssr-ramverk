@@ -64,7 +64,7 @@ function TextEditorView({ inputcontent, id, inputtitle, inputcomments }: Props) 
     }
 
     function getLineNumber(textarea: any) {
-        let lines = textarea.value.substr(0, textarea.selectionStart).split("\n").length;
+        const lines = textarea.value.substr(0, textarea.selectionStart).split("\n").length;
         return lines
     }
 
