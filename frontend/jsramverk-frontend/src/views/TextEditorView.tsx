@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, ChangeEvent } from 'react'
-import url from '../helpers/url.tsx'
+import url from '../helpers/url.ts' 
 import { io } from "socket.io-client"
 import CommentSection from './CommentSection.tsx'
 

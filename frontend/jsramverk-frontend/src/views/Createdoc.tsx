@@ -3,7 +3,7 @@ import { faFloppyDisk } from '@fortawesome/free-solid-svg-icons'
 import Alert from './Alert'
 import { ChangeEvent, useState } from 'react'
 import axios from 'axios'
-import url from '../helpers/url.tsx'
+import url from '../helpers/url.ts'
 import Editor from "@monaco-editor/react";
 // Ordna en function som skapar ett nytt dokument till backend.
 
