@@ -12,7 +12,7 @@ const Alert = ({ children, onClose }: Props) => {
     return (
         <>
             <div role="alert" className="alert">{children}
-                <button role="closebtn" type="button" className="closeBtn" onClick={onClose} >X</button>
+                <button role="closebtn" type="button" className="alertBtn" onClick={onClose} >X</button>
             </div>
         </>
     )

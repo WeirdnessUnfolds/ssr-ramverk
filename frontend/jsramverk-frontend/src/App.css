@@ -142,7 +142,16 @@ h2 {
 .alert {
   border-radius: 25px;
   border: grey 2px solid;
-  padding: 0.5em;
+  padding: 1em;
+  margin: 0.5em;
+  height: 50px;
+  align-items: baseline
+}
+
+.alertBtn {
+  background-color: #888;
+  color: black;
+  float: right;
 }
 
 .closeBtn {
