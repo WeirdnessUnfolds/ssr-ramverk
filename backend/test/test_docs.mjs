@@ -56,19 +56,19 @@ describe('Document operations', () => {
         });
     });
 
-    it('deleteWithId() deletes the document specified by id', function(done) {
-        dbhandler.deleteWithId(testObjectId).then((result) => {
-            expect(result.deletedCount).to.equal(1);
+
+    it("A comment is added to a document", function(done) {
+        dbhandler.updateComments(testObjectId, "Test commment").then((result) => {
+            expect(result.modifiedCount).to.equal(1);
             done();
         }).catch((error) => {
             done(error);
         });
     });
 
-    it("A comment is added to a document", function(done) {
-        dbhandler.updateComments(testObjectId, "Test commment").then((result) => {
-            console.log(result);
-            expect(result.modifiedCount).to.equal(1);
+    it('deleteWithId() deletes the document specified by id', function(done) {
+        dbhandler.deleteWithId(testObjectId).then((result) => {
+            expect(result.deletedCount).to.equal(1);
             done();
         }).catch((error) => {
             done(error);

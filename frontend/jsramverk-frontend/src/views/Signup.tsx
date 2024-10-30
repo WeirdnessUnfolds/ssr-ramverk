@@ -2,7 +2,7 @@
 import bcrypt  from 'bcryptjs';
 import React, { useState } from 'react';
 import axios from 'axios';
-import url from '../helpers/url.tsx';
+import url from '../helpers/url';
 interface SignupProps {
   SignupSubmit: () => void;
 }

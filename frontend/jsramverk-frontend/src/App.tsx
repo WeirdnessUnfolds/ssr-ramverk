@@ -11,7 +11,7 @@ import EditDocview from "./views/Editdoc"
 import Createdoc from './views/Createdoc'
 import Login from './views/Login'
 import Signup from './views/Signup'
-import url from './helpers/url.tsx'
+import url from './helpers/url'
 
 function App() {
   // Creates and sets the navbar items, default is no choice

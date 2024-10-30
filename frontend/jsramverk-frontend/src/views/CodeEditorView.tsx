@@ -1,7 +1,7 @@
 import { io } from "socket.io-client"
 import Editor from "@monaco-editor/react";
 import axios from 'axios'
-import url from '../helpers/url.tsx'
+import url from '../helpers/url'
 import { useEffect, useRef, useState, ChangeEvent } from 'react'
 
 
