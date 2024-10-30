@@ -269,3 +269,7 @@ CommentSection {
   margin-left: auto;
   margin-right: auto;
 }
+
+.registerBtn {
+  margin-top: 0.5em;
+}

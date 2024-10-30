@@ -84,7 +84,7 @@ const Createdoc = () => {
                     </label>
                     <label>
                         <input type="radio" value="code" name="type" />
-                        Code
+                        Kod
                     </label>
                 </div>
                 <label>Titel</label>

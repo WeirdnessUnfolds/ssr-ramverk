@@ -24,7 +24,7 @@ const EditDocview = ({ data, loading }: { data: Item; loading: boolean }) => {
 
         loading ?
             <div>
-                <p>Loading document content..</p>
+                <p>Laddar innehåll...</p>
             </div>
             :
             <div >

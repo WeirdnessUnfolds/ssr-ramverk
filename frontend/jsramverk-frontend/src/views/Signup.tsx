@@ -1,5 +1,5 @@
 
-import bcrypt  from 'bcryptjs';
+import bcrypt from 'bcryptjs';
 import React, { useState } from 'react';
 import axios from 'axios';
 import url from '../helpers/url';
@@ -44,10 +44,10 @@ function Signup( {SignupSubmit}: SignupProps) {
        }
    };
 
-  
+
   return (
     <div className='logincontainer'>
-      <h1>File Editor - Signup</h1>
+      <h1>File Editor - Registrera</h1>
       <form className='login' onSubmit={handleSignupSubmit}>
         <input type="text" role="username" placeholder="Username" onChange={(e) => setUsername(e.target.value)}/>
         <input type="email" role="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
