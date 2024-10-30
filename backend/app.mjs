@@ -11,11 +11,58 @@ import methodOverride from 'method-override';
 import database from './db/database.mjs';
 import base from './routes/baseroutes.mjs';
 import docroutes from './routes/docroutes.mjs';
+import { Server } from "socket.io";
+import { createServer } from 'http';
+import dbhandler from './docs-new.mjs';
 
 const app = express();
 
 app.disable('x-powered-by');
 app.use(methodOverride('_method'));
+
+const httpServer = createServer(app);
+
+const io = new Server(httpServer, {
+    cors: {
+        origin: ['https://www.student.bth.se', 'http://localhost:5173']
+    }
+});
+
+let timeout;
+
+io.on('connection', function (socket) {
+    console.log(socket.id);
+
+    socket.on("content", function (data) {
+        socket.join(data["_id"]);
+        // io.emit("content", data);
+        io.in(data["_id"]).emit("content", data);
+        clearTimeout(timeout);
+        timeout = setTimeout(async function () {
+            console.log("spara data");
+            await dbhandler.updateDocument(data["_id"], data["title"], data["content"]);
+        }, 2000);
+    });
+
+    socket.on("title", function (data) {
+        socket.join(data["_id"]);
+        // io.emit("content", data);
+        io.in(data["_id"]).emit("title", data);
+        clearTimeout(timeout);
+        timeout = setTimeout(async function () {
+            console.log("spara data");
+            await dbhandler.updateDocument(data["_id"], data["title"], data["content"]);
+        }, 2000);
+    });
+
+    socket.on("comment", function (data) {
+        socket.join(data["_id"]);
+        // io.emit("content", data);
+        io.in(data["_id"]).emit("comment", data);
+
+        dbhandler.updateComments(data["_id"], data["comments"]);
+    });
+});
 
 
 app.use(cors({
@@ -41,6 +88,9 @@ app.use((req, res, next) => {
 
     error.status = 404;
     next(error);
+});
+httpServer.listen(port, () => {
+    console.log(`Example socket-server listening on port ${port}`);
 });
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);

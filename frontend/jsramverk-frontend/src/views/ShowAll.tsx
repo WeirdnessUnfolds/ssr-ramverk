@@ -1,14 +1,16 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFilePen, faTrash } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
-import { url } from '../helpers/url'
+import url from '../helpers/url'
 // Shows all the documents currently in the database with options for updating and deleting
 
 export interface Item {
   _id: string
   title: string
   content: string
-
+  sharedWith: string[];
+  comments: Array<any>
+  type: string
 }
 
 
@@ -22,10 +24,12 @@ const ShowAll = ({ data, loading, onSelected }: { data: Item[]; loading: boolean
   }
 
   const handleDelete = async (id: string) => {
-
-    await axios.post(`${url}${id}`, {
-    }).then(function (res) {
-      console.log(res);
+    await axios.delete(`${url}/delete/${id}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': localStorage.getItem('token')
+      },
+    }).then(function () {
       window.location.reload();
 
     })
@@ -37,7 +41,7 @@ const ShowAll = ({ data, loading, onSelected }: { data: Item[]; loading: boolean
   return (
     loading ?
       <div>
-        <p>Loading...</p>
+        <p>Laddar dokument...</p>
       </div>
       :
       <div>

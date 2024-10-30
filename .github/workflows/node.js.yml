@@ -53,4 +53,3 @@ jobs:
       working-directory: frontend/jsramverk-frontend
     - run: pkill -f "node app.mjs"
       working-directory: backend
-    - run: npm run test

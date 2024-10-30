@@ -6,33 +6,44 @@
   "scripts": {
     "start": "node app.mjs",
     "watch": "nodemon app.mjs",
-    "test": "export NODE_ENV=test && cross-env NODE_OPTIONS='--experimental-loader @istanbuljs/esm-loader-hook' nyc --reporter=html --reporter=text --reporter=clover mocha --exit --timeout 10000",
+    "test": "export NODE_ENV=test && cross-env NODE_OPTIONS='--experimental-loader @istanbuljs/esm-loader-hook' nyc --reporter=html --reporter=text --reporter=clover --no-compact mocha --exit --timeout 10000",
     "eslint": "eslint .",
     "eslint-fix": "eslint . --fix",
+    "local-db": "export NODE_ENV=test && node app.mjs",
     "pretest": "npm run buildtests",
-    "buildtests": "cd db && mongosh testdocs --eval 'db.dropDatabase()' &&  mongoimport --db testdocs -c testcollection --jsonArray testdb.json"
+    "resetuserdb": "cd db && mongosh testdocs --eval 'db.users.deleteMany({})'",
+    "buildtests": "cd db && mongosh testdocs --eval 'db.dropDatabase()' && npm run resetuserdb && mongoimport --db testdocs -c testcollection --jsonArray testdb.json"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@istanbuljs/esm-loader-hook": "^0.2.0",
+    "@sendgrid/mail": "^8.1.4",
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "chai": "^5.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
     "express": "^5.0.0",
+    "generate-password": "^1.7.1",
+    "jsonwebtoken": "^9.0.2",
     "method-override": "^3.0.0",
     "mocha": "^10.7.3",
     "mongodb": "^6.9.0",
     "morgan": "^1.10.0",
     "nodemon": "^3.1.7",
+    "sinon": "^19.0.2",
+    "socket.io": "^4.8.0",
     "sqlite": "^5.1.1",
     "sqlite3": "^5.1.7"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.1.0",
     "@eslint/js": "^9.10.0",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.7",
     "babel-plugin-istanbul": "^7.0.0",
     "cross-env": "^7.0.3",
     "eslint": "^9.10.0",
@@ -40,5 +51,9 @@
     "globals": "^15.9.0",
     "javascript-style-guide": "^1.0.1",
     "nyc": "^17.1.0"
+  },
+  "optionalDependencies": {
+    "bufferutil": "^4.0.8",
+    "utf-8-validate": "^6.0.4"
   }
 }

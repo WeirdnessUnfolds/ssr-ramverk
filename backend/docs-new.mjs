@@ -1,22 +1,8 @@
 "use strict";
 import 'dotenv/config';
-
 import { MongoClient, ObjectId } from 'mongodb';
+import { dsn, collection } from './dbenvs.mjs';
 const mongo = MongoClient;
-let dsn = "";
-let collection = "";
-
-if (process.env.NODE_ENV === 'test') {
-    dsn = "mongodb://localhost:27017/testdocs";
-    collection = "testcollection";
-} else if (process.env.NODE_ENV === 'integration-test') {
-    dsn = "mongodb://localhost:27017/int-testdocs";
-    collection = "int-testcollection";
-} else {
-    dsn = `mongodb+srv://${process.env.DB_USER}
-:${process.env.DB_PASS}@jsramverk.owzo2.mongodb.net/?retryWrites=true&w=majority&appName=jsramverk`;
-    collection = "docscollection";
-}
 
 const dbhandler = {
     /**
@@ -56,17 +42,40 @@ const dbhandler = {
      * @param {string} content - The content of the document
      * @returns {Promise<Object>} - The result of the insert operation.
      */
-    addDocument: async function addDocument(title, content) {
+    addDocument: async function addDocument(title, content, shareusername, type) {
         const client = await mongo.connect(dsn);
         const db = await client.db();
         const col = await db.collection(collection);
-        const doc = { title: title, content: content };
+        const doc = {
+            title: title, content: content, sharedWith: ["admin", shareusername],
+            comments: [], type: type
+        };
         const res = await col.insertOne(doc);
 
         await client.close();
 
         return res;
     },
+
+    /**
+     * Shares a document with a specified username by adding them to the sharedWith array
+     * @param {string} id - The ObjectId of the document to share
+     * @param {string} shareusername - The username to share the document with
+     * @returns {Promise<Object>} - The result of the update operation
+     */
+    shareDocument: async function shareDocument(id, shareusername) {
+        const client = await mongo.connect(dsn);
+        const db = await client.db();
+        const col = await db.collection(collection);
+        const res = await col.updateOne({ _id: new ObjectId(id) },
+            { $addToSet: { sharedWith: shareusername } });
+
+        await client.close();
+
+        return res;
+    },
+
+
 
     /**
      * Finds a document in the database by its ObjectId, and deletes it or undefined
@@ -95,6 +104,22 @@ const dbhandler = {
         const col = await db.collection(collection);
         const res = await col.updateOne({ _id: new ObjectId(id) },
             { $set: { title: title, content: content } });
+
+        await client.close();
+        return res;
+    },
+
+    /**
+ * Finds a document in the database by its ObjectId, and sets comments or undefined
+ * @param {string} id
+ * @returns {Promise<Object[]> | undefined>}
+ */
+    updateComments: async function updateDocument(id, comments) {
+        const client = await mongo.connect(dsn);
+        const db = await client.db();
+        const col = await db.collection(collection);
+        const res = await col.updateOne({ _id: new ObjectId(id) },
+            { $set: { comments: comments } });
 
         await client.close();
         return res;
