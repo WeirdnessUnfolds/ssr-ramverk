@@ -42,7 +42,7 @@ function App() {
       },
     }).then((res) => {
       const username = localStorage.getItem('username') ?? '';
-      const filteredItems = res.data.filter((item : Item) => item.sharedWith.includes(username));
+      const filteredItems = res.data.filter((item: Item) => item.sharedWith.includes(username));
       setItems(filteredItems);
       // setItems(res.data);
       setLoading(false);
@@ -70,6 +70,8 @@ function App() {
         setLoggedIn(false);
         setShowAllDocuments(false);
         setshowSignup(false);
+        setShowCreateDoc(false);
+        setSelectedItem(null);
     }
   }
 
@@ -105,6 +107,7 @@ function App() {
             :
             <Login onLogin={() => {
               localStorage.setItem('loggedIn', 'true')
+              window.location.reload();
               setLoggedIn(true);
               setShowAllDocuments(true);
             }} onSignup={() => setshowSignup(true)} />
