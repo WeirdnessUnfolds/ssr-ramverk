@@ -3,6 +3,18 @@ import { fireEvent, act, render, screen, waitFor, within } from "@testing-librar
 import App from "../App"
 import axios from 'axios';
 import url from '../helpers/url';
+import ShowAll from '../views/ShowAll';
+
+// beforeAll(() => {
+//     const { location } = window;
+//     delete window.location;
+//     window.location = { reload: jest.fn() }
+// })
+
+let assignMock = jest.fn()
+
+delete window.location;
+window.location = ({ assign: assignMock as any }) as Location;
 
 
 beforeEach(() => {
@@ -12,8 +24,10 @@ beforeEach(() => {
     render(<App />);
 })
 
-afterEach(() => {
+
+afterAll(() => {
     jest.clearAllMocks();
+    assignMock.mockClear();
 })
 
 describe('Login view', () => {
@@ -28,12 +42,12 @@ const gotoSignup = () => {
     });
 }
 
-const signup = () => {
+const signup = async () => {
 
     const username = screen.getByRole("username");
     const email = screen.getByRole("email");
     const password = screen.getByRole("password");
-    act(() => {
+    await act(async () => {
         fireEvent.change(username, { target: { value: "testuser" } });
         fireEvent.change(email, { target: { value: "testemail@test.se" } });
         fireEvent.change(password, { target: { value: "testpassword" } });
@@ -47,7 +61,6 @@ const login = (username, password) => {
     act(() => {
         fireEvent.change(usernameInput, { target: { value: username } });
         fireEvent.change(passwordInput, { target: { value: password } });
-        fireEvent.click(screen.getByRole("loginbtn"));
     });
 }
 
@@ -66,15 +79,31 @@ describe('Signup view', () => {
     })
     test("Signup successful", async () => {
         gotoSignup();
-        signup();
+        await signup();
+        await act(async () => {
+            await fireEvent.click(screen.getByRole("signupbtn"));
+        });
+
         expect(window.alert).toHaveBeenCalledTimes(0);
     })
 })
 
 describe("Login handling", () => {
-    test("Login fails", () => {
-        login("testuser", "wrongpass")
-        expect(screen.getByText("Fel användarnamn eller lösenord.")).toBeInTheDocument();
+    test("Login fails", async () => {
+        login("testuser", "wrongpass");
+        await act(async () => {
+            fireEvent.click(screen.getByRole("loginbtn"));
+        });
+
+        await waitFor(() => expect(screen.getByText("Fel lösenord eller användare.")).toBeInTheDocument());
+    })
+
+    test("Login successful", async () => {
+        login("testuser", "testpassword");
+        await act(async () => {
+            fireEvent.click(screen.getByRole("loginbtn"));
+        });
+        await waitFor(() => expect(screen.getByText("Laddar dokument...")).toBeInTheDocument());
     })
 
 })
@@ -83,7 +112,7 @@ describe("Login handling", () => {
 
 
 test("should render loading message after login", async () => {
-    expect(screen.getByText("Loading...")).toBeInTheDocument();
+    expect(screen.getByText("Laddar dokument...")).toBeInTheDocument();
 });
 
 test("When loading message displays no further elements should be displayed, eg doclist", async () => {
@@ -97,7 +126,7 @@ test("Doclist length to be length of test database", async () => {
         const doclist = screen.getByRole("Items")
         const documents = doclist.children
         expect(documents.length).toBe(3)
-
+        console.log(doclist)
     }, { timeout: 3000 });
 
 });
@@ -134,8 +163,8 @@ test("Create-view sends post and alert is shown", async () => {
 });
 
 test("Doclist extended with new document", async () => {
-    expect(screen.getByText("Testdokument")).toBeInTheDocument();
-    expect(screen.getByText("New Thing!")).toBeInTheDocument();
+    waitFor(() => expect(screen.getByText("Testdokument")).toBeInTheDocument());
+    waitFor(() => expect(screen.getByText("New Thing!")).toBeInTheDocument());
     screen.debug();
 
 });
@@ -163,7 +192,7 @@ test("Renders edit view and updates a document", async () => {
 });
 
 test("Doclist updated", async () => {
-    expect(screen.getByText("Uppdaterat innehåll")).toBeInTheDocument();
+    waitFor(() => expect(screen.getByText("Uppdaterat innehåll")).toBeInTheDocument());
     screen.debug();
 
 });

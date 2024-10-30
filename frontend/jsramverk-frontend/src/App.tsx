@@ -31,8 +31,7 @@ function App() {
   const [loading, setLoading] = useState(true)
   const [showSignup, setshowSignup] = useState(false)
   // Fetches all the documents from the database and sets them as items
-  useEffect(() => {
-    // For proper cancelling
+  if (loggedIn) {
     axios.get(`${url}/all`, {
       headers: {
         'Content-Type': 'application/json',
@@ -40,12 +39,13 @@ function App() {
       },
     }).then((res) => {
       const username = localStorage.getItem('username') ?? '';
+
       const filteredItems = res.data.filter((item: Item) => item.sharedWith.includes(username));
       setItems(filteredItems);
       // setItems(res.data);
       setLoading(false);
     });
-  }, []);
+  }
 
 
   // Creates the view depending on the selected item in the navbar
