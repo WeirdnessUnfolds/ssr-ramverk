@@ -1,10 +1,6 @@
 import '@testing-library/jest-dom'
 import { fireEvent, act, render, screen, waitFor, within } from "@testing-library/react"
 import App from "../App"
-import axios from 'axios';
-import url from '../helpers/url';
-import ShowAll from '../views/ShowAll';
-
 
 beforeEach(() => {
     window.alert = jest.fn();
