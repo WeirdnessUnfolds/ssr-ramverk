@@ -57,3 +57,6 @@ jobs:
     - run: |
         kill $(cat backend_pid.txt)
         working-directory: backend
+    - run: pkill -f "node app.mjs"
+      working-directory: backend
+    - run: npm run test
