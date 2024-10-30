@@ -41,7 +41,7 @@ const ShowAll = ({ data, loading, onSelected }: { data: Item[]; loading: boolean
   return (
     loading ?
       <div>
-        <p>Loading...</p>
+        <p>Laddar dokument...</p>
       </div>
       :
       <div>

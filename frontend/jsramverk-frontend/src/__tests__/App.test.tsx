@@ -1,12 +1,12 @@
 import '@testing-library/jest-dom'
-import { fireEvent,  act, render, screen, waitFor, within } from "@testing-library/react"
+import { fireEvent, act, render, screen, waitFor, within } from "@testing-library/react"
 import App from "../App"
 
 
 
 
 beforeEach(() => {
-    
+
     render(<App />);
 
 })
@@ -16,7 +16,7 @@ afterEach(() => {
 })
 
 test("should render loading message", async () => {
-    expect(screen.getByText("Loading...")).toBeInTheDocument();
+    expect(screen.getByText("Laddar dokument...")).toBeInTheDocument();
 });
 
 test("When loading message displays no further elements should be displayed, eg doclist", async () => {
@@ -42,7 +42,7 @@ test("Renders create-view", async () => {
 
     await act(async () => {
         fireEvent.click(navLinks[1]);
-      });
+    });
 
     await waitFor(() => expect(screen.getByText("Titel")).toBeInTheDocument());
 
@@ -52,7 +52,7 @@ test("Create-view sends post and alert is shown", async () => {
     const navLinks = screen.getAllByRole('listitem');
     await act(async () => {
         fireEvent.click(navLinks[1]);
-      });
+    });
     const send = screen.getByRole('Send')
     const title = screen.getByRole('titlearea');
     const content = screen.getByRole('contentarea');
@@ -60,8 +60,8 @@ test("Create-view sends post and alert is shown", async () => {
         fireEvent.change(title, { target: { value: "New thing!" } });
         fireEvent.change(content, { target: { value: "Nytt innehåll" } });
         fireEvent.click(send);
-      });
-    
+    });
+
     waitFor(() => expect(screen.queryByText("Nytt innehåll")).toBeInTheDocument());
     waitFor(() => expect(screen.queryByText("Nu är innehållet nu sparat")).toBeInTheDocument());
 });
@@ -83,20 +83,20 @@ test("Renders update view and updates a document", async () => {
     await act(async () => {
         fireEvent.click(button);
     })
-    await waitFor( async ()  =>  {
+    await waitFor(async () => {
         expect(screen.getByText("Titel")).toBeInTheDocument();
         const updatedContent = screen.getByRole("titletext");
         const newText = "Uppdaterat innehåll";
         await act(async () => {
             fireEvent.change(updatedContent, { target: { value: newText } });
             fireEvent.click(screen.getByRole("Sendupdate"));
-        })   
+        })
         waitFor(() => {
             expect(screen.getByText("Nu är dokumentet uppdaterat")).toBeInTheDocument()
-    });
+        });
 
     });
-}); 
+});
 
 test("Doclist updated", async () => {
     waitFor(() => {
