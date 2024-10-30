@@ -6,6 +6,9 @@ interface LoginProps {
   onLogin: () => void;
   onSignup: () => void;
 }
+
+// Handels the login for the application
+
 function Login({ onLogin, onSignup }: LoginProps) {
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');

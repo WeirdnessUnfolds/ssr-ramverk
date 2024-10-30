@@ -1,4 +1,4 @@
-
+// Displays the comments added to the document
 
 interface Props {
     children: Array<any>,

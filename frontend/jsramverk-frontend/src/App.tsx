@@ -23,8 +23,6 @@ function App() {
   const [showCreateDoc, setShowCreateDoc] = useState(false)
   // Logged in is false from the start.
   const [loggedIn, setLoggedIn] = useState(localStorage.getItem('loggedIn') === 'true');
-
-
   // Sets all the documents as items from the result from the database
   const [items, setItems] = useState<Item[]>([])
   // Sets The selected document
@@ -42,7 +40,7 @@ function App() {
       },
     }).then((res) => {
       const username = localStorage.getItem('username') ?? '';
-      const filteredItems = res.data.filter((item : Item) => item.sharedWith.includes(username));
+      const filteredItems = res.data.filter((item: Item) => item.sharedWith.includes(username));
       setItems(filteredItems);
       // setItems(res.data);
       setLoading(false);
@@ -99,9 +97,6 @@ function App() {
                   }}>
                   {item}</li>))}
             </ul>
-
-
-
             :
             <Login onLogin={() => {
               localStorage.setItem('loggedIn', 'true')
@@ -113,7 +108,6 @@ function App() {
       {
         showAllDocuments &&
         <ShowAll data={items} loading={loading} onSelected={(item) => onUpdateDoc(item)}></ShowAll>
-
       }
       {
         showCreateDoc &&

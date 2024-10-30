@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState, ChangeEvent } from 'react'
-import url from '../helpers/url' 
+import url from '../helpers/url'
 import { io } from "socket.io-client"
 import CommentSection from './CommentSection'
+
+// creates a texteditor and listens to socket to update content, title and comments
 
 interface Props {
     inputcontent: string,

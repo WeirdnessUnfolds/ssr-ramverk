@@ -4,6 +4,8 @@ import axios from 'axios'
 import url from '../helpers/url'
 import { useEffect, useRef, useState, ChangeEvent } from 'react'
 
+// Creates a code editing view and listens to sockets to update content and title, uses a an outside
+// API to run the code and then displays the result.
 
 interface Props {
     inputcontent: string,
