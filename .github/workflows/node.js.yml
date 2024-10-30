@@ -58,10 +58,7 @@ jobs:
       env:
          JWT_TOKEN: ${{ secrets.JWT_TOKEN }}
       working-directory: backend
-
-    # Run frontend tests
-    - name: Run Frontend Tests
-      run: NODE_ENV=integration-test npm test
+    - run: NODE_ENV=integration-test npm test
       working-directory: frontend/jsramverk-frontend
 
     # Kill the backend process after tests
