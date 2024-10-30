@@ -114,19 +114,17 @@ function App() {
 
       }
       {
-        showAllDocuments ?
-          <ShowAll data={items} loading={loading} onSelected={(item) => onUpdateDoc(item)}></ShowAll> :
-          <p></p>
+        showAllDocuments &&
+        <ShowAll data={items} loading={loading} onSelected={(item) => onUpdateDoc(item)}></ShowAll>
+
       }
       {
-        showCreateDoc ?
-          <Createdoc /> :
-          <p></p>
+        showCreateDoc &&
+        <Createdoc />
       }
       {
-        selectedItem ?
-          <EditDocview data={selectedItem} loading={loading}></EditDocview> :
-          <p></p>
+        selectedItem &&
+        <EditDocview data={selectedItem} loading={loading}></EditDocview>
       }
     </>
   )
