@@ -1,10 +1,8 @@
-
+// The popup displayed when making a comment
 interface Props {
     onComment: () => void;
     line: string
 }
-
-
 
 const Popup = ({ line, onComment }: Props) => {
 

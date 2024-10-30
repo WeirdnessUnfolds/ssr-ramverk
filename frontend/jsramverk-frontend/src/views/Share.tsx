@@ -3,7 +3,7 @@ import React from 'react';
 import axios from 'axios';
 import url from '../helpers/url'
 
-
+// The share component that contains the form to send an invite to another user
 
 interface Props {
   id: string
