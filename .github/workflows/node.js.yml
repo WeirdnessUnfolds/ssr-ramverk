@@ -47,19 +47,25 @@ jobs:
       working-directory: backend
     - run: npm run test
       working-directory: backend
-    -  run: |
-        NODE_ENV=integration-test nohup node app.mjs &
-        echo $! > backend_pid.txt
-        env:
-          JWT_TOKEN: ${{ secrets.JWT_TOKEN }}
-        working-directory: backend
     - run: npm install
       working-directory: frontend/jsramverk-frontend
-    - run: NODE_ENV=integration-test npm run test
-      working-directory: frontend/jsramverk-frontend
-    - run: |
-        kill $(cat backend_pid.txt)
-        working-directory: backend
-    - run: pkill -f "node app.mjs"
+  
+    # Start backend in the background and capture the process ID (PID)
+    - name: Start Backend in Background
+      run: |
+        NODE_ENV=integration-test nohup node app.mjs &
+        echo $! > backend_pid.txt
+      env:
+         JWT_TOKEN: ${{ secrets.JWT_TOKEN }}
       working-directory: backend
-    - run: npm run test
+
+    # Run frontend tests
+    - name: Run Frontend Tests
+      run: NODE_ENV=integration-test npm run test
+      working-directory: frontend/jsramverk-frontend
+
+    # Kill the backend process after tests
+    - name: Stop Backend
+      run: |
+        kill $(cat backend_pid.txt)
+      working-directory: backend
