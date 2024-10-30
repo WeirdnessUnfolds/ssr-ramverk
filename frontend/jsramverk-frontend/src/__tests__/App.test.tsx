@@ -1,11 +1,14 @@
 import '@testing-library/jest-dom'
 import { fireEvent, act, render, screen, waitFor, within } from "@testing-library/react"
 import App from "../App"
-
+import axios from 'axios';
+import url from '../helpers/url';
 
 
 beforeEach(() => {
     window.alert = jest.fn();
+    jest.mock('axios');
+
     render(<App />);
 })
 
@@ -52,7 +55,7 @@ const login = (username, password) => {
 describe('Signup view', () => {   
     test("Signup view renders", async() =>{
         gotoSignup();
-        await waitFor(() => expect(screen.getByText("File Editor - Signup")).toBeInTheDocument());
+        await waitFor(() => expect(screen.getByText("File Editor - Registrera")).toBeInTheDocument());
     })
     test("Signup view sends post and alert is shown upon entering of nothing", async () => {
         gotoSignup();
@@ -60,14 +63,18 @@ describe('Signup view', () => {
             fireEvent.click(screen.getByRole("signupbtn"))
         });
         expect(window.alert).toHaveBeenCalledWith("Please fill in all fields");
-        window.alert.close();
     })
     test("Signup successful", async() => {
         gotoSignup();
         signup();
-        await act(async () => {
-            fireEvent.click(screen.getByRole("signupbtn"));
-        });
+        expect(axios.post).toHaveBeenCalledWith(url + '/signup', {
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            username: "testuser",
+            email: "testemail@test.se",
+            password: "testpassword"
+          });
         expect(screen.getByText("Loading...")).toBeInTheDocument();
     })
 })
@@ -149,13 +156,10 @@ test("Renders edit view and updates a document", async () => {
         await act(async () => {
             fireEvent.change(updatedContent, { target: { value: newText } });
         })   
-            fireEvent.click(screen.getByRole("Sendupdate"));
-        })
         waitFor(() => {
             expect(updatedContent).toHaveValue(newText);
             screen.debug();
     });
-
     });
 });
 
