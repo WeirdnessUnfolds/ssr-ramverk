@@ -8,6 +8,7 @@ dotenv.config();
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  base: '/~viav23/editor/',
   optimizeDeps: {
     include: ['mailgun.js'],
   },
