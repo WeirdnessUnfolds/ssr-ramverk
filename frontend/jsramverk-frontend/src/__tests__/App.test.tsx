@@ -39,7 +39,7 @@ const signup = async () => {
 
 }
 
-const login = (username, password) => {
+const login = (username: string, password: string) => {
     const usernameInput = screen.getByRole("username");
     const passwordInput = screen.getByRole("password");
     act(() => {
