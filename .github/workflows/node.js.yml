@@ -43,19 +43,13 @@ jobs:
       working-directory: backend
     - run: npm run build --if-present
       working-directory: backend
-    - run: npm install
-      working-directory: backend
     - run: npm run test
       working-directory: backend
     - run: npm install
       working-directory: frontend/jsramverk-frontend
-    - run: |
-        NODE_ENV=integration-test nohup node app.mjs &
-        echo $! > backend_pid.txt
-      env:
-         JWT_TOKEN: ${{ secrets.JWT_TOKEN }}
+    - run:  NODE_ENV=integration-test nohup node app.mjs &
       working-directory: backend
-    - run: NODE_ENV=integration-test npm test
+    - run: NODE_ENV=integration-test npm run test
       working-directory: frontend/jsramverk-frontend
-    - run: kill $(cat backend_pid.txt)
+    - run: pkill -f "node app.mjs"
       working-directory: backend
