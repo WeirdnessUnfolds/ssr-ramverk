@@ -60,9 +60,5 @@ jobs:
       working-directory: backend
     - run: NODE_ENV=integration-test npm test
       working-directory: frontend/jsramverk-frontend
-
-    # Kill the backend process after tests
-    - name: Stop Backend
-      run: |
-        kill $(cat backend_pid.txt)
+    - run: kill $(cat backend_pid.txt)
       working-directory: backend
