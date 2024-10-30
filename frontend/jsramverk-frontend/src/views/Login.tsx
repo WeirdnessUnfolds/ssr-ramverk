@@ -2,6 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import url from '../helpers/url';
 import { useState } from 'react';
+import Alert from './Alert';
+
 interface LoginProps {
   onLogin: () => void;
   onSignup: () => void;
@@ -12,6 +14,7 @@ interface LoginProps {
 function Login({ onLogin, onSignup }: LoginProps) {
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
+  const [alertVisible, setAlertVisibility] = useState(false);
   const handleLoginSubmit = async (e: React.FormEvent | React.MouseEvent) => {
     e.preventDefault();
     try {
@@ -36,7 +39,7 @@ function Login({ onLogin, onSignup }: LoginProps) {
           console.log(error);
         }
       } else {
-        alert("Fel lösenord eller användare.");
+        setAlertVisibility(true);
       }
     } catch (error) {
       console.log(error);
@@ -46,15 +49,18 @@ function Login({ onLogin, onSignup }: LoginProps) {
     onSignup();
   }
   return (
-    <div className='logincontainer'>
-      <h1>File Editor - Login</h1>
-      <form className='login' role="loginform">
-        <input type="text"role="username" placeholder="Användarnamn" onChange={(e) => setUsername(e.target.value)} />
-        <input type="password" role="password" placeholder="Lösenord" onChange={(e) => setPassword(e.target.value)} />
-        <button type="submit" role="loginbtn" onClick={handleLoginSubmit}>Logga in</button>
-      </form>
-      <button className="registerBtn" role="register" type="button" onClick={handleSignupPress}>Registrera</button>
-    </div>
+    <>
+      <div className='logincontainer'>
+        <h1>File Editor - Login</h1>
+        <form className='login' role="loginform">
+          <input type="text" role="username" placeholder="Användarnamn" onChange={(e) => setUsername(e.target.value)} />
+          <input type="password" role="password" placeholder="Lösenord" onChange={(e) => setPassword(e.target.value)} />
+          <button type="submit" role="loginbtn" onClick={handleLoginSubmit}>Logga in</button>
+        </form>
+        <button className="registerBtn" role="register" type="button" onClick={handleSignupPress}>Registrera</button>
+      </div>
+      {alertVisible && <Alert onClose={() => setAlertVisibility(false)}>Fel lösenord eller användare.</Alert>}
+    </>
   );
 }
 

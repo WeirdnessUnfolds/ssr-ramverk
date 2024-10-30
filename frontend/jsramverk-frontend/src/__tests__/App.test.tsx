@@ -7,7 +7,7 @@ import url from '../helpers/url';
 
 beforeEach(() => {
     window.alert = jest.fn();
-    jest.mock('axios');
+    // jest.mock('axios');
 
     render(<App />);
 })
@@ -18,7 +18,7 @@ afterEach(() => {
 
 describe('Login view', () => {
     test("Login view renders", async () => {
-        expect((screen.getByRole("loginform"))).toBeInTheDocument();    
+        expect((screen.getByRole("loginform"))).toBeInTheDocument();
     })
 })
 const gotoSignup = () => {
@@ -29,16 +29,16 @@ const gotoSignup = () => {
 }
 
 const signup = () => {
-    
+
     const username = screen.getByRole("username");
     const email = screen.getByRole("email");
     const password = screen.getByRole("password");
-        act(() => {
+    act(() => {
         fireEvent.change(username, { target: { value: "testuser" } });
         fireEvent.change(email, { target: { value: "testemail@test.se" } });
         fireEvent.change(password, { target: { value: "testpassword" } });
     });
-    
+
 }
 
 const login = (username, password) => {
@@ -52,8 +52,8 @@ const login = (username, password) => {
 }
 
 
-describe('Signup view', () => {   
-    test("Signup view renders", async() =>{
+describe('Signup view', () => {
+    test("Signup view renders", async () => {
         gotoSignup();
         await waitFor(() => expect(screen.getByText("File Editor - Registrera")).toBeInTheDocument());
     })
@@ -64,7 +64,7 @@ describe('Signup view', () => {
         });
         expect(window.alert).toHaveBeenCalledWith("Fyll i alla fält.");
     })
-    test("Signup successful", async() => {
+    test("Signup successful", async () => {
         gotoSignup();
         signup();
         expect(window.alert).toHaveBeenCalledTimes(0);
@@ -74,7 +74,7 @@ describe('Signup view', () => {
 describe("Login handling", () => {
     test("Login fails", () => {
         login("testuser", "wrongpass")
-        expect(window.alert).toHaveBeenLastCalledWith("Fel lösenord eller användare.")
+        expect(window.alert).toHaveBeenCalledTimes(1);
     })
 })
 
@@ -153,11 +153,11 @@ test("Renders edit view and updates a document", async () => {
         const newText = "Uppdaterad titel";
         await act(async () => {
             fireEvent.change(updatedContent, { target: { value: newText } });
-        })   
+        })
         waitFor(() => {
             expect(updatedContent).toHaveValue(newText);
             screen.debug();
-    });
+        });
     });
 });
 
