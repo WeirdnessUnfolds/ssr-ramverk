@@ -61,7 +61,7 @@ jobs:
 
     # Run frontend tests
     - name: Run Frontend Tests
-      run: NODE_ENV=integration-test npm run test
+      run: NODE_ENV=integration-test npm test
       working-directory: frontend/jsramverk-frontend
 
     # Kill the backend process after tests
