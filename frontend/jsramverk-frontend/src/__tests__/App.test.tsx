@@ -74,8 +74,9 @@ describe('Signup view', () => {
 describe("Login handling", () => {
     test("Login fails", () => {
         login("testuser", "wrongpass")
-        expect(window.alert).toHaveBeenCalledTimes(1);
+        expect(screen.getByText("Fel användarnamn eller lösenord.")).toBeInTheDocument();
     })
+
 })
 
 
