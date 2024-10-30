@@ -5,17 +5,6 @@ import axios from 'axios';
 import url from '../helpers/url';
 import ShowAll from '../views/ShowAll';
 
-// beforeAll(() => {
-//     const { location } = window;
-//     delete window.location;
-//     window.location = { reload: jest.fn() }
-// })
-
-let assignMock = jest.fn()
-
-delete window.location;
-window.location = ({ assign: assignMock as any }) as Location;
-
 
 beforeEach(() => {
     window.alert = jest.fn();
@@ -27,7 +16,6 @@ beforeEach(() => {
 
 afterAll(() => {
     jest.clearAllMocks();
-    assignMock.mockClear();
 })
 
 describe('Login view', () => {
