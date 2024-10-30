@@ -8,43 +8,51 @@ interface SignupProps {
 }
 
 
-function Signup({ SignupSubmit }: SignupProps) {
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
-  const handleSignupSubmit = async (e: React.FormEvent | React.MouseEvent) => {
-    e.preventDefault();
-    const saltrounds = 12;
-    const hash = await bcrypt.hash(password, saltrounds);
-    axios.post(url + '/signup', {
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      username: username,
-      email: email,
-      password: hash
-    }).then(function (result) {
-      if (result.data === 'User with this name or email already exists.') {
-        alert(result.data);
-      }
-      else {
-        SignupSubmit();
-      }
-    })
-      .catch(function (err) {
-        console.log(err);
-      });
-  };
+function Signup( {SignupSubmit}: SignupProps) {
+   const [password, setPassword] = useState('');
+   const [email, setEmail] = useState('');
+   const [username, setUsername] = useState('');
+   /**
+    * Handles the signup form submission.
+    * @param e - The event triggered by the form submission, either a React.FormEvent or React.MouseEvent.
+    * @returns A Promise<void> indicating the completion of the asynchronous operation.
+    */
+   const handleSignupSubmit = async (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>): Promise<void> => {
+       e.preventDefault();
+       if (username === "" || password === "") {
+           alert("Please fill in all fields");
+       } else {
+           const saltrounds: number = 12;
+           const hash: string = await bcrypt.hash(password, saltrounds);
+           axios.post(url + '/signup', {
+               headers: {
+                   'Content-Type': 'application/json'
+               },
+               username: username,
+               email: email,
+               password: hash
+           }).then((result: { data: string }) => {
+               if (result.data === 'User with this name or email already exists.') {
+                   alert(result.data);
+               } else {
+                   
+                   SignupSubmit();
+               }
+           }).catch((err: any) => {
+               console.log(err);
+           });
+       }
+   };
 
 
   return (
     <div className='logincontainer'>
       <h1>File Editor - Registrera</h1>
       <form className='login' onSubmit={handleSignupSubmit}>
-        <input type="text" placeholder="Användarnamn" onChange={(e) => setUsername(e.target.value)} />
-        <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
-        <input type="password" role='password' placeholder="Lösenord" onChange={(e) => setPassword(e.target.value)} />
-        <button type="submit">Registrera</button>
+        <input type="text" role="username" placeholder="Username" onChange={(e) => setUsername(e.target.value)}/>
+        <input type="email" role="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
+        <input type="password" role='password'placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
+        <button role="signupbtn" type="submit">Sign up</button>
       </form>
     </div>
   );
