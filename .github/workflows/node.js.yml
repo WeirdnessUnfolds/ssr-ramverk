@@ -45,13 +45,14 @@ jobs:
       working-directory: backend
     - run: npm run test
       working-directory: backend
-    - run: npm install
     -  run: |
         NODE_ENV=integration-test nohup node app.mjs &
         echo $! > backend_pid.txt
         env:
           JWT_TOKEN: ${{ secrets.JWT_TOKEN }}
         working-directory: backend
+    - run: npm install
+      working-directory: frontend/jsramverk-frontend
     - run: NODE_ENV=integration-test npm run test
       working-directory: frontend/jsramverk-frontend
     - run: |
