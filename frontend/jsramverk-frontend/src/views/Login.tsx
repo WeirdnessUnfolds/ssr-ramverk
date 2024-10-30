@@ -45,12 +45,12 @@ function Login({ onLogin, onSignup}: LoginProps) {
   return (
     <div className='logincontainer'>
       <h1>File Editor - Login</h1>
-      <form className='login'>
+      <form className='login' role='loginform'>
         <input type="text" placeholder="Username" onChange={(e) => setUsername(e.target.value)}/>
         <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
         <button type="submit" onClick={handleLoginSubmit}>Login</button>
       </form>
-      <button type="button" onClick={handleSignupPress}>Register</button>
+      <button type="button" role="register" onClick={handleSignupPress}>Register</button>
     </div>
   );
 }
