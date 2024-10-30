@@ -49,10 +49,7 @@ jobs:
       working-directory: backend
     - run: npm install
       working-directory: frontend/jsramverk-frontend
-  
-    # Start backend in the background and capture the process ID (PID)
-    - name: Start Backend in Background
-      run: |
+    - run: |
         NODE_ENV=integration-test nohup node app.mjs &
         echo $! > backend_pid.txt
       env:
