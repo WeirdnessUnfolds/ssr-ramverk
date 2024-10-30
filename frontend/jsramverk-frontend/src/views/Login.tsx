@@ -36,7 +36,7 @@ function Login({ onLogin, onSignup }: LoginProps) {
           console.log(error);
         }
       } else {
-        alert("Wrong username or password");
+        alert("Fel lösenord eller användare.");
       }
     } catch (error) {
       console.log(error);
@@ -48,12 +48,12 @@ function Login({ onLogin, onSignup }: LoginProps) {
   return (
     <div className='logincontainer'>
       <h1>File Editor - Login</h1>
-      <form className='login'>
-        <input type="text" placeholder="Användarnamn" onChange={(e) => setUsername(e.target.value)} />
-        <input type="password" placeholder="Lösenord" onChange={(e) => setPassword(e.target.value)} />
-        <button type="submit" onClick={handleLoginSubmit}>Logga in</button>
+      <form className='login' role="loginform">
+        <input type="text"role="username" placeholder="Användarnamn" onChange={(e) => setUsername(e.target.value)} />
+        <input type="password" role="password" placeholder="Lösenord" onChange={(e) => setPassword(e.target.value)} />
+        <button type="submit" role="loginbtn" onClick={handleLoginSubmit}>Logga in</button>
       </form>
-      <button className="registerBtn" type="button" onClick={handleSignupPress}>Registrera</button>
+      <button className="registerBtn" role="register" type="button" onClick={handleSignupPress}>Registrera</button>
     </div>
   );
 }

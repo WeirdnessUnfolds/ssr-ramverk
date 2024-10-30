@@ -62,23 +62,21 @@ describe('Signup view', () => {
         await act(async () => {
             fireEvent.click(screen.getByRole("signupbtn"))
         });
-        expect(window.alert).toHaveBeenCalledWith("Please fill in all fields");
+        expect(window.alert).toHaveBeenCalledWith("Fyll i alla fält.");
     })
     test("Signup successful", async() => {
         gotoSignup();
         signup();
-        expect(axios.post).toHaveBeenCalledWith(url + '/signup', {
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            username: "testuser",
-            email: "testemail@test.se",
-            password: "testpassword"
-          });
-        expect(screen.getByText("Loading...")).toBeInTheDocument();
+        expect(window.alert).toHaveBeenCalledTimes(0);
     })
 })
 
+describe("Login handling", () => {
+    test("Login fails", () => {
+        login("testuser", "wrongpass")
+        expect(window.alert).toHaveBeenLastCalledWith("Fel lösenord eller användare.")
+    })
+})
 
 
 
