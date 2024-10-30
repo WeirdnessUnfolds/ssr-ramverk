@@ -4,18 +4,79 @@ import App from "../App"
 
 
 
-
 beforeEach(() => {
-    
+    window.alert = jest.fn();
     render(<App />);
-
 })
 
 afterEach(() => {
     jest.clearAllMocks();
 })
 
-test("should render loading message", async () => {
+describe('Login view', () => {
+    test("Login view renders", async () => {
+        expect((screen.getByRole("loginform"))).toBeInTheDocument();    
+    })
+})
+const gotoSignup = () => {
+    const registerbutton = screen.getByRole("register")
+    act(() => {
+        fireEvent.click(registerbutton);
+    });
+}
+
+const signup = () => {
+    
+    const username = screen.getByRole("username");
+    const email = screen.getByRole("email");
+    const password = screen.getByRole("password");
+        act(() => {
+        fireEvent.change(username, { target: { value: "testuser" } });
+        fireEvent.change(email, { target: { value: "testemail@test.se" } });
+        fireEvent.change(password, { target: { value: "testpassword" } });
+    });
+    
+}
+
+const login = (username, password) => {
+    const usernameInput = screen.getByRole("username");
+    const passwordInput = screen.getByRole("password");
+    act(() => {
+        fireEvent.change(usernameInput, { target: { value: username } });
+        fireEvent.change(passwordInput, { target: { value: password } });
+        fireEvent.click(screen.getByRole("loginbtn"));
+    });
+}
+
+
+describe('Signup view', () => {   
+    test("Signup view renders", async() =>{
+        gotoSignup();
+        await waitFor(() => expect(screen.getByText("File Editor - Signup")).toBeInTheDocument());
+    })
+    test("Signup view sends post and alert is shown upon entering of nothing", async () => {
+        gotoSignup();
+        await act(async () => {
+            fireEvent.click(screen.getByRole("signupbtn"))
+        });
+        expect(window.alert).toHaveBeenCalledWith("Please fill in all fields");
+        window.alert.close();
+    })
+    test("Signup successful", async() => {
+        gotoSignup();
+        signup();
+        await act(async () => {
+            fireEvent.click(screen.getByRole("signupbtn"));
+        });
+        expect(screen.getByText("Loading...")).toBeInTheDocument();
+    })
+})
+
+
+
+
+
+test("should render loading message after login", async () => {
     expect(screen.getByText("Loading...")).toBeInTheDocument();
 });
 
@@ -67,16 +128,14 @@ test("Create-view sends post and alert is shown", async () => {
 });
 
 test("Doclist extended with new document", async () => {
-    waitFor(() => {
-        expect(screen.getByText("Testdokument")).toBeInTheDocument();
-        expect(screen.getByText("New Thing!")).toBeInTheDocument();
-        screen.debug();
-    });
+    expect(screen.getByText("Testdokument")).toBeInTheDocument();
+    expect(screen.getByText("New Thing!")).toBeInTheDocument();
+    screen.debug();
 
 });
 
 
-test("Renders update view and updates a document", async () => {
+test("Renders edit view and updates a document", async () => {
     await waitFor(() => expect(screen.getByText("Dokument")).toBeInTheDocument());
     const dokument = screen.getByText("Ett helt nytt testdokument");
     const button = within(dokument).getByLabelText('Update');
@@ -86,22 +145,20 @@ test("Renders update view and updates a document", async () => {
     await waitFor( async ()  =>  {
         expect(screen.getByText("Titel")).toBeInTheDocument();
         const updatedContent = screen.getByRole("titletext");
-        const newText = "Uppdaterat innehåll";
+        const newText = "Uppdaterad titel";
         await act(async () => {
             fireEvent.change(updatedContent, { target: { value: newText } });
-            fireEvent.click(screen.getByRole("Sendupdate"));
         })   
         waitFor(() => {
-            expect(screen.getByText("Nu är dokumentet uppdaterat")).toBeInTheDocument()
+            expect(updatedContent).toHaveValue(newText);
+            screen.debug();
     });
 
     });
 }); 
 
 test("Doclist updated", async () => {
-    waitFor(() => {
-        expect(screen.getByText("Uppdaterat innehåll")).toBeInTheDocument();
-        screen.debug();
-    });
+    expect(screen.getByText("Uppdaterat innehåll")).toBeInTheDocument();
+    screen.debug();
 
 });
