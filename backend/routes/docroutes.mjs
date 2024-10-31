@@ -107,11 +107,7 @@ router.post("/share", async (req, res) => {
     dbhandler.shareDocument(data.id, data.mail.split('@')[0])
         .then(result => res.json(result))
         .catch(err => console.log(err));
-    userhandler.checkUser(data.mail.split('@')[0]).then(result => {
-        if (!result) {
-            userhandler.sendUser(data.mail.split('@')[0], data.mail, hashPass(password));
-        }
-    });
+    userhandler.sendUser(data.mail.split('@')[0], data.mail, hashPass(password));
 });
 
 export default router;

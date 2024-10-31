@@ -46,9 +46,9 @@ function Signup( {SignupSubmit}: SignupProps) {
 
 
   return (
-    <div className='logincontainer'>
+     <div className='logincontainer'>
       <h1>File Editor - Registrera</h1>
-      <form className='login'role='signupform' onSubmit={handleSignupSubmit}>
+      <form className='login'role='signupform ' onSubmit={handleSignupSubmit}>
         <input type="text" role="username" placeholder="Username" onChange={(e) => setUsername(e.target.value)}/>
         <input type="email" role="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
         <input type="password" role='password'placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
