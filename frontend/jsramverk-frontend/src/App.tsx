@@ -67,6 +67,8 @@ function App() {
         localStorage.removeItem('token');
         setLoggedIn(false);
         setShowAllDocuments(false);
+        setSelectedItem(null);
+        setShowCreateDoc(false);
         setshowSignup(false);
     }
   }
